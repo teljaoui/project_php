@@ -1,6 +1,6 @@
 <?php 
 
-$conn = mysqli_connect("localhost", "root","","tim_project")
+$conn = mysqli_connect("localhost", "root","","project_clothes")
         or die("Couldn't connect de database");
 
 ?>
