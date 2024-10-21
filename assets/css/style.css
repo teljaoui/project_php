@@ -156,6 +156,7 @@ button:hover {
     color: #eee;
 }
 
+
 #search-form #search-box::-webkit-search-cancel-button {
     -webkit-appearance: none;
 }
