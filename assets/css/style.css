@@ -45,6 +45,7 @@ h5 {
 }
 
 h6 {
+    font-size: 0.9rem;
     color: #D8D8D8;
 }
 
@@ -334,7 +335,9 @@ footer h5 {
 }
 
 footer li {
-    padding-bottom: 4x;
+    padding-bottom: 4px;
+    list-style: none;
+
 }
 
 footer li a{
@@ -345,7 +348,7 @@ footer li a{
 footer li a:hover {
     color: #D8D8D8;
 }
-
+    
 footer .copyright a {
     color: #000;
     height: 40px;
