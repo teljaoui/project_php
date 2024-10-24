@@ -454,7 +454,7 @@ footer p {
 }
 
 
-.filter .item{
+.filter .item {
     width: 200px;
     padding: 7px 5px;
     border-radius: 20px;
@@ -466,9 +466,11 @@ footer p {
     color: rgb(229, 241, 251);
     transition: 0.5s ease;
 }
-.filter .item:hover{
+
+.filter .item:hover {
     background-color: #fb774b;
 }
+
 .show-bar {
     position: absolute;
     top: 20%;
@@ -486,7 +488,7 @@ footer p {
     width: 100%;
 }
 
-.aside-bar .fa-solid {
+.aside-bar .fa-x {
     color: #000;
     cursor: pointer;
     font-size: 1.5rem;
@@ -496,7 +498,7 @@ footer p {
 
 }
 
-.aside-bar .fa-solid:hover {
+.aside-bar .fa-x:hover {
     color: coral;
     transform: scale(1.2);
 
@@ -519,14 +521,30 @@ footer p {
     color: #222222;
     padding: 6% 70% 6% 3%;
     transition: 0.5s ease;
- 
+
 }
+
 .aside-bar a:hover {
     box-shadow: 0 0 10px #0000001a;
 }
 
 .aside-bar .sidebar-dropdown {
     padding-top: 5px;
+}
+
+.pagination .page-item a {
+    background-color: #222222 !important;
+    color: #fff;
+    font-size: 1.2rem;
+    transition: 0.5s all;
+}
+
+.pagination .page-item a:focus {
+    box-shadow: none;
+}
+
+.pagination .page-item a:hover {
+    background-color: #fb774b !important;
 }
 
 
@@ -542,7 +560,7 @@ footer p {
         text-align: left;
     }
 
-    .nav-buttons ul .fa-solid {
+    .nav-buttons ul .fa-x {
         margin: 20px 5px 10px 20px;
     }
 
@@ -550,10 +568,11 @@ footer p {
         background-image: url('../imgs/background4.jpg');
         background-position-x: 40%;
     }
+
     .show-bar {
         width: 90%;
         top: 20%;
     }
-    
+
 
 }
