@@ -604,6 +604,15 @@ th:last-child {
     width: 50%;
     margin: 5px auto;
 }
+#login-form input:focus,
+#register-form input:focus,
+#account-form input:focus {
+    outline: none;
+    box-shadow: none;
+    box-sizing: none;
+    border: 1px solid #222222;
+}
+
 
 #login-form #login-btn,
 #register-form #register-btn,
@@ -634,6 +643,43 @@ th:last-child {
 .account-info a:hover{
     color: #222222;
 }
+
+
+
+/*checkout*/
+
+
+#checkout-form .checkout-small-element{
+    display: inline-block;
+    width: 48%;
+    margin: 10px auto;
+}
+#checkout-form  input:focus{
+    outline: none;
+    box-shadow: none;
+    box-sizing: none;
+    border: 1px solid #222222;
+}
+
+#checkout-form .checkout-large-element{
+    width: 96%;
+}
+
+#checkout-form .checkout-btn-element{
+    margin: 10px;
+    text-align: right;
+    margin-right: 40px;
+}
+#checkout-form #checkout-btn{
+    color: #fff;
+    background-color: #fb774b;
+    text-transform: uppercase;
+    transition: 0.5s ease;
+}
+#checkout-form #checkout-btn:hover{
+    background-color: #222222;
+}
+
 
 @media only screen and (max-width:990px) {
     .nav-buttons {
