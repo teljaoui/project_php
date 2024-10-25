@@ -444,13 +444,51 @@ footer p {
 .cart td input {
     width: 50px;
     height: 40px;
-    padding-left: 10px;
+    padding: 10px;
     font-size: 16px;
     margin-right: 10px;
 }
 
 .cart td input:focus {
     outline: none;
+}
+
+.cart .product-info p {
+    margin: 3px;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cart-total table {
+    width: 100%;
+    max-width: 500px;
+    border-top: 3px solid #fb774b;
+}
+
+td:last-child {
+    text-align: right;
+}
+
+th:last-child {
+    text-align: right;
+}
+
+.checkout-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.checkout-btn {
+    background-color: #fb774b;
+    color: #fff;
+}
+
+.checkout-btn:hover {
+    background-color: #222222;
+    color: #fff;
 }
 
 
@@ -548,6 +586,55 @@ footer p {
 }
 
 
+/*login*/
+
+#login-form,
+#register-form {
+    width: 50%;
+    margin-inline: auto;
+    text-align: center;
+    margin: 5px auto;
+    padding: 20px;
+    border-top: 1px solid #fb774b;
+}
+
+#login-form input,
+#register-form input,
+#account-form input {
+    width: 50%;
+    margin: 5px auto;
+}
+
+#login-form #login-btn,
+#register-form #register-btn,
+#account-form .btn {
+    background-color: #fb774b;
+    color: #fff;
+    transition: 0.5s ease;
+}
+
+#login-form #login-btn:hover,
+#register-form #register-btn:hover,
+#account-form .btn:hover {
+    background-color: #222222;
+}
+
+#login-form #register-url,
+#register-form #register-btn:hover #account-form .btn:hover {
+    color: #fb774b;
+}
+
+
+.account-info a{
+    text-decoration: none;
+    color: #fb774b;
+    transition: 0.5s ease;
+}
+
+.account-info a:hover{
+    color: #222222;
+}
+
 @media only screen and (max-width:990px) {
     .nav-buttons {
         margin-left: 10px !important;
@@ -572,6 +659,10 @@ footer p {
     .show-bar {
         width: 90%;
         top: 20%;
+    }
+
+    .cart .product-info p {
+        display: none;
     }
 
 
