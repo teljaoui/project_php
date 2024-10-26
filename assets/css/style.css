@@ -681,6 +681,24 @@ th:last-child {
 }
 
 
+/*Contact*/
+
+#contact a{
+    text-decoration: none;
+    color: #fb774b;
+    font-weight: 600;
+    transition: 0.5s ease-in-out;
+}
+#contact a:hover{
+    color: #222222;
+}
+#contact .location iframe{
+    width: 100%;
+    height: 260px;
+    border-radius: 5px;
+}
+
+
 @media only screen and (max-width:990px) {
     .nav-buttons {
         margin-left: 10px !important;
