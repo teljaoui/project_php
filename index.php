@@ -19,8 +19,9 @@
                 <img class="navbar-brand" src="assets/imgs/logo.png">
                 <span class="title-logo">Clothing</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse nav-buttons" id="navbarSupportedContent">
@@ -46,7 +47,7 @@
             </div>
         </div>
     </nav>
-    
+
     <form action="" id="search-form">
         <input type="search" placeholder="search here..." name="" id="search-box">
         <label for="search-box" class="fas fa-search"></label>
@@ -108,22 +109,24 @@
         </div>
         <div class="row mx-auto container-fluid">
             <?php include('server/get_featured_product.php'); ?>
-            <?php while($row= $featured_products->fetch_assoc()){ ?>
-            <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'] ?>">
-                <div class="start">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
+            <?php while ($row = $featured_products->fetch_assoc()) { ?>
+                <div class="product text-center col-lg-3 col-md-4 col-sm-12">
+                    <a href="<?php echo "single_product.php?product_id=" . $row['product_id'] ?>" class="text-decoration-none text-dark">
+                        <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'] ?>">
+                        <div class="start">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <h5 class="p-name"><?php echo $row['product_name'] ?></h5>
+                        <h4 class="p-price"><?php echo $row['product_price'] ?></h4>
+                        <button class="buy-btn">Buy Now</button>
+                    </a>
                 </div>
-                <h5 class="p-name"><?php echo $row['product_name'] ?></h5>
-                <h4 class="p-price"><?php echo $row['product_price'] ?></h4>
-                <button class="buy-btn">Buy Now</button>
-            </div>
-            <?php }?>
-            
+            <?php } ?>
+
         </div>
     </section>
 
@@ -208,7 +211,7 @@
     <footer class="mt-5 py-4">
         <div class="row container mx-auto pt-2">
             <div class="footer-one col-lg-3 col-md-6 col-sm-12">
-                <img src="assets/imgs/logo.png" class="" width="50" alt="" srcset="" >
+                <img src="assets/imgs/logo.png" class="" width="50" alt="" srcset="">
                 <p class="pt-3">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit, sequi?</p>
             </div>
             <div class="footer-one col-lg-3 col-md-6 col-sm-12">
@@ -246,7 +249,7 @@
                     <img src="assets/imgs/brand6.png" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
                     <img src="assets/imgs/brand7.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
                     <img src="assets/imgs/brand9.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    
+
                 </div>
             </div>
         </div>

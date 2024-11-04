@@ -263,7 +263,6 @@ button:hover {
     cursor: pointer;
     margin-bottom: 2rem;
 }
-
 .product img {
     transition: 0.3s ease;
 }
@@ -440,6 +439,15 @@ footer p {
     text-decoration: none;
     color: #fb774b;
 }
+
+.cart .remove-btn{
+    color: #fb774b;
+    text-decoration: none;
+    font-size: 14px;
+    background: none;
+    border: none;
+    width: 100%;
+}   
 
 .cart td input {
     width: 50px;

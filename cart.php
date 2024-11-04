@@ -1,3 +1,41 @@
+<?php
+session_start();
+
+if (isset($_POST['add_to_cart'])) {
+    if (isset($_SESSION['cart'])) {
+        $product_array_ids = array_column($_SESSION['cart'], "product_id");
+        if (!in_array($_POST['product_id'], $product_array_ids)) {
+            $product_array = array(
+                'product_id' => $_POST['product_id'],
+                'product_name' => $_POST['product_name'],
+                'product_image' => $_POST['product_image'],
+                'product_price' => $_POST['product_price'],
+                'product_quantity' => $_POST['product_quantity']
+            );
+            $_SESSION['cart'][$_POST['product_id']] = $product_array;
+        } else {
+            echo '<script>alert("Product was already added to cart")</script>';
+        }
+    } else {
+        $product_array = array(
+            'product_id' => $_POST['product_id'],
+            'product_name' => $_POST['product_name'],
+            'product_image' => $_POST['product_image'],
+            'product_price' => $_POST['product_price'],
+            'product_quantity' => $_POST['product_quantity']
+        );
+        $_SESSION['cart'][$_POST['product_id']] = $product_array;
+    }
+
+} else {
+    header('location:cart.php');
+    exit();
+}
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,7 +93,6 @@
 
     <!--Cart-->
 
-
     <section class="cart container my-5 py-5">
         <div class="container mt-5">
             <h2 class="font-weight-bolde">Your Cart</h2>
@@ -68,48 +105,34 @@
                 <th>Quantity</th>
                 <th>Subtotal</th>
             </tr>
-            <tr>
-                <td>
-                    <div class="product-info">
-                        <img src="assets/imgs/featured.jpg" alt="" srcset="">
-                        <div>
-                            <p>White Shoes</p>
-                            <small><span>$</span>155</small>
-                            <br>
-                            <a href="#" class="remove-btn">Remove</a>
+            <?php foreach ($_SESSION['cart'] as $key => $value) { ?>
+
+                <tr>
+                    <td>
+                        <div class="product-info">
+                            <img src="assets/imgs/<?php echo $value['product_image']; ?>" alt="" srcset="">
+                            <div>
+                                <p><?php echo $value['product_name']; ?></p>
+                                <small><span>$</span><?php echo $value['product_price']; ?></small>
+                                <br>
+                                <form action="" method="post">
+                                    <input type="hidden" name="product_id" value="<?php echo $value['product_id'] ?>">
+                                    <input type="submit" name="remove_product" class="remove-btn" value="Remove" />
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                </td>
-                <td>
-                    <input type="number" value="1" min="1">
-                    <a href="#" class="edit-btn">Edit</a>
-                </td>
-                <td>
-                    <span>$</span>
-                    <span class="product-price">155</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="product-info">
-                        <img src="assets/imgs/featured.jpg" alt="" srcset="">
-                        <div>
-                            <p>White Shoes</p>
-                            <small><span>$</span>155</small>
-                            <br>
-                            <a href="#" class="remove-btn">Remove</a>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <input type="number" value="1" min="1">
-                    <a href="#" class="edit-btn">Edit</a>
-                </td>
-                <td>
-                    <span>$</span>
-                    <span class="product-price">155</span>
-                </td>
-            </tr>
+                    </td>
+                    <td>
+                        <input type="number" value="<?php echo $value['product_quantity'] ?>" min="1">
+                        <a href="#" class="edit-btn">Edit</a>
+                    </td>
+                    <td>
+                        <span>$</span>
+                        <span class="product-price">155</span>
+                    </td>
+
+                </tr>
+            <?php } ?>
         </table>
         <div class="cart-total">
             <table>
