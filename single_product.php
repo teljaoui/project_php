@@ -1,3 +1,24 @@
+<?php
+
+include('server/connection.php');
+
+if (isset($_GET['product_id'])) {
+    $product_id = $_GET['product_id'];
+    $stmt = $conn->prepare("SELECT * FROM products  where product_id = ?");
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+    $product = $stmt->get_result();
+
+
+} else {
+    header('location:index.php');
+}
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,33 +76,34 @@
     <!--Single product-->
     <section class="single-product container my-5 pt-5">
         <div class="row  mt-5">
-            <div class="col-lg-5 col-md-6 col-sm-12">
-                <img src="assets/imgs/3.jpg" alt="" class="img-fluid w-100 pb-1" id="mainImg">
-                <div class="small-img-group">
-                    <div class="small-img-col">
-                        <img src="assets/imgs/1.jpg" width="100%" class="small-img" alt="">
-                    </div>
-                    <div class="small-img-col">
-                        <img src="assets/imgs/3.jpg" width="100%" class="small-img" alt="">
-                    </div>
-                    <div class="small-img-col">
-                        <img src="assets/imgs/3.jpg" width="100%" class="small-img" alt="">
-                    </div>
-                    <div class="small-img-col">
-                        <img src="assets/imgs/3.jpg" width="100%" class="small-img" alt="">
+            <?php while ($row = $product->fetch_assoc()) { ?>
+                <div class="col-lg-5 col-md-6 col-sm-12">
+                    <img src="assets/imgs/<?php echo  $row['product_image']; ?>" alt="" class="img-fluid w-100 pb-1" id="mainImg">
+                    <div class="small-img-group">
+                        <div class="small-img-col">
+                            <img src="assets/imgs/<?php echo  $row['product_image'];?>" width="100%" class="small-img" alt="">
+                        </div>
+                        <div class="small-img-col">
+                            <img src="assets/imgs/<?php echo  $row['product_image2']; ?>" width="100%" class="small-img" alt="">
+                        </div>
+                        <div class="small-img-col">
+                            <img src="assets/imgs/<?php echo  $row['product_image3']; ?>" width="100%" class="small-img" alt="">
+                        </div>
+                        <div class="small-img-col">
+                            <img src="assets/imgs/<?php  echo $row['product_image4']; ?>" width="100%" class="small-img" alt="">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-6 col-md-12 col-12">
-                <h6>Menu/Shoes</h6>
-                <h4 class="py-4">Men's Fashion</h4>
-                <h3>155$</h3>
-                <input type="number" value="1" min="1">
-                <button class="buy-btn">Add To cart</button>
-                <h5 class="mt-5 mb-5">Product details</h5>
-                <span>The details of this product will be dispayed shortly
-                    The details of this product will be dispayed shortlyThe details of this product will be dispayed shortlyThe details of this product will be dispayed shortlyThe details of this product will be dispayed shortlyThe details of this product will be dispayed shortly.</span>
-            </div>
+                <div class="col-lg-6 col-md-12 col-12">
+                    <h6>Sports Shoes</h6>
+                    <h4 class="py-4"><?php echo $row['product_name']; ?></h4>
+                    <h3><?php echo $row['product_price']; ?>$</h3>
+                    <input type="number" value="1" min="1">
+                    <button class="buy-btn">Add To cart</button>
+                    <h5 class="mt-5 mb-5">Product details</h5>
+                    <span><?php echo $row['product_description']; ?></span>
+                </div>
+            <?php } ?>
         </div>
     </section>
 
@@ -156,7 +178,7 @@
     <footer class="mt-5 py-4">
         <div class="row container mx-auto pt-2">
             <div class="footer-one col-lg-3 col-md-6 col-sm-12">
-                <img src="assets/imgs/logo.png" class="" width="50" alt="" srcset="" >
+                <img src="assets/imgs/logo.png" class="" width="50" alt="" srcset="">
                 <p class="pt-3">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit, sequi?</p>
             </div>
             <div class="footer-one col-lg-3 col-md-6 col-sm-12">
@@ -194,7 +216,7 @@
                     <img src="assets/imgs/brand6.png" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
                     <img src="assets/imgs/brand7.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
                     <img src="assets/imgs/brand9.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    
+
                 </div>
             </div>
         </div>
