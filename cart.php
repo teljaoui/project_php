@@ -27,8 +27,20 @@ if (isset($_POST['add_to_cart'])) {
         $_SESSION['cart'][$_POST['product_id']] = $product_array;
     }
 
+} else if (isset($_POST['edit_quantity'])) {
+    $_SESSION['cart'][$_POST['product_id']] = [
+        'product_id' => $_SESSION['cart'][$_POST['product_id']]['product_id'],
+        'product_name' => $_SESSION['cart'][$_POST['product_id']]['product_name'],
+        'product_image' => $_SESSION['cart'][$_POST['product_id']]['product_image'],
+        'product_price' => $_SESSION['cart'][$_POST['product_id']]['product_price'],
+        'product_quantity' => $_POST['product_quantity']
+    ];
+    echo '<script>alert("Product Quantity Updare successfully")</script>';
+} else if (isset($_POST['remove_product'])) {
+    $product_id = $_POST['product_id'];
+    unset($_SESSION['cart'][$product_id]);
 } else {
-    header('location:cart.php');
+    header('location:index.php');
     exit();
 }
 ?>
@@ -110,7 +122,9 @@ if (isset($_POST['add_to_cart'])) {
                 <tr>
                     <td>
                         <div class="product-info">
-                            <img src="assets/imgs/<?php echo $value['product_image']; ?>" alt="" srcset="">
+                            <a href="<?php echo "single_product.php?product_id=" . $value['product_id'] ?>">
+                                <img src="assets/imgs/<?php echo $value['product_image']; ?>" alt="" srcset="">
+                            </a>
                             <div>
                                 <p><?php echo $value['product_name']; ?></p>
                                 <small><span>$</span><?php echo $value['product_price']; ?></small>
@@ -123,8 +137,12 @@ if (isset($_POST['add_to_cart'])) {
                         </div>
                     </td>
                     <td>
-                        <input type="number" value="<?php echo $value['product_quantity'] ?>" min="1">
-                        <a href="#" class="edit-btn">Edit</a>
+                        <form action="cart.php" method="post">
+                            <input type="hidden" name="product_id" value="<?php echo $value['product_id']; ?>">
+                            <input type="number" name="product_quantity" value="<?php echo $value['product_quantity'] ?>"
+                                min="1">
+                            <input type="submit" value="Edit" class="edit-btn" name="edit_quantity">
+                        </form>
                     </td>
                     <td>
                         <span>$</span>
