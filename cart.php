@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+$message = '';
+
 if (isset($_POST['add_to_cart'])) {
     if (isset($_SESSION['cart'])) {
         $product_array_ids = array_column($_SESSION['cart'], "product_id");
@@ -13,8 +15,9 @@ if (isset($_POST['add_to_cart'])) {
                 'product_quantity' => $_POST['product_quantity']
             );
             $_SESSION['cart'][$_POST['product_id']] = $product_array;
+            $message = "Product added to carte successfully ";
         } else {
-            echo '<script>alert("Product was already added to cart")</script>';
+            $message = "Product was already added to cart";
         }
     } else {
         $product_array = array(
@@ -35,17 +38,25 @@ if (isset($_POST['add_to_cart'])) {
         'product_price' => $_SESSION['cart'][$_POST['product_id']]['product_price'],
         'product_quantity' => $_POST['product_quantity']
     ];
-    echo '<script>alert("Product Quantity Updare successfully")</script>';
+    $message = "Product Quantity Updare successfully";
 } else if (isset($_POST['remove_product'])) {
     $product_id = $_POST['product_id'];
     unset($_SESSION['cart'][$product_id]);
+    $message = "Product removed from the cart successfully.";
+    if (empty($_SESSION['cart'])) {
+        echo '<script>alert("Cart is empty"); window.location.href="shop.php";</script>';
+        exit();
+    }
 } else {
-    header('location:index.php');
-    exit();
+    if (empty($_SESSION['cart'])) {
+        echo '<script>alert("Cart is empty"); window.location.href="shop.php";</script>';
+        exit();
+    }
 }
 
- 
-function calculateTotal() {
+
+function calculateTotal()
+{
     $total = 0;
     if (isset($_SESSION['cart'])) {
         foreach ($_SESSION['cart'] as $item) {
@@ -56,17 +67,13 @@ function calculateTotal() {
 }
 
 ?>
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart</title>
+    <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
@@ -74,45 +81,9 @@ function calculateTotal() {
 </head>
 
 <body>
-    <!--Navbar-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 fixed-top">
-        <div class="container">
-            <a href="#" class="logo"><img class="navbar-brand" src="assets/imgs/logo.png"></img><span
-                    class="title-logo">Clothing</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse nav-buttons" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/shop.html">Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
-                        <a href="" class="text-dark"><i class="fa-solid fa-cart-shopping"></i></a>
-                        <a href="" class="text-dark"><i class="fa-solid fa-user"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
-    <form action="" id="search-form">
-        <input type="search" placeholder="search here..." name="" id="search-box">
-        <label for="search-box" class="fas fa-search"></label>
-        <i class="fas fa-times" id="close"></i>
-    </form>
+    <!--Navbar-->
+    <?php include('layout/header.php'); ?>
 
 
     <!--Cart-->
@@ -122,8 +93,13 @@ function calculateTotal() {
             <h2 class="font-weight-bolde">Your Cart</h2>
             <hr class="mx-0">
         </div>
-        
 
+
+        <?php if ($message != ''): ?>
+            <div class="alert alert-success">
+                <?php echo $message;  ?>
+            </div>
+        <?php endif; ?>
         <table class="mt-5 pt-5">
             <tr>
                 <th>Product</th>
@@ -159,7 +135,8 @@ function calculateTotal() {
                     </td>
                     <td>
                         <span>$</span>
-                        <span class="product-price"><?php echo $value['product_price'] * $value['product_quantity'];?></span>
+                        <span
+                            class="product-price"><?php echo $value['product_price'] * $value['product_quantity']; ?></span>
                     </td>
 
                 </tr>
@@ -170,7 +147,7 @@ function calculateTotal() {
 
                 <tr>
                     <td>Total</td>
-                    <td>$<?php echo calculateTotal()?></td>
+                    <td>$<?php echo calculateTotal() ?></td>
                 </tr>
             </table>
         </div>
@@ -184,73 +161,7 @@ function calculateTotal() {
 
 
 
-
-
-
-    <footer class="mt-5 py-4">
-        <div class="row container mx-auto pt-2">
-            <div class="footer-one col-lg-3 col-md-6 col-sm-12">
-                <img src="assets/imgs/logo.png" class="" width="50" alt="" srcset="">
-                <p class="pt-3">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit, sequi?</p>
-            </div>
-            <div class="footer-one col-lg-3 col-md-6 col-sm-12">
-                <h5 class="pb-3">Featured</h5>
-                <ul class="text-uppercase">
-                    <li><a href="#">Men</a></li>
-                    <li><a href="#">women</a></li>
-                    <li><a href="#">Accessory</a></li>
-                </ul>
-            </div>
-            <div class="footer-one col-lg-3 col-md-6 col-sm-12">
-                <h5 class="pb-3">Contact Us</h5>
-                <div>
-                    <h6 class="text-uppercase">Address</h6>
-                    <p>1234 test , city</p>
-                </div>
-                <div>
-                    <h6 class="text-uppercase">phone</h6>
-                    <p>1234567894</p>
-                </div>
-                <div>
-                    <h6 class="text-uppercase">Email</h6>
-                    <p>info@email.com</p>
-                </div>
-            </div>
-            <div class="footer-one col-lg-3 col-md-6 col-sm-12">
-                <h5 class="pb-2">Trademarks
-                </h5>
-                <div class="row">
-                    <img src="assets/imgs/brand1.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    <img src="assets/imgs/brand2.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    <img src="assets/imgs/brand3.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    <img src="assets/imgs/brand4.png" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    <img src="assets/imgs/brand5.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    <img src="assets/imgs/brand6.png" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    <img src="assets/imgs/brand7.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    <img src="assets/imgs/brand9.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-
-                </div>
-            </div>
-        </div>
-
-        <div class="copyright py-3">
-            <div class="row container mx-auto">
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <img src="assets/imgs/payment.png" alt="" srcset="" width="50">
-                </div>
-                <div class="col-lg-3 col-md-5 col-sm-12 mb-4 text-nowrap mb-2">
-                    <p>ecomerce @ 2025 All Right Reserved</p>
-                </div>
-                <div class="col-lg-3 col-md-5 col-sm-12">
-                    <a href=""><i class="fab fa-facebook"></i></a>
-                    <a href=""><i class="fab fa-instagram"></i></a>
-                    <a href=""><i class="fab fa-twitter"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-
+    <?php include("layout/footer.php") ?>
 
     <script src="assets/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

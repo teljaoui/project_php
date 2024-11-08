@@ -263,6 +263,7 @@ button:hover {
     cursor: pointer;
     margin-bottom: 2rem;
 }
+
 .product img {
     transition: 0.3s ease;
 }
@@ -440,7 +441,7 @@ footer p {
     color: #fb774b;
 }
 
-.cart .remove-btn{
+.cart .remove-btn {
     color: #fb774b;
     text-decoration: none;
     font-size: 16px;
@@ -448,19 +449,23 @@ footer p {
     border: none;
     width: 100%;
     transition: 0.5s ease;
-}   
-.cart .remove-btn:hover{
+}
+
+.cart .remove-btn:hover {
     color: #222222;
 }
-.cart .edit-btn{
+
+.cart .edit-btn {
     background-color: #fff;
     border: none;
     color: #fb774b;
     transition: 0.5s ease;
 }
-.cart .edit-btn:hover{
+
+.cart .edit-btn:hover {
     color: #222222;
 }
+
 .cart td input {
     width: 50px;
     height: 40px;
@@ -624,6 +629,7 @@ th:last-child {
     width: 50%;
     margin: 5px auto;
 }
+
 #login-form input:focus,
 #register-form input:focus,
 #account-form input:focus {
@@ -649,18 +655,21 @@ th:last-child {
 }
 
 #login-form #register-url,
-#register-form #register-btn:hover #account-form .btn:hover {
+#register-form #register-url,
+#register-form #register-btn:hover,
+#account-form .btn:hover {
     color: #fb774b;
+    text-decoration: none;
 }
 
 
-.account-info a{
+.account-info a {
     text-decoration: none;
     color: #fb774b;
     transition: 0.5s ease;
 }
 
-.account-info a:hover{
+.account-info a:hover {
     color: #222222;
 }
 
@@ -669,50 +678,55 @@ th:last-child {
 /*checkout*/
 
 
-#checkout-form .checkout-small-element{
+#checkout-form .checkout-small-element {
     display: inline-block;
     width: 48%;
     margin: 10px auto;
 }
-#checkout-form  input:focus{
+
+#checkout-form input:focus {
     outline: none;
     box-shadow: none;
     box-sizing: none;
     border: 1px solid #222222;
 }
 
-#checkout-form .checkout-large-element{
+#checkout-form .checkout-large-element {
     width: 96%;
 }
 
-#checkout-form .checkout-btn-element{
+#checkout-form .checkout-btn-element {
     margin: 10px;
     text-align: right;
     margin-right: 40px;
 }
-#checkout-form #checkout-btn{
+
+#checkout-form #checkout-btn {
     color: #fff;
     background-color: #fb774b;
     text-transform: uppercase;
     transition: 0.5s ease;
 }
-#checkout-form #checkout-btn:hover{
+
+#checkout-form #checkout-btn:hover {
     background-color: #222222;
 }
 
 
 /*Contact*/
 
-#contact a{
+#contact a {
     text-decoration: none;
     color: #fb774b;
     font-weight: 600;
     transition: 0.5s ease-in-out;
 }
-#contact a:hover{
+
+#contact a:hover {
     color: #222222;
 }
-#contact .location iframe{
+
+#contact .location iframe {
     width: 100%;
     height: 260px;
     border-radius: 5px;

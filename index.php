@@ -12,47 +12,9 @@
 </head>
 
 <body>
-    <!--Navbar-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 fixed-top">
-        <div class="container">
-            <a href="#" class="logo">
-                <img class="navbar-brand" src="assets/imgs/logo.png">
-                <span class="title-logo">Clothing</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse nav-buttons" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="home-link" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="shop-link" href="shop.html">Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="blog-link" href="#">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="contact-link" href="#">Contact Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
-                        <a href="" class="text-dark"><i class="fa-solid fa-cart-shopping"></i></a>
-                        <a href="" class="text-dark"><i class="fa-solid fa-user"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
-    <form action="" id="search-form">
-        <input type="search" placeholder="search here..." name="" id="search-box">
-        <label for="search-box" class="fas fa-search"></label>
-        <i class="fas fa-times" id="close"></i>
-    </form>
+
+    <?php include('layout/header.php'); ?>
 
     <section id="home">
         <div class="container">
@@ -111,7 +73,8 @@
             <?php include('server/get_featured_product.php'); ?>
             <?php while ($row = $featured_products->fetch_assoc()) { ?>
                 <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <a href="<?php echo "single_product.php?product_id=" . $row['product_id'] ?>" class="text-decoration-none text-dark">
+                    <a href="<?php echo "single_product.php?product_id=" . $row['product_id'] ?>"
+                        class="text-decoration-none text-dark">
                         <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'] ?>">
                         <div class="start">
                             <i class="fa-solid fa-star"></i>
@@ -207,71 +170,7 @@
     </section>
 
 
-
-    <footer class="mt-5 py-4">
-        <div class="row container mx-auto pt-2">
-            <div class="footer-one col-lg-3 col-md-6 col-sm-12">
-                <img src="assets/imgs/logo.png" class="" width="50" alt="" srcset="">
-                <p class="pt-3">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit, sequi?</p>
-            </div>
-            <div class="footer-one col-lg-3 col-md-6 col-sm-12">
-                <h5 class="pb-3">Featured</h5>
-                <ul class="text-uppercase">
-                    <li><a href="#">Men</a></li>
-                    <li><a href="#">women</a></li>
-                    <li><a href="#">Accessory</a></li>
-                </ul>
-            </div>
-            <div class="footer-one col-lg-3 col-md-6 col-sm-12">
-                <h5 class="pb-3">Contact Us</h5>
-                <div>
-                    <h6 class="text-uppercase">Address</h6>
-                    <p>1234 test , city</p>
-                </div>
-                <div>
-                    <h6 class="text-uppercase">phone</h6>
-                    <p>1234567894</p>
-                </div>
-                <div>
-                    <h6 class="text-uppercase">Email</h6>
-                    <p>info@email.com</p>
-                </div>
-            </div>
-            <div class="footer-one col-lg-3 col-md-6 col-sm-12">
-                <h5 class="pb-2">Trademarks
-                </h5>
-                <div class="row">
-                    <img src="assets/imgs/brand1.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    <img src="assets/imgs/brand2.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    <img src="assets/imgs/brand3.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    <img src="assets/imgs/brand4.png" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    <img src="assets/imgs/brand5.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    <img src="assets/imgs/brand6.png" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    <img src="assets/imgs/brand7.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-                    <img src="assets/imgs/brand9.jpg" alt="" srcset="" class="img-fluid w-25 h-100 m-2">
-
-                </div>
-            </div>
-        </div>
-
-        <div class="copyright py-3">
-            <div class="row container mx-auto">
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <img src="assets/imgs/payment.png" alt="" srcset="" width="50">
-                </div>
-                <div class="col-lg-3 col-md-5 col-sm-12 mb-4 text-nowrap mb-2">
-                    <p>ecomerce @ 2025 All Right Reserved</p>
-                </div>
-                <div class="col-lg-3 col-md-5 col-sm-12">
-                    <a href=""><i class="fab fa-facebook"></i></a>
-                    <a href=""><i class="fab fa-instagram"></i></a>
-                    <a href=""><i class="fab fa-twitter"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-
+    <?php include("layout/footer.php") ?>
 
     <script src="assets/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
