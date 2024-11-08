@@ -43,6 +43,18 @@ if (isset($_POST['add_to_cart'])) {
     header('location:index.php');
     exit();
 }
+
+ 
+function calculateTotal() {
+    $total = 0;
+    if (isset($_SESSION['cart'])) {
+        foreach ($_SESSION['cart'] as $item) {
+            $total += $item['product_price'] * $item['product_quantity'];
+        }
+    }
+    return $total;
+}
+
 ?>
 
 
@@ -110,6 +122,7 @@ if (isset($_POST['add_to_cart'])) {
             <h2 class="font-weight-bolde">Your Cart</h2>
             <hr class="mx-0">
         </div>
+        
 
         <table class="mt-5 pt-5">
             <tr>
@@ -146,7 +159,7 @@ if (isset($_POST['add_to_cart'])) {
                     </td>
                     <td>
                         <span>$</span>
-                        <span class="product-price">155</span>
+                        <span class="product-price"><?php echo $value['product_price'] * $value['product_quantity'];?></span>
                     </td>
 
                 </tr>
@@ -154,13 +167,10 @@ if (isset($_POST['add_to_cart'])) {
         </table>
         <div class="cart-total">
             <table>
-                <tr>
-                    <td>Subtotal</td>
-                    <td>$155</td>
-                </tr>
+
                 <tr>
                     <td>Total</td>
-                    <td>$155</td>
+                    <td>$<?php echo calculateTotal()?></td>
                 </tr>
             </table>
         </div>
