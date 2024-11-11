@@ -16,7 +16,11 @@ if (isset($_POST['add_to_cart'])) {
             );
             $_SESSION['cart'][$_POST['product_id']] = $product_array;
             $message = "Product added to carte successfully ";
+        } else if (in_array($_POST['product_id'], $product_array_ids)) {
+            $_SESSION['cart'][$_POST['product_id']]['product_quantity'] = $_POST['product_quantity'];
+            $message = "Product quantity updated successfully";
         } else {
+
             $message = "Product was already added to cart";
         }
     } else {
@@ -38,7 +42,7 @@ if (isset($_POST['add_to_cart'])) {
         'product_price' => $_SESSION['cart'][$_POST['product_id']]['product_price'],
         'product_quantity' => $_POST['product_quantity']
     ];
-    $message = "Product Quantity Updare successfully";
+    $message = "Product Quantity Update successfully";
 } else if (isset($_POST['remove_product'])) {
     $product_id = $_POST['product_id'];
     unset($_SESSION['cart'][$product_id]);
@@ -65,6 +69,7 @@ function calculateTotal()
     }
     return $total;
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -97,7 +102,7 @@ function calculateTotal()
 
         <?php if ($message != ''): ?>
             <div class="alert alert-success">
-                <?php echo $message;  ?>
+                <?php echo $message; ?>
             </div>
         <?php endif; ?>
         <table class="mt-5 pt-5">
