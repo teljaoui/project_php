@@ -653,6 +653,7 @@ th:last-child {
 #register-form #register-btn:hover,
 #account-form .btn:hover {
     background-color: #222222;
+    color: #fff;
 }
 
 #login-form #register-url,
@@ -763,6 +764,4 @@ th:last-child {
     .cart .product-info p {
         display: none;
     }
-
-
 }

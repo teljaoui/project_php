@@ -66,6 +66,7 @@ function calculateTotal()
         foreach ($_SESSION['cart'] as $item) {
             $total += $item['product_price'] * $item['product_quantity'];
         }
+        $_SESSION['total'] = $total;
     }
     return $total;
 }
@@ -158,7 +159,9 @@ function calculateTotal()
         </div>
 
         <div class="checkout-container">
-            <button class="btn checkout-btn">Checkout</button>
+            <form action="checkout.php" method="post">
+                <button type="submit" class="btn checkout-btn" name="Checkout">Checkout</button>
+            </form>
         </div>
 
     </section>

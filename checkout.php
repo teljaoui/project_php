@@ -1,3 +1,20 @@
+<?php
+
+session_start();
+
+if (!empty($_SESSION['cart'])) {
+
+} else {
+    echo '<script>alert("Cart is empty"); window.location.href="shop.php";</script>';
+    exit();
+}
+
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,32 +41,33 @@
             <hr>
         </div>
         <div class="container mx-auto">
-            <form action="" id="checkout-form" method="post">
+            <form action="server/place_order.php" id="checkout-form" method="post">
                 <div class="form-group checkout-small-element">
-                    <label for="register-name">Name</label>
+                    <label for="checkout-name">Name</label>
                     <input type="text" class="form-control" id="checkout-name" name="name" placeholder="Name" required>
                 </div>
                 <div class="form-group checkout-small-element">
-                    <label for="register-email">Email</label>
+                    <label for="checkout-email">Email</label>
                     <input type="email" class="form-control" id="checkout-email" name="email" placeholder="Email"
                         required>
                 </div>
                 <div class="form-group checkout-small-element">
-                    <label for="register-email">Phone</label>
-                    <input type="text" class="form-control" id="phone-email" name="phone" placeholder="Phone" required>
+                    <label for="checkout-phone">Phone</label>
+                    <input type="text" class="form-control" id="checkout-phone" name="phone" placeholder="Phone" required>
                 </div>
                 <div class="form-group checkout-small-element">
-                    <label for="register-email">City</label>
-                    <input type="text" class="form-control" id="city-email" name="email" placeholder="City" required>
+                    <label for="checkout-city">City</label>
+                    <input type="text" class="form-control" id="checkout-city" name="city" placeholder="City" required>
                 </div>
                 <div class="form-group checkout-large-element">
-                    <label for="register-email">Adress</label>
-                    <input type="text" class="form-control" id="adress-email" name="adress" placeholder="Adress"
+                    <label for="checkout-adress">Adress</label>
+                    <input type="text" class="form-control" id="checkout-adress" name="adress" placeholder="Adress"
                         required>
                 </div>
 
                 <div class="form-group checkout-btn-element">
-                    <input type="submit" class="btn" id="checkout-btn" value="Checkout">
+                    <p>Total amount: $ <?php echo $_SESSION['total'] ?></p>
+                    <input type="submit" class="btn" id="checkout-btn" name="place_order" value="Place Order">
                 </div>
             </form>
         </div>
