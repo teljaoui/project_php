@@ -1,3 +1,33 @@
+<?php
+session_start();
+
+$total = 0;
+
+if(isset($_SESSION['cart'])){
+    $total = count($_SESSION['cart']);
+}
+
+
+?>
+
+
+<style>
+    .header-cart{
+        text-decoration: none;
+        text-align: start;
+        font-size: 7px;
+        padding: 3px 4px;
+        background-color: coral;
+        color: #fff;
+        font-weight: 800;
+        border-radius: 50%;
+        position: absolute;
+        margin-left: -9px;
+        margin-top: -7px;            
+    }
+</style>
+
+
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 fixed-top">
     <div class="container">
         <a href="index.php" class="logo">
@@ -24,7 +54,10 @@
                 </li>
                 <li class="nav-item">
                     <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
-                    <a href="cart.php" class="text-dark"><i class="fa-solid fa-cart-shopping"></i></a>
+                    <a href="cart.php" class="text-dark">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="header-cart"><?php echo $total ;  ?></span>
+                    </a>
                     <a href="login.php" class="text-dark"><i class="fa-solid fa-user"></i></a>
                 </li>
             </ul>

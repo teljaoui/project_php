@@ -1,3 +1,18 @@
+<?php
+
+session_start();
+
+if (isset($_POST['logout'])) {
+    unset($_SESSION['user_email']);
+    unset($_SESSION['user_name']);
+    $_SESSION['logged_in'] = false;
+    header('location:login.php?message=You have logged out successfully!');
+    exit();
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,58 +25,103 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
+<style>
+    .account-info a .account-info form input {
+        text-decoration: none;
+        color: #fb774b;
+        transition: 0.5s ease;
+    }
+
+    .account-info a:hover,
+    .account-info form input:hover {
+        color: #222222;
+    }
+
+    @media only screen and (max-width:990px) {
+
+        #login-form input,
+        #register-form input,
+        #account-form input {
+            width: 90%;
+        }
+
+        #login-form,
+        #register-form {
+            width: 100%;
+        }
+
+        #login-form .alert,
+        #register-form .alert {
+            width: 100% !important;
+        }
+    }
+</style>
 
 <body>
 
 
-<?php include('layout/header.php'); ?>
+    <?php include('layout/header.php'); ?>
 
 
-<!--Login-->
+    <!--Login-->
 
 
-<section class="my-5 py-5">
-    <div class="row container mx-auto">
-        <div class="text-center mt-3 pt-5 col-lg-6 col-md-12 col-sm-12">
-            <h3 class="font-weight-bold">Account info</h3>
-            <hr>
-            <div class="account-info">
-                <p>Name <span>John</span></p>
-                <p>Email <span>John@email.com</span></p>
-                <p><a href="" id="order-btn">Your Orders</a></p>
-                <p><a href="" id="order-btn">Logout</a></p>
+    <section class="my-5 py-5">
+        <?php if (isset($_GET['error'])): ?>
+            <div class="alert alert-danger w-50 mx-auto mb-0">
+                <?php echo $_GET['error']; ?>
+            </div>
+        <?php elseif (isset($_GET['message'])): ?>
+            <div class="alert alert-success w-50 mx-auto mb-0">
+                <?php echo $_GET['message']; ?>
+            </div>
+        <?php endif; ?>
+        <div class="row container mx-auto">
+            <div class="text-center pt-5 col-lg-6 col-md-12 col-sm-12">
+                <h3 class="font-weight-bold">Account info</h3>
+                <hr>
+                <div class="account-info">
+                    <p>Name: <span><?php echo $_SESSION['user_name'] ?></span></p>
+                    <p>Email: <span><?php echo $_SESSION['user_email'] ?></span></p>
+                    <p><a href="" id="order-btn">Your Orders</a></p>
+                    <p>
+                    <form action="account.php" method="post">
+                        <input type="submit" id="order-btn" value="Logout" name="logout" />
+                    </form>
+                    </p>
+                </div>
+            </div>
+            <div class="text-center pt-5 col-lg-6 col-md-12 col-sm-12">
+                <form action="" method="post" id="account-form">
+                    <h3>Change Password</h3>
+                    <hr>
+                    <div class="form-group">
+                        <label for="">Password</label>
+                        <input type="password" name="password" class="form-control" id="account-password"
+                            placeholder="Password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Confirm Password</label>
+                        <input type="password" name="confirm-password" class="form-control" id="account-password"
+                            placeholder="Confirm Password" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="confirm-password" class="btn text-white" id="change-pass-btn"
+                            value="Update">
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="text-center mt-3 pt-5 col-lg-6 col-md-12 col-sm-12">
-            <form action="" method="post" id="account-form">
-                <h3>Change Password</h3>
-                <hr>
-                <div class="form-group">
-                    <label for="">Password</label>
-                    <input type="password" name="password" class="form-control" id="account-password"
-                        placeholder="Password" required>
-                </div>
-                <div class="form-group">
-                    <label for="">Confirm Password</label>
-                    <input type="password" name="confirm-password" class="form-control" id="account-password"
-                        placeholder="Confirm Password" required>
-                </div>
-                <div class="form-group">
-                    <input type="submit" name="confirm-password" class="btn" id="change-pass-btn" value="Update">
-                </div>
-            </form>
-        </div>
-    </div>
-</section>
+    </section>
 
 
 
 
-<?php include("layout/footer.php") ?>
-<script src="assets/js/main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+    <?php include("layout/footer.php") ?>
+    <script src="assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

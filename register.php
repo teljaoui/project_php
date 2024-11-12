@@ -11,12 +11,10 @@ if (isset($_POST['register'])) {
     if ($password != $confirmPassword) {
         header('location: register.php?error=Password does not match');
         exit();
-    }
-    else if (strlen($password) < 6) {
+    } else if (strlen($password) < 6) {
         header('location: register.php?error=Password must be at least 6 characters');
         exit();
-    }
-    else{
+    } else {
         $stmt1 = $conn->prepare("SELECT * FROM users where user_email=?");
         $stmt1->bind_param('s', $email);
         $stmt1->execute();
@@ -51,6 +49,26 @@ if (isset($_POST['register'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
+<style>
+    @media only screen and (max-width:990px) {
+
+        #login-form input,
+        #register-form input,
+        #account-form input {
+            width: 90%;
+        }
+
+        #login-form,
+        #register-form {
+            width: 100%;
+        }
+
+        #login-form .alert,
+        #register-form .alert {
+            width: 100% !important;
+        }
+    }
+</style>
 
 <body>
 
@@ -90,11 +108,11 @@ if (isset($_POST['register'])) {
                 </div>
                 <div class="form-group">
                     <label for="register-confirm-password"">Confirm Password</label>
-                    <input type="password" class="form-control" id="register-confirm-password" name="confirmPassword"
+                    <input type=" password" class="form-control" id="register-confirm-password" name="confirmPassword"
                         placeholder="Confirm Password" required>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn" id="register-btn" name="register" value="Register">
+                    <input type="submit" class="btn text-white" id="register-btn" name="register" value="Register">
                 </div>
                 <div class="form-group">
                     <a href="login.php" id="register-url">If you have an account? login Now</a>
