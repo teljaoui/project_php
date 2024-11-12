@@ -27,7 +27,6 @@ if(isset($_SESSION['cart'])){
     
 </style>
 
-
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 fixed-top">
     <div class="container">
         <a href="index.php" class="logo">

@@ -671,7 +671,8 @@ th:last-child {
     transition: 0.5s ease;
 }
 
-.account-info a:hover , .account-info form input:hover {
+.account-info a:hover,
+.account-info form input:hover {
     color: #222222;
 }
 
@@ -735,6 +736,33 @@ th:last-child {
 }
 
 
+.search .liste {
+    width: 50%;
+    margin-inline: auto;
+}
+
+.search .liste .productSearch {
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    box-shadow: 0 0 20px #0000001a;
+    transition: 0.5s ease-in-out;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.search .liste .productSearch:hover {
+    transform: scale(1.1);
+    opacity: 0.7;
+}
+
+.search .liste .productSearch img {
+    width: 150px;
+    height: 150px;
+    margin-right: 15px;
+}
+
+
 @media only screen and (max-width:990px) {
     .nav-buttons {
         margin-left: 10px !important;
@@ -779,5 +807,28 @@ th:last-child {
     #login-form .alert,
     #register-form .alert {
         width: 100% !important;
+    }
+
+    .search .liste .productSearch {
+        padding: 10px;
+    }
+
+    .search .liste {
+        width: 80%;
+        margin-inline: auto;
+    }
+
+    .search .liste .productSearch img {
+        width: 80px;
+        height: 80px;
+        margin-right: 15px;
+    }
+
+    .search .liste .productSearch p {
+        display: none;
+    }
+
+    .search .liste .productSearch .start i {
+        font-size: 12px;
     }
 }
