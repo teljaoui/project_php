@@ -8,6 +8,9 @@ if (isset($_POST['logout'])) {
     unset($_SESSION['user_email']);
     unset($_SESSION['user_name']);
     $_SESSION['logged_in'] = false;
+    if($_SESSION['redirect']){
+        $_SESSION['redirect']=false;
+    }
     header('location:login.php?message=You have logged out successfully!');
     exit();
 } else if (!$_SESSION['logged_in']) {

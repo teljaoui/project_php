@@ -31,10 +31,13 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
         $_SESSION['user_name'] = $user_name;
         $_SESSION['user_email'] = $user_email;
         $_SESSION['logged_in'] = true;
-        header("location:account.php?message=Welcome back, $user_name!");
-        exit();
+        if($_SESSION['redirect']){
+            header("location:checkout.php");
+        }else{
+            header("location:account.php?message=Welcome back, $user_name!");
+            exit();
+        }
     }
-
 }
 
 

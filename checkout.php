@@ -4,7 +4,8 @@ session_start();
 
 if (!empty($_SESSION['cart'])) {
     if (!$_SESSION['logged_in']) {
-        header(header: 'location:login.php?message=Please Login Now');
+        $_SESSION['redirect'] = true;
+        header(header: 'location:login.php?message=Please Login Now!');
     }
 } else {
     echo '<script>alert("Cart is empty"); window.location.href="shop.php";</script>';
