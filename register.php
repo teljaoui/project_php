@@ -1,8 +1,14 @@
 <?php
+session_start();
 
 include("server/connection.php");
 
-if (isset($_POST['register'])) {
+
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
+    header("Location: account.php?message=Welcome back, " . urlencode($_SESSION['user_name']) . "!");
+    exit();
+}
+else if (isset($_POST['register'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];

@@ -10,7 +10,6 @@ if(isset($_SESSION['cart'])){
 
 ?>
 
-
 <style>
     .header-cart{
         text-decoration: none;
@@ -25,6 +24,7 @@ if(isset($_SESSION['cart'])){
         margin-left: -9px;
         margin-top: -7px;            
     }
+    
 </style>
 
 

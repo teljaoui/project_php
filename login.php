@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 include("server/connection.php");
 
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
-    header("Location: account.php?message=Welcome back, " . urlencode($_SESSION['user_name']) . "!");
+    header("location: account.php?message=Welcome back, " . urlencode($_SESSION['user_name']) . "!");
     exit();
 } elseif (isset($_POST['login'])) {
     $email = $_POST['email'];
@@ -16,7 +16,7 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
 
     $hashed_password = md5($password);
 
-    $stmt = $conn->prepare("SELECT user_name, user_email FROM users WHERE user_email = ? AND user_password = ?");
+    $stmt = $conn->prepare("SELECT user_id , user_name, user_email FROM users WHERE user_email = ? AND user_password = ?");
     $stmt->bind_param("ss", $email, $hashed_password);
     $stmt->execute();
     $stmt->store_result();
@@ -25,18 +25,16 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
         header("location:login.php?error=The email or password you entered is incorrect.");
         exit();
     } else {
-        $stmt->bind_result($user_name, $user_email);
+        $stmt->bind_result($user_id,  $user_name, $user_email);
         $stmt->fetch();
-
+        $_SESSION['user_id'] = $user_id;
         $_SESSION['user_name'] = $user_name;
         $_SESSION['user_email'] = $user_email;
         $_SESSION['logged_in'] = true;
-
         header("location:account.php?message=Welcome back, $user_name!");
         exit();
     }
 
-    $stmt->close();
 }
 
 

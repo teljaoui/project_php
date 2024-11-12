@@ -2,19 +2,39 @@
 
 session_start();
 
+include("server/connection.php");
+
 if (isset($_POST['logout'])) {
     unset($_SESSION['user_email']);
     unset($_SESSION['user_name']);
     $_SESSION['logged_in'] = false;
     header('location:login.php?message=You have logged out successfully!');
     exit();
+} else if (!$_SESSION['logged_in']) {
+    header('location:login.php');
+}else if (isset($_POST['updatePassword'])) {  
+    $password = $_POST['password'];
+    $confirmPassword = $_POST['confirmPassword'];
 
+    if ($password !== $confirmPassword) {
+        header('location: account.php?error=Passwords do not match');
+        exit();
+    } else {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt = $conn->prepare("UPDATE users SET user_password = ? WHERE user_email = ?");
+        $stmt->bind_param("ss", $hashed_password, $_SESSION['user_email']);
+        $stmt->execute();
+        
+        header("location: account.php?message=Password updated successfully!");
+        exit(); 
+    }
 }
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">    
 
 <head>
     <meta charset="UTF-8">
@@ -26,14 +46,15 @@ if (isset($_POST['logout'])) {
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <style>
-    .account-info a .account-info form input {
+    #order-btn {
         text-decoration: none;
         color: #fb774b;
         transition: 0.5s ease;
+        background-color: #fff;
+        border: 0px;
     }
 
-    .account-info a:hover,
-    .account-info form input:hover {
+    #order-btn:hover {
         color: #222222;
     }
 
@@ -83,16 +104,14 @@ if (isset($_POST['logout'])) {
                 <div class="account-info">
                     <p>Name: <span><?php echo $_SESSION['user_name'] ?></span></p>
                     <p>Email: <span><?php echo $_SESSION['user_email'] ?></span></p>
-                    <p><a href="" id="order-btn">Your Orders</a></p>
-                    <p>
+                    <p><a href="#orders" id="order-btn">Your Orders</a></p>
                     <form action="account.php" method="post">
                         <input type="submit" id="order-btn" value="Logout" name="logout" />
                     </form>
-                    </p>
                 </div>
             </div>
             <div class="text-center pt-5 col-lg-6 col-md-12 col-sm-12">
-                <form action="" method="post" id="account-form">
+                <form action="account.php" method="post" id="account-form">
                     <h3>Change Password</h3>
                     <hr>
                     <div class="form-group">
@@ -102,15 +121,28 @@ if (isset($_POST['logout'])) {
                     </div>
                     <div class="form-group">
                         <label for="">Confirm Password</label>
-                        <input type="password" name="confirm-password" class="form-control" id="account-password"
+                        <input type="password" name="confirmPassword" class="form-control" id="account-password"
                             placeholder="Confirm Password" required>
                     </div>
                     <div class="form-group">
-                        <input type="submit" name="confirm-password" class="btn text-white" id="change-pass-btn"
-                            value="Update">
+                        <input type="submit" name="updatePassword" class="btn text-white" id="change-pass-btn" value="Update">
                     </div>
                 </form>
             </div>
+        </div>
+    </section>
+    <section class="cart" id="orders">
+        <div class="container">
+            <div class="text-center">
+                <h3 class="font-weight-bold">Your Orders</h3>
+                <hr>
+            </div>
+            <table class="mt-5 pt-5">
+                <tr>
+                    <th>Product</th>
+                    <th>Date</th>
+                </tr>
+            </table>
         </div>
     </section>
 

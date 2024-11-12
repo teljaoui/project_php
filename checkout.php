@@ -3,12 +3,13 @@
 session_start();
 
 if (!empty($_SESSION['cart'])) {
-
+    if (!$_SESSION['logged_in']) {
+        header(header: 'location:login.php?message=Please Login Now');
+    }
 } else {
     echo '<script>alert("Cart is empty"); window.location.href="shop.php";</script>';
     exit();
 }
-
 
 
 ?>
@@ -44,16 +45,17 @@ if (!empty($_SESSION['cart'])) {
             <form action="server/place_order.php" id="checkout-form" method="post">
                 <div class="form-group checkout-small-element">
                     <label for="checkout-name">Name</label>
-                    <input type="text" class="form-control" id="checkout-name" name="name" placeholder="Name" required>
+                    <input type="text" class="form-control" id="checkout-name" name="name" placeholder="Name" value="<?php echo $_SESSION['user_name'] ?>" readonly  required>
                 </div>
                 <div class="form-group checkout-small-element">
                     <label for="checkout-email">Email</label>
                     <input type="email" class="form-control" id="checkout-email" name="email" placeholder="Email"
-                        required>
+                    value="<?php echo $_SESSION['user_email'] ?>" readonly  required>
                 </div>
                 <div class="form-group checkout-small-element">
                     <label for="checkout-phone">Phone</label>
-                    <input type="text" class="form-control" id="checkout-phone" name="phone" placeholder="Phone" required>
+                    <input type="text" class="form-control" id="checkout-phone" name="phone" placeholder="Phone"
+                        required>
                 </div>
                 <div class="form-group checkout-small-element">
                     <label for="checkout-city">City</label>
