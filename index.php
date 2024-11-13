@@ -21,7 +21,7 @@
             <h5>NEW ARRIVALS</h5>
             <h1><span>Best Prices</span> For This Season</h1>
             <p>Eshop offers the best products for the most affordable prices</p>
-            <button>Shop Now</button>
+            <a href="shop.php" class="button">Shop Now</a>
         </div>
     </section>
 
@@ -43,21 +43,21 @@
                 <img class="img-fluid" src="assets/imgs/1.jpg" alt="" srcset="">
                 <div class="details">
                     <h2>Women's clothing</h2>
-                    <button class="text-uppercase">Shop Now</button>
+                    <a href="shop.php" class="button">Shop Now</a>
                 </div>
             </div>
             <div class="one col-lg-4 col-md-12 col-sm-12 p-0">
                 <img class="img-fluid" src="assets/imgs/3.jpg" alt="" srcset="">
                 <div class="details">
                     <h2>Men clothing</h2>
-                    <button class="text-uppercase">Shop Now</button>
+                    <a href="shop.php" class="button">Shop Now</a>
                 </div>
             </div>
             <div class="one col-lg-4 col-md-12 col-sm-12 p-0">
                 <img class="img-fluid" src="assets/imgs/4.jpg" alt="" srcset="">
                 <div class="details">
                     <h2>Accessory</h2>
-                    <button class="text-uppercase">Shop Now</button>
+                    <a href="shop.php" class="button">Shop Now</a>
                 </div>
             </div>
         </div>
@@ -97,7 +97,7 @@
         <div class="container">
             <h4>MID SEASEON'S SALE</h4>
             <h1>Autumn Collection <br> UP to 30% OFF</h1>
-            <button class="text-uppercase">shop now</button>
+            <a href="shop.php" class="button">Shop Now</a>
         </div>
     </section>
 

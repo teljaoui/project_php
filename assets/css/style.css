@@ -50,7 +50,7 @@ h6 {
 }
 
 
-button {
+button , .button {
     font-size: 0.8rem;
     font-weight: 900;
     outline: none;
@@ -60,11 +60,14 @@ button {
     padding: 13px 30px;
     text-transform: uppercase;
     transition: 0.5s ease;
+    text-decoration: none;
 }
 
-button:hover {
+button:hover , .button:hover {
     background-color: #fb774b;
+    color: aliceblue;
 }
+
 
 .navbar {
     font-size: 16px;
@@ -162,16 +165,18 @@ button:hover {
     -webkit-appearance: none;
 }
 
-#search-form label {
+#search-form button {
     color: #fff;
     cursor: pointer;
     transition: 0.5s ease;
     font-size: 2rem;
     padding: 10px;
+    background: none !important;
 }
 
-#search-form label:hover {
+#search-form button:hover {
     color: #ff7f50;
+    background: none !important;
 }
 
 #search-form #close {

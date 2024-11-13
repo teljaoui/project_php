@@ -7,8 +7,7 @@ include("server/connection.php");
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
     header("Location: account.php?message=Welcome back, " . urlencode($_SESSION['user_name']) . "!");
     exit();
-}
-else if (isset($_POST['register'])) {
+} else if (isset($_POST['register'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -114,7 +113,7 @@ else if (isset($_POST['register'])) {
                 </div>
                 <div class="form-group">
                     <label for="register-confirm-password"">Confirm Password</label>
-                    <input type=" password" class="form-control" id="register-confirm-password" name="confirmPassword"
+                    <input type="password" class="form-control" id="register-confirm-password" name="confirmPassword"
                         placeholder="Confirm Password" required>
                 </div>
                 <div class="form-group">

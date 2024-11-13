@@ -3,7 +3,7 @@ session_start();
 
 $total = 0;
 
-if(isset($_SESSION['cart'])){
+if (isset($_SESSION['cart'])) {
     $total = count($_SESSION['cart']);
 }
 
@@ -11,7 +11,7 @@ if(isset($_SESSION['cart'])){
 ?>
 
 <style>
-    .header-cart{
+    .header-cart {
         text-decoration: none;
         text-align: start;
         font-size: 7px;
@@ -22,9 +22,8 @@ if(isset($_SESSION['cart'])){
         border-radius: 50%;
         position: absolute;
         margin-left: -9px;
-        margin-top: -7px;            
+        margin-top: -7px;
     }
-    
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 fixed-top">
@@ -55,7 +54,7 @@ if(isset($_SESSION['cart'])){
                     <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
                     <a href="cart.php" class="text-dark">
                         <i class="fa-solid fa-cart-shopping"></i>
-                        <span class="header-cart"><?php echo $total ;  ?></span>
+                        <span class="header-cart"><?php echo $total; ?></span>
                     </a>
                     <a href="login.php" class="text-dark"><i class="fa-solid fa-user"></i></a>
                 </li>
@@ -65,8 +64,8 @@ if(isset($_SESSION['cart'])){
 </nav>
 
 
-<form action="" id="search-form">
-    <input type="search" placeholder="search here..." name="" id="search-box">
-    <label for="search-box" class="fas fa-search"></label>
+<form action="search.php" id="search-form">
+    <input type="search" placeholder="search here..." name="searchvalue" id="search-box">
+    <button type="submit" name="search" class="fas fa-search"></button>
     <i class="fas fa-times" id="close"></i>
 </form>
