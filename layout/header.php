@@ -64,7 +64,7 @@ if (isset($_SESSION['cart'])) {
 </nav>
 
 
-<form action="search.php" id="search-form">
+<form action="search.php" id="search-form" method="Post">
     <input type="search" placeholder="search here..." name="searchvalue" id="search-box">
     <button type="submit" name="search" class="fas fa-search"></button>
     <i class="fas fa-times" id="close"></i>

@@ -1,8 +1,9 @@
 <?php
-
 include('server/connection.php');
 
 $products = [];
+$message = "";
+
 if (isset($_POST['search'])) {
     $searchvalue = '%' . $_POST['searchvalue'] . '%';
     $stmt = $conn->prepare("SELECT * FROM products WHERE product_name LIKE ?");
@@ -12,16 +13,10 @@ if (isset($_POST['search'])) {
     $products = $result->fetch_all(MYSQLI_ASSOC);
 
     if (empty($products)) {
-        header('Location: search.php?message=');
-        exit();
+        $message = "This product is currently out of stock, check out available products here.";
     }
 }
-
-
-
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,28 +33,27 @@ if (isset($_POST['search'])) {
 
 <body>
 
-
     <?php include("layout/header.php"); ?>
+    
     <section class="search my-5 py-5">
         <div class="container">
             <h3 class="mt-5 text-center">Result of search</h3>
             <hr>
         </div>
-        <?php if (empty($product)): ?>
+
+        <?php if (!empty($message)): ?>
             <div class="text-center">
-                <p>
-                    <?php echo "This product is currently out of stock, check out available products here."; ?>
-                </p>
+                <p><?php echo $message; ?></p>
                 <a href="shop.php" class="button">Shop Now</a>
             </div>
-        <?php else: ?>
+        <?php elseif (!empty($products)): ?>
             <?php foreach ($products as $row): ?>
                 <div class="liste">
                     <a href="<?php echo "single_product.php?product_id=" . $row['product_id'] ?>" class="productSearch">
                         <img src="assets/imgs/<?php echo $row['product_image'] ?>" class="img-fluid" alt="">
                         <div class="info">
                             <h5 class="p-name"><?php echo $row['product_name'] ?></h5>
-                            <p><?php echo $row['product_description'] ?></p>
+                            <p><?php echo substr($row['product_description'], 0, 150) . (strlen($row['product_description']) > 150 ? '...' : ''); ?></p>
                             <h4 class="p-price">$<?php echo $row['product_price'] ?></h4>
                             <div class="start">
                                 <i class="fa-solid fa-star"></i>
@@ -77,8 +71,6 @@ if (isset($_POST['search'])) {
     </section>
 
     <?php include("layout/footer.php"); ?>
-
-
 
     <script src="assets/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

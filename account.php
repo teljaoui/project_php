@@ -7,20 +7,43 @@ include("server/connection.php");
 if (isset($_POST['logout'])) {
     unset($_SESSION['user_email']);
     unset($_SESSION['user_name']);
+    unset($_SESSION['user_id']);
     $_SESSION['logged_in'] = false;
-    if($_SESSION['redirect']){
-        $_SESSION['redirect']=false;
+    if ($_SESSION['redirect']) {
+        $_SESSION['redirect'] = false;
     }
     header('location:login.php?message=You have logged out successfully!');
     exit();
 } else if (!$_SESSION['logged_in']) {
     header('location:login.php');
-}else if (isset($_POST['updatePassword'])) {  
+    exit();
+}
+
+$orders = [];
+$message = "";
+
+if ($_SESSION['logged_in']) {
+    $stmt = $conn->prepare("SELECT * FROM orders where user_id = ?");
+    $stmt->bind_param("i", $_SESSION['user_id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $orders = $result->fetch_all(MYSQLI_ASSOC);
+
+    if (empty($orders)) {
+        $message = "You don't have any order";
+    }
+
+
+}
+
+if (isset($_POST['updatePassword'])) {
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
-
     if ($password !== $confirmPassword) {
         header('location: account.php?error=Passwords do not match');
+        exit();
+    } else if (strlen($password) < 6) {
+        header('location: account.php?error=Password must be at least 6 characters');
         exit();
     } else {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -28,16 +51,15 @@ if (isset($_POST['logout'])) {
         $stmt = $conn->prepare("UPDATE users SET user_password = ? WHERE user_email = ?");
         $stmt->bind_param("ss", $hashed_password, $_SESSION['user_email']);
         $stmt->execute();
-        
         header("location: account.php?message=Password updated successfully!");
-        exit(); 
+        exit();
     }
 }
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en">    
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -59,6 +81,16 @@ if (isset($_POST['logout'])) {
 
     #order-btn:hover {
         color: #222222;
+    }
+
+    .order-details {
+        cursor: pointer;
+        transition: 0.7s ease;
+    }
+
+    .order-details:hover {
+        background-color: #222222;
+        color: #fff;
     }
 
     @media only screen and (max-width:990px) {
@@ -128,7 +160,8 @@ if (isset($_POST['logout'])) {
                             placeholder="Confirm Password" required>
                     </div>
                     <div class="form-group">
-                        <input type="submit" name="updatePassword" class="btn text-white" id="change-pass-btn" value="Update">
+                        <input type="submit" name="updatePassword" class="btn text-white" id="change-pass-btn"
+                            value="Update">
                     </div>
                 </form>
             </div>
@@ -140,12 +173,38 @@ if (isset($_POST['logout'])) {
                 <h3 class="font-weight-bold">Your Orders</h3>
                 <hr>
             </div>
-            <table class="mt-5 pt-5">
-                <tr>
-                    <th>Product</th>
-                    <th>Date</th>
-                </tr>
-            </table>
+            <?php if (!empty($message)): ?>
+                <div class="text-center">
+                    <p><?php echo $message ?></p>
+                    <a href="shop.php" class="button">Shop Now</a>
+                </div>
+            <?php elseif (!empty($orders)): ?>
+                <table class="mt-5 pt-5">
+                    <tr>
+                        <th>order id</th>
+                        <th>Order Cost</th>
+                        <th>Order Statue</th>
+                        <th>Order Date</th>
+                        <th>Order Details</th>
+                    </tr>
+                    <?php foreach ($orders as $row): ?>
+                        <tr>
+
+                            <td><?php echo $row['order_id'] ?></tdù>
+                            <td>$<?php echo $row['order_cost'] ?></td>
+                            <td><?php echo $row['order_status'] ?></td>
+                            <td><?php echo $row['order_date'] ?></td>
+                            <td>
+                                <form action="order_details.php" name="click" method="Post">
+                                    <input type="hidden" name="order_id" value="<?php echo $row['order_id'] ?>">
+                                    <input type="submit" value="details" name="order_details" class="btn order-details w-50">
+                                </form>
+                            </td>
+
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+            <?php endif; ?>
         </div>
     </section>
 
