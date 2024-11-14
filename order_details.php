@@ -1,13 +1,25 @@
 <?php
 
+
 include('server/connection.php');
 
+$order_item = [];
 if (isset($_POST['order_details'])) {
     $order_id = $_POST['order_id'];
-}else{
+    $stmt = $conn->prepare("SELECT * FROM order_item where order_id = ?");
+    $stmt->bind_param('i', $order_id);
+    $stmt->execute(); 
+
+    $result = $stmt->get_result();
+    if(!empty($result)){
+        $order_item = $result->fetch_all(MYSQLI_ASSOC);
+    }else{
+        header("location:account.php?error=Order item not found");
+    }
+
+} else {
     header("location:account.php");
-}
-?>
+} ?>
 
 
 
@@ -29,12 +41,37 @@ if (isset($_POST['order_details'])) {
 
     <?php include('layout/header.php'); ?>
 
-    <section class="container my-5 py-5">
+    <section class="container my-5 py-5 cart" id="orders">
         <div class="container">
             <h3 class="mt-5 text-center">Order details</h3>
             <hr>
         </div>
-        <?php echo $order_id ?>
+        <table class="mt-5 pt-5">
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+            <?php foreach ($order_item as $row) { ?>
+
+                <tr>
+                    <td>
+                        <div class="product-info">
+                            <img src="assets/imgs/<?php echo $row['product_image']; ?>" alt="" srcset="">
+                            <p><?php echo $row['product_name']; ?></p>
+                        </div>
+                    </td>
+                    <td>
+                        <?php echo $row['product_price']; ?>
+                    </td>
+                    <td>
+                        <?php echo $row['product_quantity'] ?>
+                    </td>
+
+
+                </tr>
+            <?php } ?>
+        </table>
     </section>
 
 
