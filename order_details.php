@@ -1,19 +1,27 @@
 <?php
 
+/*
 
+not_paid
+paid
+shipped
+delivered
+
+*/
 include('server/connection.php');
 
 
 if (isset($_POST['order_details'])) {
     $order_id = $_POST['order_id'];
+    $order_status = $_POST['order_status'];
     $stmt = $conn->prepare("SELECT * FROM order_item where order_id = ?");
     $stmt->bind_param('i', $order_id);
-    $stmt->execute(); 
+    $stmt->execute();
 
     $result = $stmt->get_result();
-    if($result->num_rows !=0){
+    if ($result->num_rows != 0) {
         $order_item = $result;
-    }else{
+    } else {
         header("location:account.php?error=Order item not found");
     }
 } else {
@@ -52,7 +60,7 @@ if (isset($_POST['order_details'])) {
                 <th>Quantity</th>
                 <th>Subtotal</th>
             </tr>
-            <?php while ($row = $order_item->fetch_assoc() ){ ?>
+            <?php while ($row = $order_item->fetch_assoc()) { ?>
                 <tr>
                     <td>
                         <div class="product-info">
@@ -64,15 +72,23 @@ if (isset($_POST['order_details'])) {
                         $<?php echo $row['product_price']; ?>
                     </td>
                     <td>
-                        <?php echo $row['product_quantity'] ;?>
+                        <?php echo $row['product_quantity']; ?>
                     </td>
                     <td>
-                        $<?php echo $row['product_price'] * $row['product_quantity'] ;?>
+                        $<?php echo $row['product_price'] * $row['product_quantity']; ?>
                     </td>
 
                 </tr>
             <?php } ?>
         </table>
+        <?php if ($order_status == "not_paid"): ?>
+            <div class="container">
+                <form action="payment.php" method="post" class="float-end">
+                    <input type="submit" class="btn btn-primary" value="Pay Now">
+                </form>
+            </div>
+        <?php endif; ?>
+
     </section>
 
 

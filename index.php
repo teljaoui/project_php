@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
+
 <body>
 
 
@@ -96,8 +97,8 @@
     <section class="my-5 py-5" id="banner">
         <div class="container">
             <h4>MID SEASEON'S SALE</h4>
-            <h1>Autumn Collection <br> UP to 30% OFF</h1>
-            <a href="shop.php" class="button">Shop Now</a>
+            <h1>Autumn Collection <br> UP to<span> 30% OFF</span></h1><br>
+            <a href="shop.php" class="button" >Shop Now</a>
         </div>
     </section>
 

@@ -198,6 +198,7 @@ if (isset($_POST['updatePassword'])) {
                             <td><?php echo $row['order_date'] ?></td>
                             <td>
                                 <form action="order_details.php" name="click" method="Post">
+                                    <input type="hidden" name="order_status" value="<?php echo $row['order_status']; ?>">
                                     <input type="hidden" name="order_id" value="<?php echo $row['order_id'] ?>">
                                     <input type="submit" value="details" name="order_details" class="btn order-details w-50">
                                 </form>
