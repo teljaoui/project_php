@@ -11,12 +11,11 @@ if (isset($_POST['order_details'])) {
     $stmt->execute(); 
 
     $result = $stmt->get_result();
-    if(!empty($result)){
+    if($result->num_rows !=0){
         $order_item = $result;
     }else{
         header("location:account.php?error=Order item not found");
     }
-
 } else {
     header("location:account.php");
 } ?>
@@ -54,7 +53,6 @@ if (isset($_POST['order_details'])) {
                 <th>Subtotal</th>
             </tr>
             <?php while ($row = $order_item->fetch_assoc() ){ ?>
-
                 <tr>
                     <td>
                         <div class="product-info">
