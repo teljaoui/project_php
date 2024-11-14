@@ -3,7 +3,7 @@
 
 include('server/connection.php');
 
-$order_item = [];
+
 if (isset($_POST['order_details'])) {
     $order_id = $_POST['order_id'];
     $stmt = $conn->prepare("SELECT * FROM order_item where order_id = ?");
@@ -12,7 +12,7 @@ if (isset($_POST['order_details'])) {
 
     $result = $stmt->get_result();
     if(!empty($result)){
-        $order_item = $result->fetch_all(MYSQLI_ASSOC);
+        $order_item = $result;
     }else{
         header("location:account.php?error=Order item not found");
     }
@@ -51,8 +51,9 @@ if (isset($_POST['order_details'])) {
                 <th>Product</th>
                 <th>Price</th>
                 <th>Quantity</th>
+                <th>Subtotal</th>
             </tr>
-            <?php foreach ($order_item as $row) { ?>
+            <?php while ($row = $order_item->fetch_assoc() ){ ?>
 
                 <tr>
                     <td>
@@ -62,12 +63,14 @@ if (isset($_POST['order_details'])) {
                         </div>
                     </td>
                     <td>
-                        <?php echo $row['product_price']; ?>
+                        $<?php echo $row['product_price']; ?>
                     </td>
                     <td>
-                        <?php echo $row['product_quantity'] ?>
+                        <?php echo $row['product_quantity'] ;?>
                     </td>
-
+                    <td>
+                        $<?php echo $row['product_price'] * $row['product_quantity'] ;?>
+                    </td>
 
                 </tr>
             <?php } ?>
