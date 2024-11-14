@@ -1,6 +1,8 @@
 <?php
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 include("server/connection.php");
 
@@ -124,11 +126,11 @@ if (isset($_POST['updatePassword'])) {
 
     <section class="my-5 py-5">
         <?php if (isset($_GET['error'])): ?>
-            <div class="alert alert-danger w-50 mx-auto mb-0">
+            <div class="alert alert-danger mt-4 w-75 mx-auto mb-0">
                 <?php echo $_GET['error']; ?>
             </div>
         <?php elseif (isset($_GET['message'])): ?>
-            <div class="alert alert-success w-50 mx-auto mb-0">
+            <div class="alert alert-success mt-4 w-75 mx-auto mb-0">
                 <?php echo $_GET['message']; ?>
             </div>
         <?php endif; ?>
