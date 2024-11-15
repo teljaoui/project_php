@@ -1,3 +1,18 @@
+<?php
+
+include('server/connection.php');
+
+$stmt = $conn->prepare("SELECT * FROM products ");
+
+$stmt->execute();
+
+$products = $stmt->get_result();
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +25,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-
+<style>
+    .product {
+    cursor: pointer;
+    margin-bottom: 2rem;
+    text-decoration: none !important;
+}
+</style>
 <body>
 
 
@@ -19,7 +40,7 @@
 
 
     <section id="featured" class="my-5  pb-5">
-        <div class="container  mt-5 py-5">
+        <div class="container  mt-5 py-3">
             <h3 class="mt-5">Our Featured</h3>
             <hr class="mx-0">
             <p>Here you can check out our products</p>
@@ -37,37 +58,25 @@
                 </div>
             </div>
         </div>
-        <div class="row mx-auto container">
-            <div class="show-bar">
+        <div class="show-bar">
                 <div class="container aside-bar">
                     <i class="fa-solid fa-x" onclick="closebar()"></i>
                     <div class="sidebar-nav">
                         <h5 class="mt-3">Search Products</h5>
-                        <hr class="mx-0">
+                        <hr class="mx-0 mb-3">
                         <form action="shop.php" method="post">
-                            <div class="container">
-                                <p class="pt-2">Category</p>
-                                <div class="form-check">
-                                    <input type="radio" class="form-check-input" name="category" id="">
-                                    <label for="" class="form-check-label">shose</label>
-                                    <div class="checkitem">
-                                        <div class="form-check">
-                                            <input type="radio" class="form-check-input" name="check" id="">
-                                            <label for="" class="form-check-label">shose</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input type="radio" class="form-check-input" name="check" id="">
-                                            <label for="" class="form-check-label">shose</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input type="radio" class="form-check-input" name="check" id="">
-                                            <label for="" class="form-check-label">shose</label>
-                                        </div>
-                                    </div>
+                            <div class="container-fluid">
+                                <div class="form-check py-1">
+                                    <input type="radio" class="form-check-input" name="category" id="form-men">
+                                    <label for="" class="form-check-label">Men</label>
                                 </div>
-                                <div class="form-check">
-                                    <input type="radio" class="form-check-input" name="category" id="">
-                                    <label for="" class="form-check-label">men</label>
+                                <div class="form-check py-1">
+                                    <input type="radio" class="form-check-input" name="category" id="form-women">
+                                    <label for="" class="form-check-label">Women</label>
+                                </div>
+                                <div class="form-check py-1">
+                                    <input type="radio" class="form-check-input" name="category" id="form-accessories">
+                                    <label for="" class="form-check-label">Accessories</label>
                                 </div>
                             </div>
                             <div class="form-group my-3 mx-3">
@@ -77,9 +86,11 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-wrap text-center">
-                <div class="product text-center col-lg-2 col-md-3 col-sm-12 m-3">
-                    <img class="img-fluid mb-3" src="assets/imgs/featured.jpg">
+        <div class="mx-auto container">
+            <div class="d-flex flex-wrap text-center row ">
+                <?php while($row = $products->fetch_assoc()){ ?>
+                <a href="<?php echo 'single_product.php?product_id=' .  $row['product_id'] ?>" class="product text-center text-dark col-lg-3 col-md-4 col-sm-12">
+                    <img class="img-fluid mb-3" src="assets/imgs/<?php  echo $row['product_image'] ?>">
                     <div class="start">
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
@@ -87,167 +98,11 @@
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
                     </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
+                    <h5 class="p-name"><?php echo substr($row['product_name'] , 0,  20 ) . ( strlen($row['product_name']  ) > 20 ? '...' : '');?></h5>
+                    <h4 class="p-price">$<?php echo $row['product_price'] ?></h4>
                     <button class="buy-btn">Buy Now</button>
-                </div>
-                <div class="product text-center col-lg-2 col-md-3 col-sm-12 m-3">
-                    <img class="img-fluid mb-3" src="assets/imgs/featured.jpg">
-                    <div class="start">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-                <div class="product text-center col-lg-2 col-md-3 col-sm-12 m-3">
-                    <img class="img-fluid mb-3" src="assets/imgs/featured.jpg">
-                    <div class="start">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-                <div class="product text-center col-lg-2 col-md-3 col-sm-12 m-3">
-                    <img class="img-fluid mb-3" src="assets/imgs/featured.jpg">
-                    <div class="start">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-                <div class="product text-center col-lg-2 col-md-3 col-sm-12 m-3">
-                    <img class="img-fluid mb-3" src="assets/imgs/featured.jpg">
-                    <div class="start">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-                <div class="product text-center col-lg-2 col-md-3 col-sm-12 m-3">
-                    <img class="img-fluid mb-3" src="assets/imgs/featured.jpg">
-                    <div class="start">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-                <div class="product text-center col-lg-2 col-md-3 col-sm-12 m-3">
-                    <img class="img-fluid mb-3" src="assets/imgs/featured.jpg">
-                    <div class="start">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-                <div class="product text-center col-lg-2 col-md-3 col-sm-12 m-3">
-                    <img class="img-fluid mb-3" src="assets/imgs/featured.jpg">
-                    <div class="start">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-                <div class="product text-center col-lg-2 col-md-3 col-sm-12 m-3">
-                    <img class="img-fluid mb-3" src="assets/imgs/featured.jpg">
-                    <div class="start">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-                <div class="product text-center col-lg-2 col-md-3 col-sm-12 m-3">
-                    <img class="img-fluid mb-3" src="assets/imgs/featured.jpg">
-                    <div class="start">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-                <div class="product text-center col-lg-2 col-md-3 col-sm-12 m-3">
-                    <img class="img-fluid mb-3" src="assets/imgs/featured.jpg">
-                    <div class="start">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-                <div class="product text-center col-lg-2 col-md-3 col-sm-12 m-3">
-                    <img class="img-fluid mb-3" src="assets/imgs/featured.jpg">
-                    <div class="start">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-                <div class="product text-center col-lg-2 col-md-3 col-sm-12 m-3">
-                    <img class="img-fluid mb-3" src="assets/imgs/featured.jpg">
-                    <div class="start">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h5 class="p-name">Sports Shoes</h5>
-                    <h4 class="p-price">$199.8</h4>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-
+                </a>
+                <?php } ?>
             </div>
             <div class="col-12 d-flex justify-content-center text-center">
                 <nav aria-label="Page navigation example" class="paginate">

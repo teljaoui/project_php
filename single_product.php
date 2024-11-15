@@ -62,7 +62,7 @@ if (isset($_GET['product_id'])) {
                 </div>
             </div>
             <div class="col-lg-6 col-md-12 col-12 mx-4">
-                <h6>Sports Shoes</h6>
+                <h6><?php echo $row['product_category'] ?></h6>
                 <h4 class="py-4"><?php echo $row['product_name']; ?></h4>
                 <h3><?php echo $row['product_price']; ?>$</h3>
                 <form action="cart.php" method="POST">
