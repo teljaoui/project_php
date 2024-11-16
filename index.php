@@ -130,81 +130,89 @@
 
 
     <!--clothes-->
+    <?php include('server/get_featured_men.php') ?>
+    <?php if ($featured_men->num_rows != 0): ?>
+        <section id="featured" class="my-5">
+            <div class="container text-center mt-5 py-5">
+                <h3>Men's Clothing</h3>
+                <hr>
+                <p>Here you can check out our amazing clothes</p>
+            </div>
+            <div>
+                <a href="shop.php" class="showall">Show All <svg class="w-6 h-6 text-gray-800 dark:text-white"
+                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 12H5m14 0-4 4m4-4-4-4" />
+                    </svg>
+                </a>
+            </div>
+            <div class="row mx-auto container-fluid">
+                <?php while ($row = $featured_men->fetch_assoc()) { ?>
+                    <div class="product text-center col-lg-3 col-md-4 col-sm-12">
+                        <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'] ?>">
+                        <div class="start">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
 
-    <section id="featured" class="my-5">
-        <div class="container text-center mt-5 py-5">
-            <h3>Men's Clothing</h3>
-            <hr>
-            <p>Here you can check out our amazing clothes</p>
-        </div>
-        <div>
-            <a href="shop.php" class="showall">Show All <svg class="w-6 h-6 text-gray-800 dark:text-white"
-                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                    viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 12H5m14 0-4 4m4-4-4-4" />
-                </svg>
-            </a>
-        </div>
-        <div class="row mx-auto container-fluid">
-            <?php include('server/get_featured_men.php') ?>
-            <?php while ($row = $featured_men->fetch_assoc()) { ?>
-                <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'] ?>">
-                    <div class="start">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-
+                        </div>
+                        <h5 class="p-name">
+                            <?php echo substr($row['product_name'], 0, 20) . (strlen($row['product_name']) > 20 ? '...' : ''); ?>
+                        </h5>
+                        <h4 class="p-price">$<?php echo $row['product_price'] ?></h4>
+                        <button class="buy-btn">Buy Now</button>
                     </div>
-                    <h5 class="p-name">
-                        <?php echo substr($row['product_name'], 0, 20) . (strlen($row['product_name']) > 20 ? '...' : ''); ?>
-                    </h5>
-                    <h4 class="p-price">$<?php echo $row['product_price'] ?></h4>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-            <?php } ?>
-        </div>
-    </section>
-    <section id="featured" class="my-5">
-        <div class="container text-center mt-5 py-5">
-            <h3>Women's Clothing</h3>
-            <hr>
-            <p>Here you can check out our amazing clothes</p>
-        </div>
-        <div>
-            <a href="shop.php" class="showall">Show All <svg class="w-6 h-6 text-gray-800 dark:text-white"
-                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                    viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 12H5m14 0-4 4m4-4-4-4" />
-                </svg>
-            </a>
-        </div>
-        <div class="row mx-auto container-fluid">
-            <?php include('server/get_featured_women.php') ?>
-            <?php while ($row = $featured_Women->fetch_assoc()) { ?>
-                <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                    <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'] ?>">
-                    <div class="start">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
+                <?php } ?>
+            </div>
+        </section>
+    <?php endif; ?>
 
+
+    <?php include('server/get_featured_women.php') ?>
+    <?php if ($featured_Women->num_rows != 0): ?>
+        <section id="featured" class="my-5">
+            <div class="container text-center mt-5 py-5">
+                <h3>Women's Clothing</h3>
+                <hr>
+                <p>Here you can check out our amazing clothes</p>
+            </div>
+            <div>
+                <a href="shop.php" class="showall">Show All <svg class="w-6 h-6 text-gray-800 dark:text-white"
+                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 12H5m14 0-4 4m4-4-4-4" />
+                    </svg>
+                </a>
+            </div>
+            <div class="row mx-auto container-fluid">
+                <?php while ($row = $featured_Women->fetch_assoc()) { ?>
+                    <div class="product text-center col-lg-3 col-md-4 col-sm-12">
+                        <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'] ?>">
+                        <div class="start">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+
+                        </div>
+                        <h5 class="p-name">
+                            <?php echo substr($row['product_name'], 0, 20) . (strlen($row['product_name']) > 20 ? '...' : ''); ?>
+                        </h5>
+                        <h4 class="p-price">$<?php echo $row['product_price'] ?></h4>
+                        <button class="buy-btn">Buy Now</button>
                     </div>
-                    <h5 class="p-name">
-                        <?php echo substr($row['product_name'], 0, 20) . (strlen($row['product_name']) > 20 ? '...' : ''); ?>
-                    </h5>
-                    <h4 class="p-price">$<?php echo $row['product_price'] ?></h4>
-                    <button class="buy-btn">Buy Now</button>
-                </div>
-            <?php } ?>
-        </div>
-    </section>
+                <?php } ?>
+            </div>
+        </section>
+    <?php endif; ?>
+
+    <?php include('server/get_featured_acces.php') ?>
+    <?php if ($featured_accessory->num_rows != 0): ?>
         <section id="featured" class="my-5">
             <div class="container text-center mt-5 py-5">
                 <h3>Accessory</h3>
@@ -220,9 +228,7 @@
                     </svg>
                 </a>
             </div>
-
             <div class="row mx-auto container-fluid">
-                <?php include('server/get_featured_acces.php') ?>
                 <?php while ($row = $featured_accessory->fetch_assoc()) { ?>
                     <div class="product text-center col-lg-3 col-md-4 col-sm-12">
                         <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'] ?>">
@@ -243,7 +249,7 @@
                 <?php } ?>
             </div>
         </section>
-
+    <?php endif; ?>
 
     <?php include("layout/footer.php") ?>
 
