@@ -1,16 +1,21 @@
 <?php
-
 include('server/connection.php');
 
-$stmt = $conn->prepare("SELECT * FROM products ");
+$products = null;
 
-$stmt->execute();
-
-$products = $stmt->get_result();
-
-
-
+if (isset($_GET['category'])) {
+    $category = htmlspecialchars($_GET['category']); 
+    $stmt = $conn->prepare('SELECT * FROM products WHERE product_category = ?');
+    $stmt->bind_param("s", $category);
+    $stmt->execute();
+    $products = $stmt->get_result();
+} else {
+    $stmt = $conn->prepare("SELECT * FROM products");
+    $stmt->execute();
+    $products = $stmt->get_result();
+}
 ?>
+
 
 
 <!DOCTYPE html>

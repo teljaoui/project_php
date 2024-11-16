@@ -59,21 +59,21 @@
                 <img class="img-fluid" src="assets/imgs/1.jpg" alt="" srcset="">
                 <div class="details">
                     <h2>Women's clothing</h2>
-                    <a href="shop.php" class="button">Shop Now</a>
+                    <a href="shop.php?category=Women" class="button">Shop Now</a>
                 </div>
             </div>
             <div class="one col-lg-4 col-md-12 col-sm-12 p-0">
                 <img class="img-fluid" src="assets/imgs/3.jpg" alt="" srcset="">
                 <div class="details">
                     <h2>Men clothing</h2>
-                    <a href="shop.php" class="button">Shop Now</a>
+                    <a href="shop.php?category=Men" class="button">Shop Now</a>
                 </div>
             </div>
             <div class="one col-lg-4 col-md-12 col-sm-12 p-0">
                 <img class="img-fluid" src="assets/imgs/4.jpg" alt="" srcset="">
                 <div class="details">
                     <h2>Accessory</h2>
-                    <a href="shop.php" class="button">Shop Now</a>
+                    <a href="shop.php?category=Accessory" class="button">Shop Now</a>
                 </div>
             </div>
         </div>
@@ -138,7 +138,7 @@
                 <p>Here you can check out our amazing clothes</p>
             </div>
             <div>
-                <a href="shop.php" class="showall">Show All <svg class="w-6 h-6 text-gray-800 dark:text-white"
+                <a href="shop.php?category=Men" class="showall">Show All <svg class="w-6 h-6 text-gray-800 dark:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                         viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -181,7 +181,7 @@
                 <p>Here you can check out our amazing clothes</p>
             </div>
             <div>
-                <a href="shop.php" class="showall">Show All <svg class="w-6 h-6 text-gray-800 dark:text-white"
+                <a href="shop.php?category=Women" class="showall">Show All <svg class="w-6 h-6 text-gray-800 dark:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                         viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -223,7 +223,7 @@
                 <p>Here you can check out our amazing clothes</p>
             </div>
             <div>
-                <a href="shop.php" class="showall">Show All <svg class="w-6 h-6 text-gray-800 dark:text-white"
+                <a href="shop.php?category=Accessory" class="showall">Show All <svg class="w-6 h-6 text-gray-800 dark:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                         viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
