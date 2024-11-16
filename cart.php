@@ -18,10 +18,9 @@ if (isset($_POST['add_to_cart'])) {
             $message = "Product added to carte successfully ";
         } else if (in_array($_POST['product_id'], $product_array_ids)) {
             $_SESSION['cart'][$_POST['product_id']]['product_quantity'] = $_POST['product_quantity'];
-            $message = "Product quantity updated successfully";
+            $message = "";
         } else {
-
-            $message = "Product was already added to cart";
+            $message = "";
         }
     } else {
         $product_array = array(
@@ -121,7 +120,7 @@ function calculateTotal()
                                 <img src="assets/imgs/<?php echo $value['product_image']; ?>" alt="" srcset="">
                             </a>
                             <div>
-                                <p><?php echo $value['product_name']; ?></p>
+                                <p><?php echo substr($value['product_name'], 0, 10) . (strlen($value['product_name']) > 10 ? '...' : ''); ?></p>
                                 <small><span>$</span><?php echo $value['product_price']; ?></small>
                                 <br>
                                 <form action="" method="post">
@@ -144,7 +143,6 @@ function calculateTotal()
                         <span
                             class="product-price"><?php echo $value['product_price'] * $value['product_quantity']; ?></span>
                     </td>
-
                 </tr>
             <?php } ?>
         </table>

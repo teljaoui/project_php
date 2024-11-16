@@ -116,7 +116,6 @@
                     </a>
                 </div>
             <?php } ?>
-
         </div>
     </section>
 
@@ -150,20 +149,22 @@
             <div class="row mx-auto container-fluid">
                 <?php while ($row = $featured_men->fetch_assoc()) { ?>
                     <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                        <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'] ?>">
-                        <div class="start">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
+                        <a href="<?php echo "single_product.php?product_id=" . $row['product_id'] ?>" class="text-dark text-decoration-none">
+                            <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'] ?>">
+                            <div class="start">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
 
-                        </div>
-                        <h5 class="p-name">
-                            <?php echo substr($row['product_name'], 0, 20) . (strlen($row['product_name']) > 20 ? '...' : ''); ?>
-                        </h5>
-                        <h4 class="p-price">$<?php echo $row['product_price'] ?></h4>
-                        <button class="buy-btn">Buy Now</button>
+                            </div>
+                            <h5 class="p-name">
+                                <?php echo substr($row['product_name'], 0, 20) . (strlen($row['product_name']) > 20 ? '...' : ''); ?>
+                            </h5>
+                            <h4 class="p-price">$<?php echo $row['product_price'] ?></h4>
+                            <button class="buy-btn">Buy Now</button>
+                        </a>
                     </div>
                 <?php } ?>
             </div>
@@ -191,20 +192,22 @@
             <div class="row mx-auto container-fluid">
                 <?php while ($row = $featured_Women->fetch_assoc()) { ?>
                     <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                        <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'] ?>">
-                        <div class="start">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
+                        <a href="<?php echo "single_product.php?product_id=" . $row['product_id'] ?>" class="text-dark text-decoration-none">
+                            <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'] ?>">
+                            <div class="start">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
 
-                        </div>
-                        <h5 class="p-name">
-                            <?php echo substr($row['product_name'], 0, 20) . (strlen($row['product_name']) > 20 ? '...' : ''); ?>
-                        </h5>
-                        <h4 class="p-price">$<?php echo $row['product_price'] ?></h4>
-                        <button class="buy-btn">Buy Now</button>
+                            </div>
+                            <h5 class="p-name">
+                                <?php echo substr($row['product_name'], 0, 20) . (strlen($row['product_name']) > 20 ? '...' : ''); ?>
+                            </h5>
+                            <h4 class="p-price">$<?php echo $row['product_price'] ?></h4>
+                            <button class="buy-btn">Buy Now</button>
+                        </a>
                     </div>
                 <?php } ?>
             </div>
@@ -231,20 +234,22 @@
             <div class="row mx-auto container-fluid">
                 <?php while ($row = $featured_accessory->fetch_assoc()) { ?>
                     <div class="product text-center col-lg-3 col-md-4 col-sm-12">
-                        <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'] ?>">
-                        <div class="start">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
+                        <a href="<?php echo "single_product.php?product_id=" . $row['product_id'] ?>" class="text-dark text-decoration-none">
+                            <img class="img-fluid mb-3" src="assets/imgs/<?php echo $row['product_image'] ?>">
+                            <div class="start">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
 
-                        </div>
-                        <h5 class="p-name">
-                            <?php echo substr($row['product_name'], 0, 20) . (strlen($row['product_name']) > 20 ? '...' : ''); ?>
-                        </h5>
-                        <h4 class="p-price">$<?php echo $row['product_price'] ?></h4>
-                        <button class="buy-btn">Buy Now</button>
+                            </div>
+                            <h5 class="p-name">
+                                <?php echo substr($row['product_name'], 0, 20) . (strlen($row['product_name']) > 20 ? '...' : ''); ?>
+                            </h5>
+                            <h4 class="p-price">$<?php echo $row['product_price'] ?></h4>
+                            <button class="buy-btn">Buy Now</button>
+                        </a>
                     </div>
                 <?php } ?>
             </div>
