@@ -2,25 +2,55 @@
 include('server/connection.php');
 
 $products = null;
+$limit = 8;
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+$page = max($page, 1);
+$offset = ($page - 1) * $limit;
 
+$category = null;
 if (isset($_GET['category'])) {
     $category = htmlspecialchars($_GET['category']);
-    $stmt = $conn->prepare('SELECT * FROM products WHERE product_category = ?');
-    $stmt->bind_param("s", $category);
-    $stmt->execute();
-    $products = $stmt->get_result();
-} else if (isset($_POST['search_category'])) {
-    $category = $_POST['category'];
-    $stmt = $conn->prepare("SELECT * FROM products where product_category = ?");
-    $stmt->bind_param('s', $category);
-    $stmt->execute();
-    $products = $stmt->get_result();
-} else {
-    $stmt = $conn->prepare("SELECT * FROM products");
-    $stmt->execute();
-    $products = $stmt->get_result();
 }
+if (isset($_POST['search_category'])) {
+    $category = $_POST['category'];
+}
+
+if ($category) {
+    $stmt = $conn->prepare('SELECT * FROM products WHERE product_category = ? LIMIT ? OFFSET ?');
+    $stmt->bind_param("sii", $category, $limit, $offset);
+} else {
+    $stmt = $conn->prepare("SELECT * FROM products LIMIT ? OFFSET ?");
+    $stmt->bind_param("ii", $limit, $offset);
+}
+
+if (!$stmt->execute()) {
+    die("Erreur lors de l'exécution de la requête : " . $stmt->error);
+}
+$products = $stmt->get_result();
+
+if ($category) {
+    $stmt_total = $conn->prepare("SELECT COUNT(*) AS total FROM products WHERE product_category = ?");
+    $stmt_total->bind_param("s", $category);
+} else {
+    $stmt_total = $conn->prepare("SELECT COUNT(*) AS total FROM products");
+}
+
+if (!$stmt_total->execute()) {
+    die("Erreur lors de l'exécution de la requête totale : " . $stmt_total->error);
+}
+
+$result_total = $stmt_total->get_result();
+$total_row = $result_total->fetch_assoc();
+$total_products = $total_row['total'];
+$total_pages = ceil($total_products / $limit);
+
+if ($page > $total_pages)
+    $page = $total_pages;
+
+$stmt->close();
+$stmt_total->close();
 ?>
+
 
 
 
@@ -41,6 +71,11 @@ if (isset($_GET['category'])) {
         cursor: pointer;
         margin-bottom: 2rem;
         text-decoration: none !important;
+    }
+
+    .pagination .page-item a.activenav {
+        background-color: #222222 !important;
+        color: #fff;
     }
 </style>
 
@@ -122,15 +157,38 @@ if (isset($_GET['category'])) {
                 <?php } ?>
             </div>
             <div class="col-12 d-flex justify-content-center text-center">
-                <nav aria-label="Page navigation example" class="paginate">
-                    <ul class="pagination mt-5">
-                        <li class="page-item    "><a href="#" class="page-link">Previous</a></li>
-                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                    </ul>
-                </nav>
+                <div class="col-12 d-flex justify-content-center text-center">
+                    <nav aria-label="Page navigation example" class="paginate">
+                        <?php
+                        $pages_per_group = 4;
+                        $current_group = ceil($page / $pages_per_group);
+                        $start_page = ($current_group - 1) * $pages_per_group + 1;
+                        $end_page = min($start_page + $pages_per_group - 1, $total_pages);
+                        $show_next_page = $end_page < $total_pages;
+                        if ($show_next_page) {
+                            $end_page += 1;
+                        }
+                        ?>
+                        <ul class="pagination">
+                            <li class="page-item <?php if ($page <= 1)
+                                echo 'disabled'; ?>">
+                                <a class="page-link" href="?page=<?php echo $page - 1; ?>">Previous</a>
+                            </li>
+
+                            <?php for ($i = $start_page; $i <= $end_page; $i++): ?>
+                                <li class="page-item">
+                                    <a class="page-link  <?php echo ($i == $page) ? 'activenav' : ''; ?>"
+                                        href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                </li>
+                            <?php endfor; ?>
+
+                            <li class="page-item <?php if ($page >= $total_pages)
+                                echo 'disabled'; ?>">
+                                <a class="page-link" href="?page=<?php echo $page + 1; ?>">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     </section>

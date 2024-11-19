@@ -55,10 +55,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         href="shop.php">Shop</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  <?= $currentPage == 'blog.php' ? 'active' : '' ?>" id="blog-link"
-                        href="blog.php">Blog</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link  <?= $currentPage == 'contact.php' ? 'active' : '' ?>" id="contact-link"
                         href="contact.php">Contact Us</a>
                 </li>
