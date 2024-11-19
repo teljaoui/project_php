@@ -4,9 +4,15 @@ include('server/connection.php');
 $products = null;
 
 if (isset($_GET['category'])) {
-    $category = htmlspecialchars($_GET['category']); 
+    $category = htmlspecialchars($_GET['category']);
     $stmt = $conn->prepare('SELECT * FROM products WHERE product_category = ?');
     $stmt->bind_param("s", $category);
+    $stmt->execute();
+    $products = $stmt->get_result();
+} else if (isset($_POST['search_category'])) {
+    $category = $_POST['category'];
+    $stmt = $conn->prepare("SELECT * FROM products where product_category = ?");
+    $stmt->bind_param('s', $category);
     $stmt->execute();
     $products = $stmt->get_result();
 } else {
@@ -73,20 +79,22 @@ if (isset($_GET['category'])) {
                     <form action="shop.php" method="post">
                         <div class="container-fluid">
                             <div class="form-check py-1">
-                                <input type="radio" class="form-check-input" name="category" id="form-men">
+                                <input type="radio" class="form-check-input" name="category" value="Men" id="form-men">
                                 <label for="" class="form-check-label">Men</label>
                             </div>
                             <div class="form-check py-1">
-                                <input type="radio" class="form-check-input" name="category" id="form-women">
+                                <input type="radio" class="form-check-input" name="category" value="Women"
+                                    id="form-women">
                                 <label for="" class="form-check-label">Women</label>
                             </div>
                             <div class="form-check py-1">
-                                <input type="radio" class="form-check-input" name="category" id="form-accessories">
+                                <input type="radio" class="form-check-input" name="category" value="Accessory"
+                                    id="form-accessories">
                                 <label for="" class="form-check-label">Accessories</label>
                             </div>
                         </div>
                         <div class="form-group my-3 mx-3">
-                            <input type="submit" value="Search" class="btn btn-primary">
+                            <input type="submit" value="Search" name="search_category" class="btn btn-primary">
                         </div>
                     </form>
                 </div>
