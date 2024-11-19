@@ -136,7 +136,7 @@ $stmt_total->close();
             </div>
         </div>
         <div class="mx-auto container">
-            <div class="d-flex flex-wrap text-center row ">
+            <div class="d-flex flex-wrap text-center row mx-auto">
                 <?php while ($row = $products->fetch_assoc()) { ?>
                     <a href="<?php echo 'single_product.php?product_id=' . $row['product_id'] ?>"
                         class="product text-center text-dark col-lg-3 col-md-4 col-sm-12">
