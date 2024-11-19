@@ -25,7 +25,7 @@
                 <h3>Contact us</h3>
                 <hr>
                 <p class="w-50 mx-auto">
-                    Phone number: <a href="">123 456 789</a>
+                    Phone number: <a href="">123456789</a>
                 </p>
                 <p class="w-50 mx-auto">
                     Email adress: <a href="">info@gmail.com</a>

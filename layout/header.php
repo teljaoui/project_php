@@ -9,6 +9,8 @@ if (isset($_SESSION['cart'])) {
     $total = count($_SESSION['cart']);
 }
 
+$currentPage = basename($_SERVER['PHP_SELF']);
+
 
 ?>
 
@@ -26,6 +28,10 @@ if (isset($_SESSION['cart'])) {
         margin-left: -9px;
         margin-top: -7px;
     }
+
+    .navbar-light .navbar-nav .active {
+        color: coral !important;
+    }
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 fixed-top">
@@ -41,24 +47,31 @@ if (isset($_SESSION['cart'])) {
         <div class="collapse navbar-collapse nav-buttons" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-link" href="index.php">Home</a>
+                    <a class="nav-link  <?= $currentPage == 'index.php' ? 'active' : '' ?>" id="home-link"
+                        href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="shop-link" href="shop.php">Shop</a>
+                    <a class="nav-link  <?= $currentPage == 'shop.php' ? 'active' : '' ?>" id="shop-link"
+                        href="shop.php">Shop</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="blog-link" href="blog.php">Blog</a>
+                    <a class="nav-link  <?= $currentPage == 'blog.php' ? 'active' : '' ?>" id="blog-link"
+                        href="blog.php">Blog</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="contact-link" href="contact.php">Contact Us</a>
+                    <a class="nav-link  <?= $currentPage == 'contact.php' ? 'active' : '' ?>" id="contact-link"
+                        href="contact.php">Contact Us</a>
                 </li>
                 <li class="nav-item">
-                    <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
-                    <a href="cart.php" class="text-dark">
+                    <i class="fa-solid fa-magnifying-glass focus" id="search-icon"></i>
+                    <a href="cart.php" class="text-dark  <?= $currentPage == 'cart.php' ? 'active' : '' ?>">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span class="header-cart"><?php echo $total; ?></span>
                     </a>
-                    <a href="login.php" class="text-dark"><i class="fa-solid fa-user"></i></a>
+                    <a href="login.php"
+                        class="text-dark <?= $currentPage == 'login.php' ? 'active' : ($currentPage == 'register.php' ? 'active' : '') ?>">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
                 </li>
             </ul>
         </div>

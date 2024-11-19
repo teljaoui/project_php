@@ -29,39 +29,3 @@ function closebar() {
     asidebar.style.left = '-100%'
 }
 
-// Obtenir les éléments des catégories
-var men = document.getElementById("form-men");
-var women = document.getElementById("form-women");
-var accessories = document.getElementById("form-accessories");
-
-// Fonction pour afficher/masquer les sous-catégories
-function showSubcategory(selectedCategory) {
-    // Cacher toutes les sous-catégories
-    document.getElementById("checkitem1").style.display = "none";
-    document.getElementById("checkitem2").style.display = "none";
-    document.getElementById("checkitem3").style.display = "none";
-
-    // Afficher la sous-catégorie correspondant à la catégorie sélectionnée
-    if (selectedCategory === "men") {
-        document.getElementById("checkitem1").style.display = "block";
-    } else if (selectedCategory === "women") {
-        document.getElementById("checkitem2").style.display = "block";
-    } else if (selectedCategory === "accessories") {
-        document.getElementById("checkitem3").style.display = "block";
-    }
-}
-
-// Ajouter les écouteurs d'événements pour chaque catégorie
-men.addEventListener("change", function() {
-    showSubcategory("men");
-});
-
-women.addEventListener("change", function() {
-    showSubcategory("women");
-});
-
-accessories.addEventListener("change", function() {
-    showSubcategory("accessories");
-});
-
-
