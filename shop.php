@@ -152,7 +152,7 @@ $stmt_total->close();
                             <?php echo substr($row['product_name'], 0, 20) . (strlen($row['product_name']) > 20 ? '...' : ''); ?>
                         </h5>
                         <h4 class="p-price">$<?php echo $row['product_price'] ?></h4>
-                        <button class="buy-btn">Buy Now</button>
+                        <button class="shop-buy-btn">Buy Now</button>
                     </a>
                 <?php } ?>
             </div>
