@@ -7,9 +7,9 @@
         <div class="footer-one col-lg-3 col-md-6 col-sm-12">
             <h5 class="pb-3">Featured</h5>
             <ul class="text-uppercase">
-                <li><a href="#">Men</a></li>
-                <li><a href="#">women</a></li>
-                <li><a href="#">Accessory</a></li>
+                <li><a href="shop.php?category=Men">Men</a></li>
+                <li><a href="shop.php?category=Women">women</a></li>
+                <li><a href="shop.php?category=Accessory">Accessory</a></li>
             </ul>
         </div>
         <div class="footer-one col-lg-3 col-md-6 col-sm-12">
@@ -60,5 +60,3 @@
         </div>
     </div>
 </footer>
-
-
