@@ -634,7 +634,15 @@ th:last-child {
 }
 
 .pagination .page-item a:hover {
-    background-color: #222222 !important;
+    background-color: #fb774b !important;
+    color: #fff;
+}
+.pagination .page-item a.activenav {
+    background-color: #fb774b !important;
+    color: #fff;
+}
+.pagination .page-item a.activenav {
+    background-color: #fb774b !important;
     color: #fff;
 }
 

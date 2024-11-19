@@ -2,7 +2,7 @@
 include('server/connection.php');
 
 $products = null;
-$limit = 8;
+$limit = 4;
 $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $page = max($page, 1);
 $offset = ($page - 1) * $limit;
@@ -66,18 +66,6 @@ $stmt_total->close();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<style>
-    .product {
-        cursor: pointer;
-        margin-bottom: 2rem;
-        text-decoration: none !important;
-    }
-
-    .pagination .page-item a.activenav {
-        background-color: #222222 !important;
-        color: #fff;
-    }
-</style>
 
 <body>
 
