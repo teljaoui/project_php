@@ -102,24 +102,26 @@ $stmt_total->close();
                     <form action="shop.php" method="post">
                         <div class="container-fluid">
                             <div class="form-check py-1">
-                                <input type="radio" class="form-check-input" name="category" value="Men" id="form-men">
-                                <label for="" class="form-check-label">Men</label>
+                                <input type="radio" class="form-check-input" name="category" value="Men" id="form-men"
+                                    <?php echo ($category == "Men") ? "checked" : ""; ?> />
+                                <label for="form-men" class="form-check-label">Men</label>
                             </div>
                             <div class="form-check py-1">
                                 <input type="radio" class="form-check-input" name="category" value="Women"
-                                    id="form-women">
-                                <label for="" class="form-check-label">Women</label>
+                                    id="form-women" <?php echo ($category == "Women") ? "checked" : ""; ?> />
+                                <label for="form-women" class="form-check-label">Women</label>
                             </div>
                             <div class="form-check py-1">
                                 <input type="radio" class="form-check-input" name="category" value="Accessory"
-                                    id="form-accessories">
-                                <label for="" class="form-check-label">Accessories</label>
+                                    id="form-accessories" <?php echo ($category == "Accessory") ? "checked" : ""; ?> />
+                                <label for="form-accessories" class="form-check-label">Accessories</label>
                             </div>
                         </div>
                         <div class="form-group my-3 mx-3">
                             <input type="submit" value="Search" name="search_category" class="btn btn-primary">
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -144,39 +146,37 @@ $stmt_total->close();
                     </a>
                 <?php } ?>
             </div>
-            <div class="col-12 d-flex justify-content-center text-center">
-                <div class="col-12 d-flex justify-content-center text-center">
-                    <nav aria-label="Page navigation example" class="paginate">
-                        <?php
-                        $pages_per_group = 4;
-                        $current_group = ceil($page / $pages_per_group);
-                        $start_page = ($current_group - 1) * $pages_per_group + 1;
-                        $end_page = min($start_page + $pages_per_group - 1, $total_pages);
-                        $show_next_page = $end_page < $total_pages;
-                        if ($show_next_page) {
-                            $end_page += 1;
-                        }
-                        ?>
-                        <ul class="pagination">
-                            <li class="page-item <?php if ($page <= 1)
-                                echo 'disabled'; ?>">
-                                <a class="page-link" href="?page=<?php echo $page - 1; ?>">Previous</a>
-                            </li>
+            <div class="col-12 d-flex justify-content-center text-center mt-5">
+                <nav aria-label="Page navigation example" class="paginate">
+                    <?php
+                    $pages_per_group = 4;
+                    $current_group = ceil($page / $pages_per_group);
+                    $start_page = ($current_group - 1) * $pages_per_group + 1;
+                    $end_page = min($start_page + $pages_per_group - 1, $total_pages);
+                    $show_next_page = $end_page < $total_pages;
+                    if ($show_next_page) {
+                        $end_page += 1;
+                    }
+                    ?>
+                    <ul class="pagination">
+                        <li class="page-item <?php if ($page <= 1)
+                            echo 'disabled'; ?>">
+                            <a class="page-link" href="?page=<?php echo $page - 1; ?>">Previous</a>
+                        </li>
 
-                            <?php for ($i = $start_page; $i <= $end_page; $i++): ?>
-                                <li class="page-item">
-                                    <a class="page-link  <?php echo ($i == $page) ? 'activenav' : ''; ?>"
-                                        href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                </li>
-                            <?php endfor; ?>
-
-                            <li class="page-item <?php if ($page >= $total_pages)
-                                echo 'disabled'; ?>">
-                                <a class="page-link" href="?page=<?php echo $page + 1; ?>">Next</a>
+                        <?php for ($i = $start_page; $i <= $end_page; $i++): ?>
+                            <li class="page-item">
+                                <a class="page-link  <?php echo ($i == $page) ? 'activenav' : ''; ?>"
+                                    href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
                             </li>
-                        </ul>
-                    </nav>
-                </div>
+                        <?php endfor; ?>
+
+                        <li class="page-item <?php if ($page >= $total_pages)
+                            echo 'disabled'; ?>">
+                            <a class="page-link" href="?page=<?php echo $page + 1; ?>">Next</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </section>

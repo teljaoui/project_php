@@ -18,7 +18,7 @@ if (isset($_GET['product_id'])) {
         $featured = $stmt->get_result();
     } else {
         echo "Produit non trouvé.";
-        exit; // Arrête l'exécution du script si aucun produit n'est trouvé
+        exit;
     }
 } else {
     header('location:index.php');
@@ -75,14 +75,16 @@ if (isset($_GET['product_id'])) {
             <div class="col-lg-6 col-md-12 col-12 mx-4">
                 <h6><?php echo $product['product_category'] ?></h6>
                 <h4 class="py-4"><?php echo $product['product_name']; ?></h4>
-                <h3><?php echo $product['product_price']; ?>$</h3>
+                <h3>$<?php echo $product['product_price']; ?></h3>
                 <form action="cart.php" method="POST">
                     <input type="hidden" name="product_id" value="<?php echo $product['product_id'] ?>">
                     <input type="hidden" name="product_image" value="<?php echo $product['product_image']; ?>">
                     <input type="hidden" name="product_name" value="<?php echo $product['product_name']; ?>">
                     <input type="hidden" name="product_price" value="<?php echo $product['product_price']; ?>">
-                    <input type="number" name="product_quantity" value="1" min="1">
-                    <button type="submit" name="add_to_cart" class="buy-btn">Add To cart</button>
+                    <input type="number" name="product_quantity"
+                        value="<?php echo isset($_SESSION['cart'][$product['product_id']]['product_quantity']) ? $_SESSION['cart'][$product['product_id']]['product_quantity'] : 1; ?>"
+                        min="1">
+                    <button type="submit" name="add_to_cart" class="buy-btn"><?php echo isset($_SESSION['cart'][$product['product_id']]) ? "Edit cart" : "Add To cart" ?></button>
                 </form>
                 <h5 class="mt-5 mb-5">Product details</h5>
                 <span><?php echo $product['product_description']; ?></span>

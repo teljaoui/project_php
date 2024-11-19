@@ -15,10 +15,10 @@ if (isset($_POST['add_to_cart'])) {
                 'product_quantity' => $_POST['product_quantity']
             );
             $_SESSION['cart'][$_POST['product_id']] = $product_array;
-            $message = "Product added to carte successfully ";
+            $message = "Product added to carte successfully";
         } else if (in_array($_POST['product_id'], $product_array_ids)) {
             $_SESSION['cart'][$_POST['product_id']]['product_quantity'] = $_POST['product_quantity'];
-            $message = "";
+            $message = "Product Quantity Update successfully";
         } else {
             $message = "";
         }
