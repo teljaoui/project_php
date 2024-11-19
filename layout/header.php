@@ -63,7 +63,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         href="contact.php">Contact Us</a>
                 </li>
                 <li class="nav-item">
-                    <i class="fa-solid fa-magnifying-glass focus" id="search-icon"></i>
+                    <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
                     <a href="cart.php" class="text-dark  <?= $currentPage == 'cart.php' ? 'active' : '' ?>">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span class="header-cart"><?php echo $total; ?></span>
