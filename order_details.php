@@ -20,13 +20,29 @@ if (isset($_POST['order_details'])) {
 
     $result = $stmt->get_result();
     if ($result->num_rows != 0) {
-        $order_item = $result;
+        $order_items = $result->fetch_all(MYSQLI_ASSOC);
+        $total_order_price = calculateTotalOrder($order_items);
+
     } else {
         header("location:account.php?error=Order item not found");
     }
+
 } else {
     header("location:account.php");
-} ?>
+}
+
+function calculateTotalOrder($order_items)
+{
+    $total = 0;
+    foreach ($order_items as $row) {
+        $product_price = $row['product_price'];
+        $product_quantity = $row['product_quantity'];
+        $total += $product_price * $product_quantity;
+    }
+    return $total;
+}
+
+?>
 
 
 
@@ -60,22 +76,23 @@ if (isset($_POST['order_details'])) {
                 <th>Quantity</th>
                 <th>Subtotal</th>
             </tr>
-            <?php while ($row = $order_item->fetch_assoc()) { ?>
+            <?php foreach ($order_items as $item) { ?>
                 <tr>
                     <td>
                         <div class="product-info">
-                            <img src="assets/imgs/<?php echo $row['product_image']; ?>" alt="" srcset="">
-                            <p><?php echo $row['product_name']; ?></p>
+                            <img src="assets/imgs/<?php echo $item['product_image']; ?>" alt="" srcset="">
+                            <p><?php echo substr($item['product_name'], 0, 20) . (strlen($item['product_name']) > 20 ? '...' : ''); ?>
+                            </p>
                         </div>
                     </td>
                     <td>
-                        $<?php echo $row['product_price']; ?>
+                        $<?php echo $item['product_price']; ?>
                     </td>
                     <td>
-                        <?php echo $row['product_quantity']; ?>
+                        <?php echo $item['product_quantity']; ?>
                     </td>
                     <td>
-                        $<?php echo $row['product_price'] * $row['product_quantity']; ?>
+                        $<?php echo $item['product_price'] * $item['product_quantity']; ?>
                     </td>
 
                 </tr>
@@ -84,7 +101,9 @@ if (isset($_POST['order_details'])) {
         <?php if ($order_status == "not_paid"): ?>
             <div class="container">
                 <form action="payment.php" method="post" class="float-end">
-                    <input type="submit" class="btn btn-primary" value="Pay Now">
+                    <input type="hidden" name="total_order_price" value="<?php echo $total_order_price; ?>">
+                    <input type="hidden" name="order_status" value="<?php echo $order_status ;  ?>">
+                    <input type="submit" name="order_pay_btn" class="btn btn-primary" value="Pay Now">
                 </form>
             </div>
         <?php endif; ?>

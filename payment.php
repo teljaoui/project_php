@@ -4,7 +4,14 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+if (!(isset($_SESSION['total']))) {
+    header('location:index.php');
+}
 
+if(isset($_POST['order_pay_btn'])){
+    $_POST['order_status'];
+    $_SESSION['total'] = $_POST['total_order_price'];
+}
 
 ?>
 
@@ -36,9 +43,18 @@ if (session_status() === PHP_SESSION_NONE) {
             <hr>
         </div>
         <div class="container mx-auto text-center">
-            <div class="alert alert-success w-50 mx-auto"><?php echo $_GET['order_status'] ?></div>
-            <p>Total Payment: $<?php echo $_SESSION['total'] ?></p>
-            <input type="submit" class="btn btn-primary" value="Pay Now">
+            <?php if (isset($_GET['order_status'])) { ?>
+                <div class="alert alert-success w-50 mx-auto">
+                   <?php echo $_GET['order_status']; ?> 
+                </div>
+            <?php } ?>
+
+            <p>Total Payment: $<?php if (isset($_SESSION['total'])) {
+                echo $_SESSION['total'];
+            } ?></p>
+            <?php if (isset($_SESSION['total'])) { ?>
+                <input type="submit" class="btn btn-primary" value="Pay Now">
+            <?php } ?>
         </div>
 
     </section>

@@ -52,8 +52,6 @@ $stmt_total->close();
 ?>
 
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -101,6 +99,7 @@ $stmt_total->close();
                     <hr class="mx-0 mb-3">
                     <form action="shop.php" method="post">
                         <div class="container-fluid">
+                            <h5 class="pt-4">Category</h5>
                             <div class="form-check py-1">
                                 <input type="radio" class="form-check-input" name="category" value="Men" id="form-men"
                                     <?php echo ($category == "Men") ? "checked" : ""; ?> />
@@ -117,7 +116,7 @@ $stmt_total->close();
                                 <label for="form-accessories" class="form-check-label">Accessories</label>
                             </div>
                         </div>
-                        <div class="form-group my-3 mx-3">
+                        <div class="form-group my-2">
                             <input type="submit" value="Search" name="search_category" class="btn btn-primary">
                         </div>
                     </form>
