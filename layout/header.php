@@ -65,7 +65,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         <span class="header-cart"><?php echo $total; ?></span>
                     </a>
                     <a href="login.php"
-                        class="text-dark <?= $currentPage == 'login.php' ? 'active' : ($currentPage == 'register.php' ? 'active' : '') ?>">
+                        class="text-dark <?= $currentPage == 'login.php' ? 'active' : (($currentPage == 'register.php' ? 'active' : ($currentPage == 'account.php' ? 'active' : '')))?>">
                         <i class="fa-solid fa-user"></i>
                     </a>
                 </li>
