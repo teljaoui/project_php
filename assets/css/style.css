@@ -50,7 +50,8 @@ h6 {
 }
 
 
-button , .button {
+button,
+.button {
     font-size: 0.8rem;
     font-weight: 900;
     outline: none;
@@ -63,7 +64,8 @@ button , .button {
     text-decoration: none;
 }
 
-button:hover , .button:hover {
+button:hover,
+.button:hover {
     background-color: #fb774b;
     color: aliceblue;
 }
@@ -276,7 +278,8 @@ button:hover , .button:hover {
     transition: 0.3s ease;
 }
 
-.product:hover img , .product:hover .shop-buy-btn {
+.product:hover img,
+.product:hover .shop-buy-btn {
     opacity: 0.7;
 }
 
@@ -291,6 +294,7 @@ button:hover , .button:hover {
     transform: translateY(0px);
     opacity: 1;
 }
+
 .shop-buy-btn {
     font-size: 0.8rem;
     font-weight: 900;
@@ -345,7 +349,7 @@ hr {
     background-color: #1d1d1d !important;
 }
 
-#banner span{
+#banner span {
     color: #fb774b !important;
 }
 
@@ -559,7 +563,7 @@ th:last-child {
     background-color: #fb774b;
 }
 
-.show-bar {
+.show-bar ,  .show-price  {
     position: absolute;
     top: 20%;
     left: -100%;
@@ -568,6 +572,8 @@ th:last-child {
     margin-left: 20px;
     transition: 0.5s ease-in-out;
 }
+
+
 
 .aside-bar {
     background-color: #fff;
@@ -637,10 +643,12 @@ th:last-child {
     background-color: #fb774b !important;
     color: #fff;
 }
+
 .pagination .page-item a.activenav {
     background-color: #fb774b !important;
     color: #fff;
 }
+
 .pagination .page-item a.activenav {
     background-color: #fb774b !important;
     color: #fff;
@@ -711,7 +719,7 @@ th:last-child {
     color: #222222;
 }
 
-.order-details{
+.order-details {
     color: #fff;
     background-color: #fb774b;
     transition: 0.5s ease;
@@ -719,9 +727,10 @@ th:last-child {
     outline: none;
     margin-right: 0px !important;
 }
-.order-details:hover{
-background-color: #222222;
-color: #fff;
+
+.order-details:hover {
+    background-color: #222222;
+    color: #fff;
 }
 
 
@@ -833,7 +842,7 @@ color: #fff;
         background-position-x: 40%;
     }
 
-    .show-bar {
+    .show-bar , .show-price {
         width: 90%;
         top: 20%;
     }
