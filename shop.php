@@ -1,5 +1,6 @@
 <?php
 include('server/connection.php');
+session_start();
 
 $products = null;
 $limit = 4;
@@ -7,17 +8,16 @@ $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $page = max($page, 1);
 $offset = ($page - 1) * $limit;
 
-$category = null;
 if (isset($_GET['category'])) {
-    $category = htmlspecialchars($_GET['category']);
+    $_SESSION['category'] = htmlspecialchars($_GET['category']);
 }
 if (isset($_POST['search_category'])) {
-    $category = $_POST['category'];
+    $_SESSION['category'] = $_POST['category'];
 }
 
-if ($category) {
+if ($_SESSION['category']) {
     $stmt = $conn->prepare('SELECT * FROM products WHERE product_category = ? LIMIT ? OFFSET ?');
-    $stmt->bind_param("sii", $category, $limit, $offset);
+    $stmt->bind_param("sii", $_SESSION['category'], $limit, $offset);
 } else {
     $stmt = $conn->prepare("SELECT * FROM products  LIMIT ?  OFFSET ?");
     $stmt->bind_param("ii", $limit, $offset);
@@ -28,9 +28,9 @@ if (!$stmt->execute()) {
 }
 $products = $stmt->get_result();
 
-if ($category) {
+if ($_SESSION['category']) {
     $stmt_total = $conn->prepare("SELECT COUNT(*) AS total FROM products WHERE product_category = ?");
-    $stmt_total->bind_param("s", $category);
+    $stmt_total->bind_param("s", $_SESSION['category']);
 } else {
     $stmt_total = $conn->prepare("SELECT COUNT(*) AS total FROM products");
 }
@@ -48,18 +48,18 @@ if ($page > $total_pages)
     $page = $total_pages;
 
 if (isset($_POST['search_price'])) {
-    $price = $_POST['price'];
+    $_SESSION['price'] = $_POST['price'];
 
-    if ($category && $price == 'high') {
+    if ($_SESSION['category'] && $_SESSION['price'] == 'high') {
         $stmt = $conn->prepare('SELECT * FROM products WHERE product_category = ? ORDER BY product_price DESC LIMIT ? OFFSET ?');
-        $stmt->bind_param("sii", $category, $limit, $offset);
-    } else if ($category && $price == "low") {
+        $stmt->bind_param("sii", $_SESSION['category'], $limit, $offset);
+    } else if ($_SESSION['category'] && $_SESSION['price'] == "low") {
         $stmt = $conn->prepare('SELECT * FROM products WHERE product_category = ? ORDER BY product_price ASC LIMIT ? OFFSET ?');
-        $stmt->bind_param("sii", $category, $limit, $offset);
-    } else if ($price == 'high') {
+        $stmt->bind_param("sii", $_SESSION['category'], $limit, $offset);
+    } else if ($_SESSION['price'] == 'high') {
         $stmt = $conn->prepare('SELECT * FROM products ORDER BY product_price DESC LIMIT ? OFFSET ?');
         $stmt->bind_param("ii", $limit, $offset);
-    } else if ($price == 'low') {
+    } else if ($_SESSION['price'] == 'low') {
         $stmt = $conn->prepare('SELECT * FROM products ORDER BY product_price ASC LIMIT ? OFFSET ?');
         $stmt->bind_param("ii", $limit, $offset);
     } else {
@@ -68,6 +68,11 @@ if (isset($_POST['search_price'])) {
     }
     $stmt->execute();
     $products = $stmt->get_result();
+    if (!$stmt->execute()) {
+        echo "<p>Failed to fetch products. Please try again later.</p>";
+        exit;
+    }
+
 }
 
 
@@ -137,17 +142,17 @@ $stmt_total->close();
                             <h5 class="pt-4">Category</h5>
                             <div class="form-check py-1">
                                 <input type="radio" class="form-check-input" name="category" value="Men" id="form-men"
-                                    <?php echo ($category == "Men") ? "checked" : ""; ?> />
+                                    <?php echo ($_SESSION['category'] == "Men") ? "checked" : ""; ?> />
                                 <label for="form-men" class="form-check-label">Men</label>
                             </div>
                             <div class="form-check py-1">
                                 <input type="radio" class="form-check-input" name="category" value="Women"
-                                    id="form-women" <?php echo ($category == "Women") ? "checked" : ""; ?> />
+                                    id="form-women" <?php echo ($_SESSION['category'] == "Women") ? "checked" : ""; ?> />
                                 <label for="form-women" class="form-check-label">Women</label>
                             </div>
                             <div class="form-check py-1">
                                 <input type="radio" class="form-check-input" name="category" value="Accessory"
-                                    id="form-accessories" <?php echo ($category == "Accessory") ? "checked" : ""; ?> />
+                                    id="form-accessories" <?php echo ($_SESSION['category'] == "Accessory") ? "checked" : ""; ?> />
                                 <label for="form-accessories" class="form-check-label">Accessories</label>
                             </div>
                         </div>
@@ -170,14 +175,14 @@ $stmt_total->close();
                             <h5 class="pt-4">Price</h5>
                             <div class="form-check py-1">
                                 <input type="radio" class="form-check-input" name="price" value="low" id="form-low"
-                                    <?php if (isset($price))
-                                        echo ($price == "low") ? "checked" : "" ?> />
+                                    <?php if (isset($_SESSION['price']))
+                                        echo ($_SESSION['price'] == "low") ? "checked" : "" ?> />
                                     <label for="form-low" class="form-check-label">Low To High</label>
                                 </div>
                                 <div class="form-check py-1">
                                     <input type="radio" class="form-check-input" name="price" value="high" id="form-high"
-                                    <?php if (isset($price))
-                                        echo ($price == "high") ? "checked" : "" ?> />
+                                    <?php if (isset($_SESSION['price']))
+                                        echo ($_SESSION['price'] == "high") ? "checked" : "" ?> />
                                     <label for="form-high" class="form-check-label">High To Low</label>
                                 </div>
                             </div>
@@ -226,20 +231,20 @@ $stmt_total->close();
                         <li class="page-item <?php if ($page <= 1)
                             echo 'disabled'; ?>">
                             <a class="page-link"
-                                href="?page=<?php echo $page - 1; ?><?php echo $category ? '&category=' . urlencode($category) : ''; ?>">Previous</a>
+                                href="?page=<?php echo $page - 1; ?><?php echo $_SESSION['category'] ? '&category=' . urlencode($_SESSION['category']) : ''; ?>">Previous</a>
                         </li>
 
                         <?php for ($i = $start_page; $i <= $end_page; $i++): ?>
                             <li class="page-item">
                                 <a class="page-link <?php echo ($i == $page) ? 'activenav' : ''; ?>"
-                                    href="?page=<?php echo $i; ?><?php echo $category ? '&category=' . urlencode($category) : ''; ?>"><?php echo $i; ?></a>
+                                    href="?page=<?php echo $i; ?><?php echo $_SESSION['category'] ? '&category=' . urlencode($_SESSION['category']) : ''; ?>"><?php echo $i; ?></a>
                             </li>
                         <?php endfor; ?>
 
                         <li class="page-item <?php if ($page >= $total_pages)
                             echo 'disabled'; ?>">
                             <a class="page-link"
-                                href="?page=<?php echo $page + 1; ?><?php echo $category ? '&category=' . urlencode($category) : ''; ?>">Next</a>
+                                href="?page=<?php echo $page + 1; ?><?php echo $_SESSION['category'] ? '&category=' . urlencode($_SESSION['category']) : ''; ?>">Next</a>
                         </li>
                     </ul>
                 </nav>
@@ -254,18 +259,7 @@ $stmt_total->close();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-    <script>
 
-        function showprice() {
-            document.querySelector('.show-price').style.left = 0;
-            closebar();
-        }
-
-        function closeprice() {
-            document.querySelector('.show-price').style.left = '-100%';
-        }
-
-    </script>
 </body>
 
 </html>
