@@ -21,7 +21,6 @@ for (let i = 0; i < 4; i++) {
 function showaside() {
     var asidebar = document.getElementsByClassName('show-bar')[0];
     asidebar.style.left = 0
-    closeprice();
 }
 
 
@@ -30,12 +29,5 @@ function closebar() {
     asidebar.style.left = '-100%'
 }
 
-function showprice() {
-    document.querySelector('.show-price').style.left = 0;
-    closebar();
-}
 
-function closeprice() {
-    document.querySelector('.show-price').style.left = '-100%';
-}
 
