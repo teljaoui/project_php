@@ -157,38 +157,36 @@ $stmt_total->close();
                 <?php } ?>
             </div>
             <div class="col-12 d-flex justify-content-center text-center">
-                <div class="col-12 d-flex justify-content-center text-center">
-                    <nav aria-label="Page navigation example" class="paginate">
-                        <?php
-                        $pages_per_group = 4;
-                        $current_group = ceil($page / $pages_per_group);
-                        $start_page = ($current_group - 1) * $pages_per_group + 1;
-                        $end_page = min($start_page + $pages_per_group - 1, $total_pages);
-                        $show_next_page = $end_page < $total_pages;
-                        if ($show_next_page) {
-                            $end_page += 1;
-                        }
-                        ?>
-                        <ul class="pagination">
-                            <li class="page-item <?php if ($page <= 1)
-                                echo 'disabled'; ?>">
-                                <a class="page-link" href="?page=<?php echo $page - 1; ?>">Previous</a>
-                            </li>
+                <nav aria-label="Page navigation example" class="paginate">
+                    <?php
+                    $pages_per_group = 4;
+                    $current_group = ceil($page / $pages_per_group);
+                    $start_page = ($current_group - 1) * $pages_per_group + 1;
+                    $end_page = min($start_page + $pages_per_group - 1, $total_pages);
+                    $show_next_page = $end_page < $total_pages;
+                    if ($show_next_page) {
+                        $end_page += 1;
+                    }
+                    ?>
+                    <ul class="pagination">
+                        <li class="page-item <?php if ($page <= 1)
+                            echo 'disabled'; ?>">
+                            <a class="page-link" href="?page=<?php echo $page - 1; ?>">Previous</a>
+                        </li>
 
-                            <?php for ($i = $start_page; $i <= $end_page; $i++): ?>
-                                <li class="page-item">
-                                    <a class="page-link  <?php echo ($i == $page) ? 'activenav' : ''; ?>"
-                                        href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                </li>
-                            <?php endfor; ?>
-
-                            <li class="page-item <?php if ($page >= $total_pages)
-                                echo 'disabled'; ?>">
-                                <a class="page-link" href="?page=<?php echo $page + 1; ?>">Next</a>
+                        <?php for ($i = $start_page; $i <= $end_page; $i++): ?>
+                            <li class="page-item">
+                                <a class="page-link  <?php echo ($i == $page) ? 'activenav' : ''; ?>"
+                                    href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
                             </li>
-                        </ul>
-                    </nav>
-                </div>
+                        <?php endfor; ?>
+
+                        <li class="page-item <?php if ($page >= $total_pages)
+                            echo 'disabled'; ?>">
+                            <a class="page-link" href="?page=<?php echo $page + 1; ?>">Next</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </section>

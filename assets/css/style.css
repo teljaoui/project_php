@@ -854,7 +854,7 @@ th:last-child {
     #login-form input,
     #register-form input,
     #account-form input {
-        width: 100%;
+        width: 90%;
     }
 
     #login-form,

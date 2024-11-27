@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400&family=Clicker+Script&family=Dancing+Script:wght@600&family=Lora&family=Nunito:wght@200;300;400;600;700&family=Playfair+Display:ital@1&family=Poppins:wght@100;200;300;500;600&family=Roboto+Slab&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Zeyada&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.nav-buttons {
+    margin-left: 50% !important;
+}
+
+.navbar-toggler:hover {
+    background-color: coral;
+}
+
+body {
+    font-family: 'Poppings', sans-serif;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 500;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+h4 {
+    font-size: 1.2rem;
+    font-weight: 200;
+}
+
+h5 {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+h6 {
+    font-size: 0.9rem;
+    color: #D8D8D8;
+}
+
+hr {
+    width: 30px;
+    height: 3px !important;
+    opacity: 1 !important;
+    background-color: #fb774b;
+    margin-inline: auto;
+    border-radius: 5px;
+}
+
+.button {
+    font-size: 0.8rem;
+    font-weight: 900;
+    outline: none;
+    border: none;
+    background-color: #1d1d1d;
+    color: aliceblue;
+    padding: 13px 30px;
+    text-transform: uppercase;
+    transition: 0.5s ease;
+    text-decoration: none;
+}
+
+.button:hover {
+    background-color: #fb774b;
+    color: aliceblue;
+}
+
+
+.acidebar {
+    width: 20%;
+    box-shadow: 0 0px 50px rgba(0, 0, 0, .1);
+    padding-top: 30px;
+    padding-inline: 5px;
+    background-color: #fff;
+    height: 100vh;
+}
+
+.acidebar .logo {
+    text-decoration: none;
+    font-family: "Alexandria";
+    padding: 0 5px;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: coral;
+}
+
+.acidebar .logo img {
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    margin: 0;
+}
+
+.acidebar ul li {
+    list-style: none;
+    padding-bottom: 20px;
+    font-size: 1.1rem;
+
+}
+
+.acidebar ul li a {
+    text-decoration: none;
+    font-weight: 500;
+    color: #222222;
+    transition: 0.5s ease-in-out;
+}
+
+.acidebar ul li a span {
+    padding-left: 5px;
+}
+
+.acidebar ul li a:hover {
+    color: coral;
+}
+
+.acidebar ul li a.active {
+    color: coral;
+}
+
+section .content {
+    width: 80%;
+}
+
+section .content .content-item{
+    width: 90%;
+    margin-inline: auto;
+    background-color: #fff;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.102);
+    padding: 25px !important;
+}
+
+input , textarea , select{
+    margin: 10px auto;
+}
+input:focus , textarea:focus , select:focus{
+    outline: none !important;
+    box-shadow: none !important;
+    box-sizing: none !important;
+    border: 1px solid coral !important;
+}
+input:focus , textarea:focus , select option{
+color: #222222;
+}
+
+
+
+.pagination .page-item a {
+    background-color: #fff !important;
+    color: #fb774b;
+    font-size: 1.2rem;
+    transition: 0.5s all;
+}
+
+.pagination .page-item a:focus {
+    box-shadow: none;
+}
+
+.pagination .page-item a:hover {
+    background-color: #fb774b !important;
+    color: #fff;
+}
+
+.pagination .page-item a.activenav {
+    background-color: #fb774b !important;
+    color: #fff;
+}
+
+.pagination .page-item a.activenav {
+    background-color: #fb774b !important;
+    color: #fff;
+}
