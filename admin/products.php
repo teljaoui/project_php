@@ -128,7 +128,7 @@ $stmt->close();
                                     <td>$ <?php echo $product['product_price']; ?></td>
                                     <td><?php echo $product['product_category']; ?></td>
                                     <td>
-                                        <a href="" class="btn btn-primary">Edit</a>
+                                        <a href="updateproduct?product_id=<?php echo $product['product_id']?>" class="btn btn-primary">Edit</a>
                                     </td>
                                     <td>
                                         <form action="products.php" method="post">

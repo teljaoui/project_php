@@ -191,6 +191,10 @@ if (isset($_POST['confirmed'])) {
                         <div>
                             <ul>
                                 <li>
+                                    <span>User Id: </span>
+                                    <p><?php echo $order_info['user_id']; ?></p>
+                                </li>
+                                <li>
                                     <span>Name: </span>
                                     <p><?php echo $order_info['user_name']; ?></p>
                                 </li>
@@ -215,7 +219,7 @@ if (isset($_POST['confirmed'])) {
 
                                 <li>
                                     <span>Total: </span>
-                                    <p class="text-success">$<?php echo $order_info['order_cost'] ?></p>
+                                    <p class="text-success fw-bold">$<?php echo $order_info['order_cost'] ?></p>
                                 </li>
                             </ul>
                         </div>
