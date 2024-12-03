@@ -2,8 +2,8 @@
 
 /*
 
-not_paid
-paid
+untreated
+confirmed
 shipped
 delivered
 

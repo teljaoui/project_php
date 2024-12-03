@@ -132,7 +132,7 @@ section .content {
     width: 80%;
 }
 
-section .content .content-item{
+section .content .content-item {
     width: 90%;
     margin-inline: auto;
     background-color: #fff;
@@ -140,20 +140,51 @@ section .content .content-item{
     padding: 25px !important;
 }
 
-input , textarea , select{
+.userinfo .usercontent div {
+    display: flex;
+}
+
+.userinfo .usercontent ul {
+    width: 49%;
+}
+
+.userinfo .usercontent li {
+    list-style: none;
+    display: flex;
+}
+
+.userinfo .usercontent span {
+    font-weight: 600;
+    font-size: 17px;
+    color: #232f3e;
+    margin-right: 8px;
+}
+
+.userinfo .usercontent p {
+    color: #777777;
+
+}
+
+input,
+textarea,
+select {
     margin: 10px auto;
 }
-input:focus , textarea:focus , select:focus{
+
+input:focus,
+textarea:focus,
+select:focus {
     outline: none !important;
     box-shadow: none !important;
     box-sizing: none !important;
     border: 1px solid coral !important;
 }
-input:focus , textarea:focus , select option{
-color: #222222;
+
+input:focus,
+textarea:focus,
+select option {
+    color: #222222;
 }
-
-
 
 .pagination .page-item a {
     background-color: #fff !important;
@@ -179,4 +210,50 @@ color: #222222;
 .pagination .page-item a.activenav {
     background-color: #fb774b !important;
     color: #fff;
+}
+
+.status h4{
+    background-color: blue;
+    color: #fff;
+    right: 74px;
+    margin: -24px !important;
+    padding: 5px 20px ;
+}
+
+.gap-15 {
+    gap: 15px;
+}
+
+.confirmed {
+    background-color: rgb(27, 40, 80);
+}
+
+.confirmed:hover {
+    background-color: rgb(34, 55, 117);
+
+}
+
+.shipped {
+    background-color: #ff9f43;
+}
+
+.shipped:hover {
+    background-color: #e48f41;
+
+}
+
+.delivered {
+    background-color: green;
+}
+
+.delivered:hover {
+    background-color: rgb(36, 139, 36);
+}
+
+.delete {
+    background-color: red;
+}
+
+.delete:hover {
+    background-color: rgb(225, 36, 36);
 }

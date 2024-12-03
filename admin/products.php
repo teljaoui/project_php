@@ -5,10 +5,22 @@ include("server/connection.php");
 $products = [];
 $limit = 4;
 
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $page = max($page, 1);
 $offset = ($page - 1) * $limit;
 
+if (isset($_POST['deleteproduct'])) {
+    $product_id = $_POST['product_id'];
+    if ($product_id) {
+        $stmt = $conn->prepare("DELETE FROM products where product_id = ?");
+        $stmt->bind_param("i", $product_id);
+        $stmt->execute();
+        header("Location: products.php?message=Product Delete successfully");
+    } else {
+        header("location : products.php?error=Product Not Found");
+    }
+
+}
 if (isset($_POST['searchid'])) {
     $product_id = filter_input(INPUT_POST, 'product_id', FILTER_VALIDATE_INT);
 
@@ -119,7 +131,12 @@ $stmt->close();
                                         <a href="" class="btn btn-primary">Edit</a>
                                     </td>
                                     <td>
-                                        <button class="btn btn-danger text-lowercase">Delete</button>
+                                        <form action="products.php" method="post">
+                                            <input type="hidden" name="product_id"
+                                                value="<?php echo $product['product_id']; ?>">
+                                            <button type="submit" name="deleteproduct"
+                                                class="btn btn-danger text-lowercase delete">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -166,6 +183,16 @@ $stmt->close();
 
 
 
+    <script>
+        document.querySelectorAll(".delete").forEach(function (button) {
+            button.addEventListener("click", function (event) {
+                if (!confirm("Are you sure you want to delete?")) {
+                    event.preventDefault();
+                }
+            });
+        });
+
+    </script>
     <script src="../assets/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

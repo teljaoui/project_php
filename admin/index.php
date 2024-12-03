@@ -9,7 +9,20 @@ $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $page = max($page, 1);
 $offset = ($page - 1) * $limit;
 
-if (isset($_POST['searchorder'])) {
+if(isset($_POST['deleteorder'])){
+    $order_id = $_POST['order_id'];
+    if($order_id){
+        $stmt= $conn->prepare("DELETE FROM orders where order_id = ?");
+        $stmt->bind_param( "i", $order_id);
+        $stmt->execute();
+        header("Location: index.php?message=Order Delete successfully");
+    }else{
+        header("location : index.php?error=Order Not Found");
+    }
+
+
+}
+else if (isset($_POST['searchorder'])) {
 
     $order_id = filter_input(INPUT_POST, 'order_id', FILTER_VALIDATE_INT);
 
@@ -126,10 +139,13 @@ $stmt->close();
                                     <td><?php echo $order['user_phone'] ?></td>
                                     <td><?php echo $order['user_city'] ?></td>
                                     <td>
-                                        <a href="" class="btn btn-primary">DETAILS</a>
+                                        <a href="orderdetails.php?order_id=<?php echo $order['order_id']?>" class="btn btn-primary">Details</a>
                                     </td>
                                     <td>
-                                        <button class="btn btn-danger">Delete</button>
+                                        <form action="index.php" method="post">
+                                            <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
+                                        <button type="submit" name="deleteorder" class="btn btn-danger delete">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -174,7 +190,16 @@ $stmt->close();
 
 
 
+    <script>
+        document.querySelectorAll(".delete").forEach(function (button) {
+            button.addEventListener("click", function (event) {
+                if (!confirm("Are you sure you want to delete?")) {
+                    event.preventDefault();
+                }
+            });
+        });
 
+    </script>
 
     <script src="../assets/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
