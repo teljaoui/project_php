@@ -114,17 +114,17 @@ $stmt_total->close();
                     <form action="shop.php" method="post">
                         <div class="container-fluid">
                             <div class="form-check py-1">
-                                <input type="radio" class="form-check-input" name="category" value="Men" id="form-men">
+                                <input type="radio" class="form-check-input" name="category" value="Men" id="form-men" required>
                                 <label for="" class="form-check-label">Men</label>
                             </div>
                             <div class="form-check py-1">
                                 <input type="radio" class="form-check-input" name="category" value="Women"
-                                    id="form-women">
+                                    id="form-women" required>
                                 <label for="" class="form-check-label">Women</label>
                             </div>
                             <div class="form-check py-1">
                                 <input type="radio" class="form-check-input" name="category" value="Accessory"
-                                    id="form-accessories">
+                                    id="form-accessories" required>
                                 <label for="" class="form-check-label">Accessories</label>
                             </div>
                         </div>

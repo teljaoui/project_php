@@ -1,3 +1,56 @@
+<?php
+
+include("server/connection.php");
+
+$products = [];
+$limit = 4;
+
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = max($page, 1);
+$offset = ($page - 1) * $limit;
+
+if (isset($_POST['searchid'])) {
+    $product_id = filter_input(INPUT_POST, 'product_id', FILTER_VALIDATE_INT);
+
+    if ($product_id) {
+        $stmt = $conn->prepare("SELECT * FROM products WHERE product_id = ?");
+        $stmt->bind_param("i", $product_id);
+        $stmt->execute();
+        $products = $stmt->get_result();
+
+        if ($products->num_rows === 0) {
+            header("location: products.php?error=Product not found");
+            exit();
+        }
+    } else {
+        header("location: products.php?error=Invalid Product ID");
+        exit();
+    }
+
+    $total_pages = 1;
+
+} else {
+    $stmt = $conn->prepare("SELECT * FROM products LIMIT ? OFFSET ?");
+    $stmt->bind_param("ii", $limit, $offset);
+    $stmt->execute();
+    $products = $stmt->get_result();
+
+    $stmt_total = $conn->prepare("SELECT COUNT(*) AS total FROM products");
+    $stmt_total->execute();
+    $result_total = $stmt_total->get_result();
+    $total_row = $result_total->fetch_assoc();
+    $total_products = $total_row['total'];
+
+    $total_pages = ceil($total_products / $limit);
+
+    $stmt_total->close();
+}
+
+$stmt->close();
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,18 +68,27 @@
 
     <section class="d-flex">
         <div class="acidebar">
-        <?php include("acidebar.php") ?>
+            <?php include("acidebar.php") ?>
         </div>
         <div class="container content">
             <h2 class="mt-5 text-center">Products</h2>
             <hr>
             <div class="mx-5 d-flex justify-content-end">
-                <form action="" method="post" class="d-flex">
-                    <input type="text" class="form-control" id="product-name" name="name"
+                <form action="products.php" method="post" class="d-flex">
+                    <input type="number" class="form-control" id="product-name" name="product_id"
                         placeholder="Product ID" required>
-                        <input type="submit" value="Search" class="button">
+                    <input type="submit" value="Search" class="button" name="searchid">
                 </form>
             </div>
+            <?php if (isset($_GET['error'])): ?>
+                <div class="alert alert-danger mt-4 w-75 mx-auto mb-0">
+                    <?php echo $_GET['error']; ?>
+                </div>
+            <?php elseif (isset($_GET['message'])): ?>
+                <div class="alert alert-success mt-4 w-75 mx-auto mb-0">
+                    <?php echo $_GET['message']; ?>
+                </div>
+            <?php endif; ?>
             <div class="content-item my-3">
                 <div class="table-responsive dataview">
                     <table class="table datatable ">
@@ -42,86 +104,56 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <img src="../assets/imgs/featured.jpg" width="60" height="60" alt="">
-                                </td>
-                                <td>Sports Shoes</td>
-                                <td>$ 150.00</td>
-                                <td>Men</td>
-                                <td>
-                                    <a href="" class="btn btn-primary">Edit</a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger text-lowercase">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <img src="../assets/imgs/featured.jpg" width="60" height="60" alt="">
-                                </td>
-                                <td>Sports Shoes</td>
-                                <td>$ 150.00</td>
-                                <td>Men</td>
-                                <td>
-                                    <a href="" class="btn btn-primary">Edit</a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger text-lowercase">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <img src="../assets/imgs/featured.jpg" width="60" height="60" alt="">
-                                </td>
-                                <td>Sports Shoes</td>
-                                <td>$ 150.00</td>
-                                <td>Men</td>
-                                <td>
-                                    <a href="" class="btn btn-primary">Edit</a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger text-lowercase">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <img src="../assets/imgs/featured.jpg" width="60" height="60" alt="">
-                                </td>
-                                <td>Sports Shoes</td>
-                                <td>$ 150.00</td>
-                                <td>Men</td>
-                                <td>
-                                    <a href="" class="btn btn-primary">Edit</a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger text-lowercase">Delete</button>
-                                </td>
-                            </tr>
+                            <?php foreach ($products as $product) { ?>
+                                <tr>
+                                    <td><?php echo $product['product_id']; ?></td>
+                                    <td>
+                                        <img src="../assets/imgs/<?php echo $product['product_image']; ?>" width="60"
+                                            height="60" alt="">
+                                    </td>
+                                    <td><?php echo substr($product['product_name'], 0, 20) . (strlen($product['product_name']) > 20 ? '...' : ''); ?>
+                                    </td>
+                                    <td>$ <?php echo $product['product_price']; ?></td>
+                                    <td><?php echo $product['product_category']; ?></td>
+                                    <td>
+                                        <a href="" class="btn btn-primary">Edit</a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger text-lowercase">Delete</button>
+                                    </td>
+                                </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
                 <div class="col-12 d-flex justify-content-center text-center pt-4">
                     <nav aria-label="Page navigation example" class="paginate">
+                        <?php
+                        $pages_per_group = 4;
+                        $current_group = ceil($page / $pages_per_group);
+                        $start_page = ($current_group - 1) * $pages_per_group + 1;
+                        $end_page = min($start_page + $pages_per_group - 1, $total_pages);
+                        $show_next_page = $end_page < $total_pages;
+                        if ($show_next_page) {
+                            $end_page += 1;
+                        }
+                        ?>
                         <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="">Previous</a>
+                            <li class="page-item <?php if ($page <= 1)
+                                echo 'disabled'; ?>">
+                                <a class="page-link" href="?page=<?php echo $page - 1; ?>">Previous</a>
                             </li>
-                            <li class="page-item">
-                                <a class="page-link">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="">Next</a>
+
+                            <?php for ($i = $start_page; $i <= $end_page; $i++): ?>
+                                <li class="page-item">
+                                    <a class="page-link  <?php echo ($i == $page) ? 'activenav' : ''; ?>"
+                                        href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                </li>
+                            <?php endfor; ?>
+
+                            <li class="page-item <?php if ($page >= $total_pages)
+                                echo 'disabled'; ?>">
+                                <a class="page-link" href="?page=<?php echo $page + 1; ?>">Next</a>
                             </li>
                         </ul>
                     </nav>
