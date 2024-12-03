@@ -212,7 +212,7 @@ select option {
     color: #fff;
 }
 
-.status h4{
+.status {
     background-color: blue;
     color: #fff;
     right: 74px;
@@ -225,7 +225,7 @@ select option {
 }
 
 .confirmed {
-    background-color: rgb(27, 40, 80);
+    background-color: #1b2850;
 }
 
 .confirmed:hover {

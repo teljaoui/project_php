@@ -9,20 +9,22 @@ $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $page = max($page, 1);
 $offset = ($page - 1) * $limit;
 
-if(isset($_POST['deleteorder'])){
+if (isset($_POST['deleteorder'])) {
     $order_id = $_POST['order_id'];
-    if($order_id){
-        $stmt= $conn->prepare("DELETE FROM orders where order_id = ?");
-        $stmt->bind_param( "i", $order_id);
+    if ($order_id) {
+        $stmt = $conn->prepare("DELETE FROM orders where order_id = ?");
+        $stmt1 = $conn->prepare("DELETE from order_item  where order_id = ? ;");
+        $stmt->bind_param("i", $order_id);
+        $stmt1->bind_param("i", $order_id);
         $stmt->execute();
+        $stmt1->execute();
         header("Location: index.php?message=Order Delete successfully");
-    }else{
+    } else {
         header("location : index.php?error=Order Not Found");
     }
 
 
-}
-else if (isset($_POST['searchorder'])) {
+} else if (isset($_POST['searchorder'])) {
 
     $order_id = filter_input(INPUT_POST, 'order_id', FILTER_VALIDATE_INT);
 
@@ -49,7 +51,7 @@ else if (isset($_POST['searchorder'])) {
 
     $total_pages = 1;
     if ($orders->num_rows === 0) {
-        header("location:index.php?error= Orders of user Not Found");
+        header("location:users.php?error= Orders of user Not Found");
         exit();
 
     }
@@ -88,6 +90,16 @@ $stmt->close();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
+<style>
+    .statuetable {
+        background-color: blue;
+        color: #fff;
+        right: 74px;
+        padding: 5px 10px;
+        border-radius: 8px;
+
+    }
+</style>
 
 <body>
 
@@ -133,18 +145,20 @@ $stmt->close();
                             <?php foreach ($orders as $order) { ?>
                                 <tr>
                                     <td><?php echo $order['order_id']; ?></td>
-                                    <td><?php echo $order['order_status'] ?></td>
+                                    <td><span class="statuetable"><?php echo $order['order_status'] ?></span></td>
                                     <td><?php echo $order['user_id'] ?></td>
                                     <td><?php echo $order['order_date'] ?></td>
                                     <td><?php echo $order['user_phone'] ?></td>
                                     <td><?php echo $order['user_city'] ?></td>
                                     <td>
-                                        <a href="orderdetails.php?order_id=<?php echo $order['order_id']?>" class="btn btn-primary">Details</a>
+                                        <a href="orderdetails.php?order_id=<?php echo $order['order_id'] ?>"
+                                            class="btn btn-primary">Details</a>
                                     </td>
                                     <td>
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
-                                        <button type="submit" name="deleteorder" class="btn btn-danger delete">Delete</button>
+                                            <button type="submit" name="deleteorder"
+                                                class="btn btn-danger delete">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -198,6 +212,24 @@ $stmt->close();
                 }
             });
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const statueCm = document.querySelectorAll(".statuetable");
+
+            statueCm.forEach(function (statueCm) {
+                const status = statueCm.textContent.trim();
+                if (status === "shipped") {
+                    statueCm.style.backgroundColor = "#ff9f43";
+                } else if (status === "confirmed") {
+                    statueCm.style.backgroundColor = "#1b2850"
+                } else if (status === "delivered") {
+                    statueCm.style.backgroundColor = "green"
+                } else {
+                    statueCm.style.backgroundColor = ""
+                }
+            })
+        })
+
 
     </script>
 

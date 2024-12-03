@@ -21,6 +21,51 @@ if (isset($_GET['order_id'])) {
     }
 }
 
+if (isset($_POST['confirmed'])) {
+    $order_id = $_POST['order_id'];
+    $stmt = $conn->prepare("UPDATE  orders set order_status = 'confirmed' where order_id = ? ;");
+    $stmt->bind_param("i", $order_id);
+    $stmt->execute();
+
+    if ($stmt->execute()) {
+        header("location:orderdetails.php?order_id=$order_id&message=Statue Order updated successfully!");
+    }
+
+
+} else if (isset($_POST['shipped'])) {
+    $order_id = $_POST['order_id'];
+    $stmt = $conn->prepare("UPDATE  orders set order_status = 'shipped' where order_id = ? ;");
+    $stmt->bind_param("i", $order_id);
+    $stmt->execute();
+
+    if ($stmt->execute()) {
+        header("location:orderdetails.php?order_id=$order_id&message=Statue Order updated successfully!");
+    }
+
+
+} else if (isset($_POST['delivered'])) {
+    $order_id = $_POST['order_id'];
+    $stmt = $conn->prepare("UPDATE  orders set order_status = 'delivered' where order_id = ? ;");
+    $stmt->bind_param("i", $order_id);
+    $stmt->execute();
+
+    if ($stmt->execute()) {
+        header("location:orderdetails.php?order_id=$order_id&message=Statue Order updated successfully!");
+    }
+
+} else if (isset($_POST['delete'])) {
+    $order_id = $_POST['order_id'];
+    $stmt = $conn->prepare("DELETE from orders  where order_id = ? ;");
+    $stmt1 = $conn->prepare("DELETE from order_item  where order_id = ? ;");
+    $stmt->bind_param("i", $order_id);
+    $stmt1->bind_param("i", $order_id);
+    $stmt->execute();
+    $stmt1->execute();
+    if ($stmt->execute()) {
+        header("location:index.php?message= Order Delete successfully!");
+    }
+
+}
 
 ?>
 
@@ -64,7 +109,7 @@ if (isset($_GET['order_id'])) {
 
     }
 
-    .status h4 {
+    .status {
         background-color: blue;
         color: #fff;
         right: 74px;
@@ -121,6 +166,15 @@ if (isset($_GET['order_id'])) {
         <div class="container content">
             <h2 class="mt-5 text-center">Order details</h2>
             <hr>
+            <?php if (isset($_GET['error'])): ?>
+                <div class="alert alert-danger text-center w-50 mx-auto">
+                    <?php echo $_GET['error']; ?>
+                </div>
+            <?php elseif (isset($_GET['message'])): ?>
+                <div class="alert alert-success text-center w-50 mx-auto">
+                    <?php echo $_GET['message']; ?>
+                </div>
+            <?php endif; ?>
             <div class="content-item my-5">
                 <div class="userinfo">
                     <div class="d-flex justify-content-between">
@@ -128,8 +182,8 @@ if (isset($_GET['order_id'])) {
                             <h4 class="my-1">User Information</h4>
                             <hr class="mx-0">
                         </div>
-                        <div class="status">
-                            <h4><?php echo $order_info['order_status']; ?></h4>
+                        <div>
+                            <h4 class="status"><?php echo $order_info['order_status']; ?></h4>
                         </div>
                     </div>
 
@@ -196,17 +250,21 @@ if (isset($_GET['order_id'])) {
                     </table>
                 </div>
                 <div class="d-flex gap-15">
-                    <form action="">
-                        <button class="button confirmed">confirmed</button>
+                    <form action="orderdetails.php" method="POST">
+                        <input type="hidden" name="order_id" value="<?php echo $order_info['order_id'] ?>">
+                        <button name="confirmed" class="button confirmed">confirmed</button>
                     </form>
-                    <form action="">
-                        <button class="button shipped">shipped</button>
+                    <form action="orderdetails.php" method="POST">
+                        <input type="hidden" name="order_id" value="<?php echo $order_info['order_id'] ?>">
+                        <button name="shipped" class="button shipped">shipped</button>
                     </form>
-                    <form action="">
-                        <button class="button delivered">delivered</button>
+                    <form action="orderdetails.php" method="POST">
+                        <input type="hidden" name="order_id" value="<?php echo $order_info['order_id'] ?>">
+                        <button name="delivered" class="button delivered">delivered</button>
                     </form>
-                    <form action="">
-                        <button class="button delete">delete</button>
+                    <form action="orderdetails.php" method="POST">
+                        <input type="hidden" name="order_id" value="<?php echo $order_info['order_id'] ?>">
+                        <button name="delete" class="button delete">delete</button>
                     </form>
                 </div>
             </div>
@@ -222,6 +280,23 @@ if (isset($_GET['order_id'])) {
                 }
             });
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const statueCm = document.querySelectorAll(".status");
+
+            statueCm.forEach(function (statueCm) {
+                const status = statueCm.textContent.trim();
+                if (status === "shipped") {
+                    statueCm.style.backgroundColor = "#ff9f43";
+                } else if (status === "confirmed") {
+                    statueCm.style.backgroundColor = "#1b2850"
+                } else if (status === "delivered") {
+                    statueCm.style.backgroundColor = "green"
+                } else {
+                    statueCm.style.backgroundColor = ""
+                }
+            })
+        })
 
     </script>
 
