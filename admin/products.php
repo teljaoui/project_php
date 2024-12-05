@@ -2,6 +2,15 @@
 
 include("server/connection.php");
 
+session_start();
+
+if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
+
+} else {
+    header("location:login.php?message=Please Login Now!");
+}
+
+
 $products = [];
 $limit = 4;
 

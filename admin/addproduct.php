@@ -1,5 +1,13 @@
 <?php
 
+session_start();
+include("server/connection.php");
+if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
+
+} else {
+    header("location:login.php?message=Please Login Now!");
+}
+
 if(isset($_POST['add_product'])){
     $product_name = $_POST['product_name'];
     $product_price = $_POST['product_price'];
