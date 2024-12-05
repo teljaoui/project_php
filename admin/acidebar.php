@@ -5,10 +5,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
-
-} else {
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     header("location:login.php?message=Please Login Now!");
+    exit();
 }
 
 

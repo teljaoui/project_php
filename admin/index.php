@@ -1,11 +1,12 @@
 <?php
 session_start();
 include("server/connection.php");
-if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
 
-} else {
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     header("location:login.php?message=Please Login Now!");
+    exit();
 }
+
 $orders = [];
 $limit = 5;
 

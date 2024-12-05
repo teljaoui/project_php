@@ -3,12 +3,10 @@ include("server/connection.php");
 
 session_start();
 
-if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
-
-} else {
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     header("location:login.php?message=Please Login Now!");
+    exit();
 }
-
 
 $users = [];
 $limit = 4;
@@ -111,7 +109,8 @@ $stmt->close();
                                     <td><?php echo $user['user_name'] ?></td>
                                     <td><?php echo $user['user_email'] ?></td>
                                     <td>
-                                        <a href="index.php?user_id=<?php echo $user['user_id'] ?>" class="btn btn-primary">List Orders</a>
+                                        <a href="index.php?user_id=<?php echo $user['user_id'] ?>"
+                                            class="btn btn-primary">List Orders</a>
                                     </td>
                                 </tr>
                             <?php } ?>

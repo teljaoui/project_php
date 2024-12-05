@@ -1,24 +1,70 @@
 <?php
 
 session_start();
-include("server/connection.php");
-if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
 
-} else {
+include("server/connection.php");
+
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     header("location:login.php?message=Please Login Now!");
+    exit();
 }
 
-if(isset($_POST['add_product'])){
+if (isset($_POST['add_product'])) {
     $product_name = $_POST['product_name'];
     $product_price = $_POST['product_price'];
     $product_description = $_POST['product_description'];
     $product_category = $_POST['product_category'];
-    $product_image = $_POST['product_image'];
-    $product_image2 = $_POST['product_image2'];
-    $product_image3 = $_POST['product_image3'];
-    $product_image4 = $_POST['product_image4'];
 
-    
+    $upload_dir = "../assets/imgs/"; 
+    $product_images = []; 
+
+    for ($i = 1; $i <= 4; $i++) {
+        $product_image_key = 'product_image' . ($i == 1 ? '' : $i); 
+        if (isset($_FILES[$product_image_key]) && $_FILES[$product_image_key]['error'] === UPLOAD_ERR_OK) {
+            $file_extension = pathinfo($_FILES[$product_image_key]['name'], PATHINFO_EXTENSION);
+            $unique_name = uniqid('product_', true) . '.' . $file_extension; 
+            $file_path = $upload_dir . $unique_name; 
+
+            if (move_uploaded_file($_FILES[$product_image_key]['tmp_name'], $file_path)) {
+                $product_images[] = $unique_name; 
+            } else {
+                header("location:addproduct.php?error=Failed to upload $product_image_key.");
+                exit();
+            }
+        } else {
+            $product_images[] = null; 
+        }
+    }
+
+    $stmt = $conn->prepare("INSERT INTO products 
+    (product_name ,
+     product_price,
+      product_description ,
+      product_category , 
+       product_image ,
+       product_image2, 
+       product_image3, 
+       product_image4) 
+    value (?,?,?,?,?,?,?,?)");
+
+    $stmt->bind_param(
+        "sdssssss",
+        $product_name,
+        $product_price,
+        $product_description,
+        $product_category,
+        $product_images[0],
+        $product_images[1],
+        $product_images[2],
+        $product_images[3]
+    );
+
+    if ($stmt->execute()) {
+        header("location:addproduct.php?message=Product added successfully");
+    } else {
+        header("location:addproduct.php?error=Error adding product: " . $stmt->error);
+    }
+    exit();
 
 }
 
