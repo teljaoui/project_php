@@ -1,5 +1,4 @@
 <?php
-
 include("server/connection.php");
 
 session_start();
@@ -12,16 +11,110 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
 $product = [];
 if (isset($_GET['product_id'])) {
     $product_id = $_GET['product_id'];
-    $stmt = $conn->prepare("SELECT * From products where product_id = ?");
+    $stmt = $conn->prepare("SELECT * FROM products WHERE product_id = ?");
     $stmt->bind_param("i", $product_id);
     $stmt->execute();
-    $product = $stmt->get_result()->fetch_assoc();
+    $result = $stmt->get_result();
+    $product = $result->fetch_assoc();
     if (!$product) {
         header("location:products.php?error=Product Not Found!");
+        exit();
     }
 }
 
+if (isset($_POST['update'])) {
+    $product_id = $_POST['product_id'];
+    $product_name = $_POST['product_name'];
+    $product_price = $_POST['product_price'];
+    $product_description = $_POST['product_description'];
+    $product_category = $_POST['product_category'];
+
+
+    $image = $product['product_image'];
+    $image2 = $product['product_image2'];
+    $image3 = $product['product_image3'];
+    $image4 = $product['product_image4'];
+
+    if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] === UPLOAD_ERR_OK) {
+        $file_extension = pathinfo($_FILES['product_image']['name'], PATHINFO_EXTENSION);
+        $unique_name = uniqid("product_", true) . '.' . $file_extension;
+        $file_path = $upload_dir . $unique_name;
+        if (move_uploaded_file($_FILES['product_image']['tmp_name'], $file_path)) {
+            $image = $unique_name;
+        } else {
+            $image = $product['product_image'];
+        }
+    }
+
+    if (isset($_FILES['product_image2']) && $_FILES['product_image2']['error'] === UPLOAD_ERR_OK) {
+        $file_extension = pathinfo($_FILES['product_image2']['name'], PATHINFO_EXTENSION);
+        $unique_name = uniqid("product_", true) . '.' . $file_extension;
+        $file_path = $upload_dir . $unique_name;
+        if (move_uploaded_file($_FILES['product_image2']['tmp_name'], $file_path)) {
+            $image2 = $unique_name;
+        } else {
+            $image2 = $product['product_image2'];
+        }
+    }
+
+    if (isset($_FILES['product_image3']) && $_FILES['product_image3']['error'] === UPLOAD_ERR_OK) {
+        $file_extension = pathinfo($_FILES['product_image3']['name'], PATHINFO_EXTENSION);
+        $unique_name = uniqid("product_", true) . '.' . $file_extension;
+        $file_path = $upload_dir . $unique_name;
+        if (move_uploaded_file($_FILES['product_image3']['tmp_name'], $file_path)) {
+            $image3 = $unique_name;
+        } else {
+            $image3 = $product['product_image3'];
+        }
+    }
+
+    if (isset($_FILES['product_image4']) && $_FILES['product_image4']['error'] === UPLOAD_ERR_OK) {
+        $file_extension = pathinfo($_FILES['product_image4']['name'], PATHINFO_EXTENSION);
+        $unique_name = uniqid("product_", true) . '.' . $file_extension;
+        $file_path = $upload_dir . $unique_name;
+        if (move_uploaded_file($_FILES['product_image4']['tmp_name'], $file_path)) {
+            $image4 = $unique_name;
+        } else {
+            $image4 = $product['product_image4'];
+        }
+    }
+
+
+    $stmt = $conn->prepare(
+        "UPDATE products SET 
+             product_name = ?, 
+             product_price = ?, 
+             product_description = ?, 
+             product_category = ?, 
+             product_image = ?, 
+             product_image2 = ?, 
+             product_image3 = ?, 
+             product_image4 = ? 
+         WHERE product_id = ?"
+    );
+
+    $stmt->bind_param(
+        "sdsssssssi",
+        $product_name,
+        $product_price,
+        $product_description,
+        $product_category,
+        $image,
+        $image2,
+        $image3,
+        $image4,
+        $product_id
+    );
+    
+
+    if ($stmt->execute()) {
+        header("location:updateproduct.php?product_id=$product_id&message=Product Updated Successfully");
+    } else {
+        header("location:updateproduct.php?product_id=$product_id&error=Error Updating Product: " . $stmt->error);
+    }
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,23 +139,24 @@ if (isset($_GET['product_id'])) {
             <h2 class="mt-5 text-center">Update Product</h2>
             <hr>
             <div class="content-item my-5">
-                <form action="" method="post">
+                <form action="updateproduct.php" method="post">
+                    <input type="hidden" name="product_id" value="<?php echo $product['product_id'] ?>">
                     <div class="row">
                         <div class="form-group col-12">
                             <label for="product-name">Product Name</label>
-                            <input type="text" class="form-control" id="product-name" name="name"
+                            <input type="text" class="form-control" id="product-name" name="product_name"
                                 placeholder="Product Name" value="<?php echo $product['product_name'] ?>" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="from-group col-6">
                             <label for="product-price">Product Price</label>
-                            <input type="number" class="form-control" id="product-price" name="name"
+                            <input type="number" class="form-control" id="product-price" name="product_price"
                                 placeholder="Product Price" value="<?php echo $product['product_price'] ?>" required>
                         </div>
                         <div class="from-group col-6">
                             <label for="product-category">Product Category</label>
-                            <select name="product-category" id="" class="form-select" required="">
+                            <select name="product_category" id="" class="form-select" required>
                                 <option value="" disabled>Select Categorie</option>
                                 <option value="Men" <?php echo ($product['product_category'] == 'Men') ? 'selected' : ''; ?>>Men</option>
                                 <option value="Women" <?php echo ($product['product_category'] == 'Women') ? 'selected' : ''; ?>>Women</option>
@@ -73,38 +167,38 @@ if (isset($_GET['product_id'])) {
                     <div class="row">
                         <div class="from-group col-12">
                             <label for="product-description">Product Description</label>
-                            <textarea name="description" id="" cols="30" rows="5" class="form-control"
-                                required=""><?php echo $product['product_description'] ?></textarea>
+                            <textarea name="product_description" id="" cols="30" rows="5" class="form-control"
+                                required><?php echo $product['product_description'] ?></textarea>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-3">
                             <label for="product-image">Product Image</label>
-                            <input type="file" name="product-image" class="form-control" id="product-image">
+                            <input type="file" name="product_image" class="form-control" id="product-image">
                             <img src="../assets/imgs/<?php echo $product['product_image'] ?>" width="100" height="100"
                                 alt="" srcset="">
                         </div>
                         <div class="col-3">
                             <label for="product-image">Product Image</label>
-                            <input type="file" name="product-image" class="form-control" id="product-image">
+                            <input type="file" name="product_image2" class="form-control" id="product-image">
                             <img src="../assets/imgs/<?php echo $product['product_image2'] ?>" width="100" height="100"
                                 alt="" srcset="">
                         </div>
                         <div class="col-3">
                             <label for="product-image">Product Image</label>
-                            <input type="file" name="product-image" class="form-control" id="product-image">
+                            <input type="file" name="product_image3" class="form-control" id="product-image">
                             <img src="../assets/imgs/<?php echo $product['product_image3'] ?>" width="100" height="100"
                                 alt="" srcset="">
                         </div>
                         <div class="col-3">
                             <label for="product-image">Product Image</label>
-                            <input type="file" name="product-image" class="form-control" id="product-image">
+                            <input type="file" name="product_image4" class="form-control" id="product-image">
                             <img src="../assets/imgs/<?php echo $product['product_image4'] ?>" width="100" height="100"
                                 alt="" srcset="">
                         </div>
                     </div>
                     <div class="form-group text-end pt-3">
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="submit" class="btn btn-success" name="update">Update</button>
                     </div>
                 </form>
             </div>

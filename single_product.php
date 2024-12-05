@@ -17,7 +17,7 @@ if (isset($_GET['product_id'])) {
         $stmt->execute();
         $featured = $stmt->get_result();
     } else {
-        echo "Produit non trouvé.";
+        echo "Product not defind";
         exit;
     }
 } else {
