@@ -151,7 +151,7 @@ if (isset($_POST['add_product'])) {
                             <label for="product-image">Product Image</label>
                             <input type="file" name="product_image4" class="form-control" id="product-image" required>
                         </div>
-                        <h6><span class="text-danger">Note:</span> Image must be scaled [1:1]</h6>
+                        <h6><span class="text-danger">Note:</span> Image must be scaled [1:1] , and type File PNG</h6>
                     </div>
                     <div class="form-group text-end pt-3">
                         <button type="submit" class="btn btn-success" name="add_product">Add</button>

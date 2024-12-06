@@ -29,56 +29,43 @@ if (isset($_POST['update'])) {
     $product_description = $_POST['product_description'];
     $product_category = $_POST['product_category'];
 
-
-    $image = $product['product_image'];
-    $image2 = $product['product_image2'];
-    $image3 = $product['product_image3'];
-    $image4 = $product['product_image4'];
-
-    if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] === UPLOAD_ERR_OK) {
-        $file_extension = pathinfo($_FILES['product_image']['name'], PATHINFO_EXTENSION);
-        $unique_name = uniqid("product_", true) . '.' . $file_extension;
-        $file_path = $upload_dir . $unique_name;
-        if (move_uploaded_file($_FILES['product_image']['tmp_name'], $file_path)) {
-            $image = $unique_name;
-        } else {
-            $image = $product['product_image'];
-        }
+    if (empty($product_name) || empty($product_price) || empty($product_description) || empty($product_category)) {
+        header("location:updateproduct.php?product_id=$product_id&error=All fields are required.");
+        exit();
     }
 
-    if (isset($_FILES['product_image2']) && $_FILES['product_image2']['error'] === UPLOAD_ERR_OK) {
-        $file_extension = pathinfo($_FILES['product_image2']['name'], PATHINFO_EXTENSION);
-        $unique_name = uniqid("product_", true) . '.' . $file_extension;
-        $file_path = $upload_dir . $unique_name;
-        if (move_uploaded_file($_FILES['product_image2']['tmp_name'], $file_path)) {
-            $image2 = $unique_name;
-        } else {
-            $image2 = $product['product_image2'];
+    $upload_dir = "../assets/imgs/";
+    $product_images = [
+        $product['product_image'] ?? null,
+        $product['product_image2'] ?? null,
+        $product['product_image3'] ?? null,
+        $product['product_image4'] ?? null,
+    ];
+
+    $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+    for ($i = 1; $i <= 4; $i++) {
+        $product_image_key = 'product_image' . ($i == 1 ? '' : $i);
+
+        if (isset($_FILES[$product_image_key]) && $_FILES[$product_image_key]['error'] === UPLOAD_ERR_OK) {
+            $file_extension = strtolower(pathinfo($_FILES[$product_image_key]['name'], PATHINFO_EXTENSION));
+
+            if (!in_array($file_extension, $allowed_extensions)) {
+                header("location:updateproduct.php?product_id=$product_id&error=Invalid file type for $product_image_key.");
+                exit();
+            }
+
+            $unique_name = uniqid('product_', true) . '.' . $file_extension;
+            $file_path = $upload_dir . $unique_name;
+
+            if (move_uploaded_file($_FILES[$product_image_key]['tmp_name'], $file_path)) {
+                $product_images[$i - 1] = $unique_name;
+            } else {
+                header("location:updateproduct.php?product_id=$product_id&error=Failed to upload $product_image_key.");
+                exit();
+            }
         }
     }
-
-    if (isset($_FILES['product_image3']) && $_FILES['product_image3']['error'] === UPLOAD_ERR_OK) {
-        $file_extension = pathinfo($_FILES['product_image3']['name'], PATHINFO_EXTENSION);
-        $unique_name = uniqid("product_", true) . '.' . $file_extension;
-        $file_path = $upload_dir . $unique_name;
-        if (move_uploaded_file($_FILES['product_image3']['tmp_name'], $file_path)) {
-            $image3 = $unique_name;
-        } else {
-            $image3 = $product['product_image3'];
-        }
-    }
-
-    if (isset($_FILES['product_image4']) && $_FILES['product_image4']['error'] === UPLOAD_ERR_OK) {
-        $file_extension = pathinfo($_FILES['product_image4']['name'], PATHINFO_EXTENSION);
-        $unique_name = uniqid("product_", true) . '.' . $file_extension;
-        $file_path = $upload_dir . $unique_name;
-        if (move_uploaded_file($_FILES['product_image4']['tmp_name'], $file_path)) {
-            $image4 = $unique_name;
-        } else {
-            $image4 = $product['product_image4'];
-        }
-    }
-
 
     $stmt = $conn->prepare(
         "UPDATE products SET 
@@ -94,25 +81,26 @@ if (isset($_POST['update'])) {
     );
 
     $stmt->bind_param(
-        "sdsssssssi",
+        "sdssssssi",
         $product_name,
         $product_price,
         $product_description,
         $product_category,
-        $image,
-        $image2,
-        $image3,
-        $image4,
+        $product_images[0],
+        $product_images[1],
+        $product_images[2],
+        $product_images[3],
         $product_id
     );
-    
 
     if ($stmt->execute()) {
         header("location:updateproduct.php?product_id=$product_id&message=Product Updated Successfully");
     } else {
-        header("location:updateproduct.php?product_id=$product_id&error=Error Updating Product: " . $stmt->error);
+        $error_message = htmlspecialchars($stmt->error);
+        header("location:updateproduct.php?product_id=$product_id&error=Error Updating Product: $error_message");
     }
 }
+
 ?>
 
 
@@ -139,7 +127,16 @@ if (isset($_POST['update'])) {
             <h2 class="mt-5 text-center">Update Product</h2>
             <hr>
             <div class="content-item my-5">
-                <form action="updateproduct.php" method="post">
+                <?php if (isset($_GET['error'])): ?>
+                    <div class="alert alert-danger mt-4 w-75 mx-auto mb-0">
+                        <?php echo $_GET['error']; ?>
+                    </div>
+                <?php elseif (isset($_GET['message'])): ?>
+                    <div class="alert alert-success mt-4 w-75 mx-auto mb-0">
+                        <?php echo $_GET['message']; ?>
+                    </div>
+                <?php endif; ?>
+                <form action="" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="product_id" value="<?php echo $product['product_id'] ?>">
                     <div class="row">
                         <div class="form-group col-12">
@@ -152,7 +149,7 @@ if (isset($_POST['update'])) {
                         <div class="from-group col-6">
                             <label for="product-price">Product Price</label>
                             <input type="number" class="form-control" id="product-price" name="product_price"
-                                placeholder="Product Price" value="<?php echo $product['product_price'] ?>" required>
+                                placeholder="Product Price" step="0.01" value="<?php echo $product['product_price'] ?>" required>
                         </div>
                         <div class="from-group col-6">
                             <label for="product-category">Product Category</label>
@@ -196,6 +193,7 @@ if (isset($_POST['update'])) {
                             <img src="../assets/imgs/<?php echo $product['product_image4'] ?>" width="100" height="100"
                                 alt="" srcset="">
                         </div>
+                        <h6 class="mt-3"><span class="text-danger">Note:</span> Image must be scaled [1:1] , and type File PNG</h6>
                     </div>
                     <div class="form-group text-end pt-3">
                         <button type="submit" class="btn btn-success" name="update">Update</button>
