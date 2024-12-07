@@ -21,8 +21,6 @@ if (isset($_POST['order_details'])) {
     $result = $stmt->get_result();
     if ($result->num_rows != 0) {
         $order_items = $result->fetch_all(MYSQLI_ASSOC);
-        $total_order_price = calculateTotalOrder($order_items);
-
     } else {
         header("location:account.php?error=Order item not found");
     }
@@ -31,16 +29,7 @@ if (isset($_POST['order_details'])) {
     header("location:account.php");
 }
 
-function calculateTotalOrder($order_items)
-{
-    $total = 0;
-    foreach ($order_items as $row) {
-        $product_price = $row['product_price'];
-        $product_quantity = $row['product_quantity'];
-        $total += $product_price * $product_quantity;
-    }
-    return $total;
-}
+
 
 ?>
 
@@ -98,15 +87,6 @@ function calculateTotalOrder($order_items)
                 </tr>
             <?php } ?>
         </table>
-        <?php if ($order_status == "not_paid"): ?>
-            <div class="container">
-                <form action="payment.php" method="post" class="float-end">
-                    <input type="hidden" name="total_order_price" value="<?php echo $total_order_price; ?>">
-                    <input type="hidden" name="order_status" value="<?php echo $order_status ;  ?>">
-                    <input type="submit" name="order_pay_btn" class="btn btn-primary" value="Pay Now">
-                </form>
-            </div>
-        <?php endif; ?>
 
     </section>
 

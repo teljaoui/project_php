@@ -46,12 +46,13 @@ if (!empty($_SESSION['cart'])) {
             <form action="server/place_order.php" id="checkout-form" method="post">
                 <div class="form-group checkout-small-element">
                     <label for="checkout-name">Name</label>
-                    <input type="text" class="form-control" id="checkout-name" name="name" placeholder="Name" value="<?php echo $_SESSION['user_name'] ?>" readonly  required>
+                    <input type="text" class="form-control" id="checkout-name" name="name" placeholder="Name"
+                        value="<?php echo $_SESSION['user_name'] ?>" readonly required>
                 </div>
                 <div class="form-group checkout-small-element">
                     <label for="checkout-email">Email</label>
                     <input type="email" class="form-control" id="checkout-email" name="email" placeholder="Email"
-                    value="<?php echo $_SESSION['user_email'] ?>" readonly  required>
+                        value="<?php echo $_SESSION['user_email'] ?>" readonly required>
                 </div>
                 <div class="form-group checkout-small-element">
                     <label for="checkout-phone">Phone</label>
