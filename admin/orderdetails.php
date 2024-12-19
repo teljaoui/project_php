@@ -91,78 +91,6 @@ if (isset($_POST['confirmed'])) {
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<style>
-    .userinfo .usercontent div {
-        display: flex;
-    }
-
-    .userinfo .usercontent ul {
-        width: 49%;
-    }
-
-    .userinfo .usercontent li {
-        list-style: none;
-        display: flex;
-    }
-
-    .userinfo .usercontent span {
-        font-weight: 600;
-        font-size: 17px;
-        color: #232f3e;
-        margin-right: 8px;
-    }
-
-    .userinfo .usercontent p {
-        color: #777777;
-
-    }
-
-    .status {
-        background-color: blue;
-        color: #fff;
-        right: 74px;
-        margin: -24px !important;
-        padding: 5px 20px;
-    }
-
-    .gap-15 {
-        gap: 15px;
-    }
-
-    .confirmed {
-        background-color: rgb(27, 40, 80);
-    }
-
-    .confirmed:hover {
-        background-color: rgb(34, 55, 117);
-
-    }
-
-    .shipped {
-        background-color: #ff9f43;
-    }
-
-    .shipped:hover {
-        background-color: #e48f41;
-
-    }
-
-    .delivered {
-        background-color: green;
-    }
-
-    .delivered:hover {
-        background-color: rgb(36, 139, 36);
-    }
-
-    .delete {
-        background-color: red;
-    }
-
-    .delete:hover {
-        background-color: rgb(225, 36, 36);
-    }
-</style>
 
 <body>
 
@@ -261,23 +189,37 @@ if (isset($_POST['confirmed'])) {
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex gap-15">
-                    <form action="orderdetails.php" method="POST">
-                        <input type="hidden" name="order_id" value="<?php echo $order_info['order_id'] ?>">
-                        <button name="confirmed" class="button confirmed">confirmed</button>
-                    </form>
-                    <form action="orderdetails.php" method="POST">
-                        <input type="hidden" name="order_id" value="<?php echo $order_info['order_id'] ?>">
-                        <button name="shipped" class="button shipped">shipped</button>
-                    </form>
-                    <form action="orderdetails.php" method="POST">
-                        <input type="hidden" name="order_id" value="<?php echo $order_info['order_id'] ?>">
-                        <button name="delivered" class="button delivered">delivered</button>
-                    </form>
-                    <form action="orderdetails.php" method="POST">
-                        <input type="hidden" name="order_id" value="<?php echo $order_info['order_id'] ?>">
-                        <button name="delete" class="button delete">delete</button>
-                    </form>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-15 ">
+                        <form action="orderdetails.php" method="POST">
+                            <input type="hidden" name="order_id" value="<?php echo $order_info['order_id'] ?>">
+                            <button name="confirmed" class="button confirmed">confirmed</button>
+                        </form>
+                        <form action="orderdetails.php" method="POST">
+                            <input type="hidden" name="order_id" value="<?php echo $order_info['order_id'] ?>">
+                            <button name="shipped" class="button shipped">shipped</button>
+                        </form>
+                        <form action="orderdetails.php" method="POST">
+                            <input type="hidden" name="order_id" value="<?php echo $order_info['order_id'] ?>">
+                            <button name="delivered" class="button delivered">delivered</button>
+                        </form>
+                        <form action="orderdetails.php" method="POST">
+                            <input type="hidden" name="order_id" value="<?php echo $order_info['order_id'] ?>">
+                            <button name="delete" class="button delete">delete</button>
+                        </form>
+                    </div>
+                    <div>
+                        <a href="received.php?order_id=<?php echo $_GET['order_id']; ?>" class="text-decoration-none">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path fill-rule="evenodd"
+                                    d="M8 3a2 2 0 0 0-2 2v3h12V5a2 2 0 0 0-2-2H8Zm-3 7a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h1v-4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v4h1a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H5Zm4 11a1 1 0 0 1-1-1v-4h8v4a1 1 0 0 1-1 1H9Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            <span>Edit Received</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

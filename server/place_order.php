@@ -39,7 +39,7 @@ if (isset($_POST['place_order'])) {
     }
     unset($_SESSION['cart']);
     
-    header('location: ../payment.php?order_status=order Placed successfully');
+    header('location: ../receivedorder.php?order_status=order Placed successfully&order_id='.$order_id);
 
 }
 
