@@ -12,11 +12,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Receipt</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 </head>
 <style>
     .download {
@@ -64,7 +67,8 @@
 
     .hr {
         width: 100%;
-        padding-block: 10px;
+        padding-block: 8px;
+        border-radius: 0px;
     }
 
     .content .header {
@@ -102,28 +106,62 @@
     .content .contentbody {
         padding-inline: 7%;
     }
-    .userinfo  li {
+
+    .userinfo li {
         list-style: none;
         display: flex;
     }
 
-    .userinfo  span {
+    .userinfo span {
         font-weight: 600;
         font-size: 17px;
         color: #232f3e;
         margin-right: 8px;
     }
 
-    .userinfo  p {
+    .userinfo p {
         color: #777777;
         font-size: 17px;
     }
+
+    .total {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .total table {
+        width: 100%;
+        max-width: 200px;
+        border-top: 3px solid #7F7F7F;
+    }
+
+    .total table td {
+        padding: 2px 5px;
+    }
+
+    #print {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #fff;
+        overflow: hidden;
+        box-shadow: none;
+    }
+
 
     @media only screen and (max-width:990px) {
         .content {
             width: 90%;
         }
     }
+
+    @media print {
+        #print {
+            width: 800px !important;
+        }
+    }
+
 </style>
 
 <body>
@@ -146,64 +184,89 @@
                 </div>
             <?php } ?>
             <div class="content text-start">
-                <hr class="hr">
-                <div class="title text-center">
-                    <h5>Order receipt</h5>
-                    <hr>
-                </div>
-                <div class="header row">
-                    <div class="col-6">
-                        <img src="assets/imgs/logo.png" alt="">
-                        <span>Clothing</span>
+                <div class="print" id="print">
+                    <hr class="hr">
+                    <div class="title text-center">
+                        <h5>Order receipt</h5>
+                        <hr>
                     </div>
-                    <div class="col-6">
-                        <div class="text-center">
-                            <h6>Date</h6>
-                            <hr class="hrhead">
-                            <p>2024-12-03</p>
+                    <div class="header row">
+                        <div class="col-6">
+                            <img src="assets/imgs/logo.png" alt="">
+                            <span>Clothing</span>
                         </div>
-                        <div class="text-center">
-                            <h6>Receipt number</h6>
-                            <hr class="hrhead">
-                            <p>2458</p>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <h6>Date</h6>
+                                <hr class="hrhead">
+                                <p>2024-12-03</p>
+                            </div>
+                            <div class="text-center">
+                                <h6>Receipt number</h6>
+                                <hr class="hrhead">
+                                <p>2458</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="contentbody">
-                    <h6>User Information</h6>
-                    <hr class="hrhead mx-0">
-                    <div class="userinfo">
-                        <ul>
-                            <li>
-                                <span>Name: </span>
-                                <p>Teljaoui Mohamed</p>
-                            </li>
-                            <li>
-                                <span>Email: </span>
-                                <p>teljaoui@gmail.com</p>
-                            </li>
-                            <li>
-                                <span>Phone: </span>
-                                <p>652583234</p>
-                            </li>
-                            <li>
-                                <span>City: </span>
-                                <p>Temara</p>
-                            </li>
-                            <li>
-                                <span>Adress: </span>
-                                <p>massira 1 , N 282</p>
-                            </li>
-                        </ul>
-                    </div>
-                    <h6>Products</h6>
-                    <hr class="hrhead mx-0">
-                    <div class="products">
-                        
+                    <div class="contentbody">
+                        <h6>User Information</h6>
+                        <hr class="hrhead mx-0">
+                        <div class="userinfo">
+                            <ul>
+                                <li>
+                                    <span>Name: </span>
+                                    <p>Teljaoui Mohamed</p>
+                                </li>
+                                <li>
+                                    <span>Email: </span>
+                                    <p>teljaoui@gmail.com</p>
+                                </li>
+                                <li>
+                                    <span>Phone: </span>
+                                    <p>652583234</p>
+                                </li>
+                                <li>
+                                    <span>City: </span>
+                                    <p>Temara</p>
+                                </li>
+                                <li>
+                                    <span>Adress: </span>
+                                    <p>massira 1 , N 282</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <h6>Products</h6>
+                        <hr class="hrhead mx-0">
+                        <div class="products">
+                            <section class="cart">
+                                <table class="mt-5 pt-5">
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Prix</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Carhartt WIP pocket t-shirt in green</td>
+                                        <td>$102</td>
+                                        <td>1</td>
+                                    </tr>
+                                </table>
+                            </section>
+                        </div>
+                        <div class="total">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <h6>Total paid</h6>
+                                    </td>
+                                    <td>$102</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="text-center">
-                    <button class="download">
+                    <button class="download" onclick="generatePDF()">
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -212,6 +275,7 @@
                         <span>Download Now</span>
                     </button>
                 </div>
+
             </div>
 
 
@@ -221,6 +285,45 @@
 
 
     <?php include("layout/footer.php") ?>
+
+
+    <script>
+        async function generatePDF() {
+            const element = document.getElementById("print");
+
+            const canvas = await html2canvas(element, {
+                scale: 2, 
+                useCORS: true 
+            });
+
+            const imgData = canvas.toDataURL("image/png"); 
+
+            const { PDFDocument, rgb } = PDFLib;
+            const pdfDoc = await PDFDocument.create();
+
+            const page = pdfDoc.addPage([canvas.width, canvas.height]);
+            const image = await pdfDoc.embedPng(imgData); 
+
+            const imageWidth = canvas.width;
+            const imageHeight = canvas.height;
+
+            page.drawImage(image, {
+                x: 0,
+                y: 0,
+                width: imageWidth,
+                height: imageHeight,
+            });
+
+            const pdfBytes = await pdfDoc.save();
+            const blob = new Blob([pdfBytes], { type: "application/pdf" });
+
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "Order_receipt_Clothing.pdf";
+            link.click();
+        }
+    </script>
+
 
     <script src="assets/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
