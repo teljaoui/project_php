@@ -820,6 +820,40 @@ th:last-child {
     margin-right: 15px;
 }
 
+.download {
+    border-radius: 50px;
+    padding: 5px 12px;
+    font-size: 15px;
+    background-color: blue;
+    text-transform: inherit !important;
+    font-weight: 510;
+    transition: 0.5s ease-in-out;
+}
+
+.download svg {
+    border-radius: 50%;
+    background-color: #fff;
+    color: blue;
+    align-items: center;
+    font-size: 15px;
+    padding: 2px;
+    transition: 0.5s ease-in-out;
+}
+
+.download span {
+    font-size: 17px;
+}
+
+.download:hover {
+    background-color: #fff;
+    border: 0.5px solid blue;
+    transform: scale(1.1);
+    color: blue;
+}
+.download:hover  svg {
+    color: #fff;
+    background-color: blue;
+}
 
 @media only screen and (max-width:990px) {
     .nav-buttons {
