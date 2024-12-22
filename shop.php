@@ -114,17 +114,18 @@ $stmt_total->close();
                     <form action="shop.php" method="post">
                         <div class="container-fluid">
                             <div class="form-check py-1">
-                                <input type="radio" class="form-check-input" name="category" value="Men" id="form-men" required>
+                                <input type="radio" class="form-check-input" name="category" value="Men" id="form-men"
+                                    required <?php echo ($category === 'Men') ? "checked" : ""; ?>>
                                 <label for="" class="form-check-label">Men</label>
                             </div>
                             <div class="form-check py-1">
                                 <input type="radio" class="form-check-input" name="category" value="Women"
-                                    id="form-women" required>
+                                    id="form-women" required  <?php echo( $category === 'Women' )? "checked" : "" ?>>
                                 <label for="" class="form-check-label">Women</label>
                             </div>
                             <div class="form-check py-1">
                                 <input type="radio" class="form-check-input" name="category" value="Accessory"
-                                    id="form-accessories" required>
+                                    id="form-accessories" required  <?php echo ($category === 'Accessory') ? "checked" : "" ?>>
                                 <label for="" class="form-check-label">Accessories</label>
                             </div>
                         </div>
