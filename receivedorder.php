@@ -1,5 +1,26 @@
 <?php
+include("server/connection.php");
 
+$order_info = [];
+$order_item = [];
+if (isset($_GET['order_id'])) {
+    $order_id = $_GET['order_id'];
+    $stmt = $conn->prepare("SELECT * FROM order_item Where order_id = ? ");
+    $stmt->bind_param("i", $order_id);
+    $stmt->execute();
+    $order_item = $stmt->get_result();
+
+    $stmt1 = $conn->prepare("SELECT * FROM users u inner join orders o on u.user_id = o.user_id where o.order_id =?;");
+    $stmt1->bind_param("i", $order_id);
+    $stmt1->execute();
+    $order_info = $stmt1->get_result()->fetch_assoc();
+
+    if (empty($order_id) || !$order_info || $order_item->num_rows == 0) {
+        header("Location: index.php?error=Order Not Found!");
+        exit();
+    }
+
+}
 
 
 ?>
@@ -100,7 +121,7 @@
         width: 60%;
         height: 1.5px !important;
         background-color: #7F7F7F !important;
-        margin-top: 10px !important;
+        margin-block: 10px !important;
     }
 
     .content .contentbody {
@@ -154,11 +175,9 @@
         .content {
             width: 90%;
         }
-    }
-
-    @media print {
-        #print {
-            width: 800px !important;
+        .total table {
+            width: 100%;
+            margin-inline: auto;
         }
     }
 
@@ -180,7 +199,7 @@
         <div class="container mx-auto text-center">
             <?php if (isset($_GET['order_status'])) { ?>
                 <div class="alert alert-success w-50 mx-auto">
-                    <?php echo $_GET['order_status']; ?>
+                    order Placed successfully
                 </div>
             <?php } ?>
             <div class="content text-start">
@@ -199,12 +218,12 @@
                             <div class="text-center">
                                 <h6>Date</h6>
                                 <hr class="hrhead">
-                                <p>2024-12-03</p>
+                                <p><?php echo date('Y-m-d', strtotime($order_info['order_date'])); ?></p>
                             </div>
                             <div class="text-center">
                                 <h6>Receipt number</h6>
                                 <hr class="hrhead">
-                                <p>2458</p>
+                                <p id="order_id"><?php echo $order_info['order_id'] ?></p>
                             </div>
                         </div>
                     </div>
@@ -215,23 +234,23 @@
                             <ul>
                                 <li>
                                     <span>Name: </span>
-                                    <p>Teljaoui Mohamed</p>
+                                    <p><?php echo $order_info['user_name']; ?></p>
                                 </li>
                                 <li>
                                     <span>Email: </span>
-                                    <p>teljaoui@gmail.com</p>
+                                    <p><?php echo $order_info['user_email']; ?></p>
                                 </li>
                                 <li>
                                     <span>Phone: </span>
-                                    <p>652583234</p>
+                                    <p><?php echo $order_info['user_phone']; ?></p>
                                 </li>
                                 <li>
                                     <span>City: </span>
-                                    <p>Temara</p>
+                                    <p><?php echo $order_info['user_city']; ?></p>
                                 </li>
                                 <li>
                                     <span>Adress: </span>
-                                    <p>massira 1 , N 282</p>
+                                    <p><?php echo $order_info['user_adress']; ?></p>
                                 </li>
                             </ul>
                         </div>
@@ -245,11 +264,14 @@
                                         <th>Prix</th>
                                         <th>Quantity</th>
                                     </tr>
-                                    <tr>
-                                        <td>Carhartt WIP pocket t-shirt in green</td>
-                                        <td>$102</td>
-                                        <td>1</td>
-                                    </tr>
+                                    <?php foreach ($order_item as $item) { ?>
+                                        <tr>
+                                            <td><?php echo substr($item['product_name'], 0, 20) . (strlen($item['product_name']) > 20 ? '...' : ''); ?>
+                                            </td>
+                                            <td>$<?php echo $item['product_price'] ?></td>
+                                            <td><?php echo $item['product_quantity'] ?></td>
+                                        </tr>
+                                    <?php } ?>
                                 </table>
                             </section>
                         </div>
@@ -259,7 +281,7 @@
                                     <td>
                                         <h6>Total paid</h6>
                                     </td>
-                                    <td>$102</td>
+                                    <td>$ <?php echo $order_info['order_cost'] ?></td>
                                 </tr>
                             </table>
                         </div>
@@ -290,37 +312,45 @@
     <script>
         async function generatePDF() {
             const element = document.getElementById("print");
+            const order_id = document.getElementById("order_id") ? document.getElementById("order_id").textContent : null;
 
-            const canvas = await html2canvas(element, {
-                scale: 2, 
-                useCORS: true 
-            });
+            if (!order_id) {
+                alert("Order ID is missing!");
+                return;
+            }
 
-            const imgData = canvas.toDataURL("image/png"); 
+            try {
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true
+                });
 
-            const { PDFDocument, rgb } = PDFLib;
-            const pdfDoc = await PDFDocument.create();
+                const imgData = canvas.toDataURL("image/png");
 
-            const page = pdfDoc.addPage([canvas.width, canvas.height]);
-            const image = await pdfDoc.embedPng(imgData); 
+                const { PDFDocument } = PDFLib;
+                const pdfDoc = await PDFDocument.create();
 
-            const imageWidth = canvas.width;
-            const imageHeight = canvas.height;
+                const page = pdfDoc.addPage([canvas.width, canvas.height]);
+                const image = await pdfDoc.embedPng(imgData);
 
-            page.drawImage(image, {
-                x: 0,
-                y: 0,
-                width: imageWidth,
-                height: imageHeight,
-            });
+                page.drawImage(image, {
+                    x: 0,
+                    y: 0,
+                    width: canvas.width,
+                    height: canvas.height,
+                });
 
-            const pdfBytes = await pdfDoc.save();
-            const blob = new Blob([pdfBytes], { type: "application/pdf" });
+                const pdfBytes = await pdfDoc.save();
+                const blob = new Blob([pdfBytes], { type: "application/pdf" });
 
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "Order_receipt_Clothing.pdf";
-            link.click();
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "Order_receipt_Clothing_" + order_id + ".pdf";
+                link.click();
+            } catch (error) {
+                console.error("PDF generation failed:", error);
+                alert("An error occurred while generating the PDF.");
+            }
         }
     </script>
 
