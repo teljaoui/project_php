@@ -42,7 +42,7 @@ if (isset($_POST['update'])) {
         $product['product_image4'] ?? null,
     ];
 
-    $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
+    $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif' , 'webp'];
 
     for ($i = 1; $i <= 4; $i++) {
         $product_image_key = 'product_image' . ($i == 1 ? '' : $i);

@@ -49,6 +49,19 @@ if (isset($_POST['searchid'])) {
 
     $total_pages = 1;
 
+} else if (isset($_GET['category']) && !empty(isset($_GET['category']))) {
+    $product_category = $_GET['category'];
+    $stmt = $conn->prepare("SELECT * FROM products WHERE product_category = ?");
+    $stmt->bind_param("s", $product_category);
+    $stmt->execute();
+    $products = $stmt->get_result();
+
+    $total_pages = 1;
+
+    if ($products->num_rows === 0) {
+        header("location: products.php?error=Products not found");
+        exit();
+    }
 } else {
     $stmt = $conn->prepare("SELECT * FROM products LIMIT ? OFFSET ?");
     $stmt->bind_param("ii", $limit, $offset);
@@ -93,12 +106,31 @@ $stmt->close();
         <div class="container content">
             <h2 class="mt-5 text-center">Products</h2>
             <hr>
-            <div class="mx-5 d-flex justify-content-end">
-                <form action="products.php" method="post" class="d-flex">
-                    <input type="number" class="form-control" id="product-name" name="product_id"
-                        placeholder="Product ID" required>
-                    <input type="submit" value="Search" class="button" name="searchid">
-                </form>
+            <div class="mx-5 d-flex justify-content-between align-items-center">
+                <div class="dropdown">
+                    <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M5.05 3C3.291 3 2.352 5.024 3.51 6.317l5.422 6.059v4.874c0 .472.227.917.613 1.2l3.069 2.25c1.01.742 2.454.036 2.454-1.2v-7.124l5.422-6.059C21.647 5.024 20.708 3 18.95 3H5.05Z" />
+                        </svg>
+                        Categories
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="products.php?category=Men">Men</a></li>
+                        <li><a class="dropdown-item" href="products.php?category=Women">Women</a></li>
+                        <li><a class="dropdown-item" href="products.php?category=Accessory">Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="mx-5 d-flex justify-content-end">
+                    <form action="products.php" method="post" class="d-flex">
+                        <input type="number" class="form-control" id="product-name" name="product_id"
+                            placeholder="Product ID" required>
+                        <input type="submit" value="Search" class="button" name="searchid">
+                    </form>
+                </div>
             </div>
             <?php if (isset($_GET['error'])): ?>
                 <div class="alert alert-danger mt-4 w-75 mx-auto mb-0">
@@ -136,7 +168,8 @@ $stmt->close();
                                     <td>$ <?php echo $product['product_price']; ?></td>
                                     <td><?php echo $product['product_category']; ?></td>
                                     <td>
-                                        <a href="updateproduct?product_id=<?php echo $product['product_id']?>" class="btn btn-primary">Edit</a>
+                                        <a href="updateproduct?product_id=<?php echo $product['product_id'] ?>"
+                                            class="btn btn-primary">Edit</a>
                                     </td>
                                     <td>
                                         <form action="products.php" method="post">

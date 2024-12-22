@@ -48,10 +48,8 @@ if (isset($_POST['updatePassword'])) {
         header('location: account.php?error=Password must be at least 6 characters');
         exit();
     } else {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
         $stmt = $conn->prepare("UPDATE users SET user_password = ? WHERE user_email = ?");
-        $stmt->bind_param("ss", $hashed_password, $_SESSION['user_email']);
+        $stmt->bind_param("ss", md5($password), $_SESSION['user_email']);
         $stmt->execute();
         header("location: account.php?message=Password updated successfully!");
         exit();
