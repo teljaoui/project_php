@@ -563,7 +563,8 @@ th:last-child {
     background-color: #fb774b;
 }
 
-.show-bar ,  .show-price  {
+.show-bar,
+.show-price {
     position: absolute;
     top: 20%;
     left: -100%;
@@ -850,7 +851,8 @@ th:last-child {
     transform: scale(1.1);
     color: blue;
 }
-.download:hover  svg {
+
+.download:hover svg {
     color: #fff;
     background-color: blue;
 }
@@ -876,7 +878,8 @@ th:last-child {
         background-position-x: 40%;
     }
 
-    .show-bar , .show-price {
+    .show-bar,
+    .show-price {
         width: 90%;
         top: 20%;
     }
@@ -922,5 +925,14 @@ th:last-child {
 
     .search .liste .productSearch .start i {
         font-size: 12px;
+    }
+
+    #new .one:nth-child(1) .details,
+    #new .one:nth-child(3) .details {
+        display: flex;
+        justify-content: center !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
     }
 }
