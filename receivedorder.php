@@ -175,12 +175,33 @@ if (isset($_GET['order_id'])) {
         .content {
             width: 90%;
         }
+        .content .header img {
+            width: 70px;
+            height: 70px;
+        }
+        .content .header span {
+            font-size: 19px;
+        }
+        .userinfo p,
+        .userinfo span {
+            font-size: 12px;
+        }
+        .userinfo li {
+        margin-left: -18px;
+        }
+        .content h6 {
+            font-size: 14px;
+        }
+
         .total table {
             width: 100%;
             margin-inline: auto;
         }
-    }
 
+        #print {
+            font-size: 70%;
+        }
+    }
 </style>
 
 <body>
@@ -258,7 +279,7 @@ if (isset($_GET['order_id'])) {
                         <hr class="hrhead mx-0">
                         <div class="products">
                             <section class="cart">
-                                <table class="mt-5 pt-5">
+                                <table class="pt-5">
                                     <tr>
                                         <th>Product</th>
                                         <th>Prix</th>
